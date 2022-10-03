@@ -9,6 +9,15 @@ VVP_POST=-fst
 test_mux: test_mux.sv mux.sv
 	${IVERILOG} $^ -o test_mux.bin && ${VVP} test_mux.bin ${VVP_POST}
 
+test_decoder1_2: test_decoder1_2.sv decoder1_2.sv
+	${IVERILOG} $^ -o test_decoder1_2.bin && ${VVP} test_decoder1_2.bin ${VVP_POST}
+
+test_decoder2_4: test_decoder2_4.sv decoder2_4.sv
+	${IVERILOG} $^ -o test_decoder2_4.bin && ${VVP} test_decoder2_4.bin ${VVP_POST}
+
+test_decoder3_8: test_decoder3_8.sv decoder3_8.sv
+	${IVERILOG} $^ -o test_decoder3_8.bin && ${VVP} test_decoder3_8.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 
