@@ -17,7 +17,7 @@ output logic cout;
 
 // 1-2 decoders
 logic c1;
-adder2 bit0(.a(a[1:0]), .b(b[1:0]), .cin(cin), .s(s[1:0]), .cout(c1));
-adder2 bit1(.a(a[3:2]), .b(b[3:2]), .cin(c1),  .s(s[3:2]), .cout(cout));
+adder2 bit01(.a(a[1:0]), .b(b[1:0]), .cin(cin), .s(s[1:0]), .cout(c1));
+adder2 bit23(.a(a[3:2]), .b(b[3:2]), .cin(c1),  .s(s[3:2]), .cout(cout));
 
 endmodule
