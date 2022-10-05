@@ -30,6 +30,9 @@ test_adder3: test_adder3.sv adder3.sv
 test_adder4: test_adder4.sv adder4.sv
 	${IVERILOG} $^ -o test_adder4.bin && ${VVP} test_adder4.bin ${VVP_POST}
 
+test_sum8: test_sum8.sv sum8.sv
+	${IVERILOG} $^ -o test_sum8.bin && ${VVP} test_sum8.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 
