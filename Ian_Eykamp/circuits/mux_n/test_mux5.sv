@@ -1,22 +1,26 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module test_mux16;
+module test_mux5;
 
     int errors = 0;
 
-    logic [15:0] a;
-    logic [3:0] s;
+    logic [4:0] a;
+    logic [2:0] s;
     wire y;
 
-    mux16 UUT(.a(a), .s(s), .y(y));
+    mux5 UUT(.a(a), .s(s), .y(y));
 
 
     // Some behavioural comb. logic that computes correct values.
     logic correct_out;
 
     always_comb begin : behavioural_solution_logic
-    correct_out = a[s];
+        if (s < 5) begin
+            correct_out = a[s];
+        end else begin
+            correct_out = 2`b00;//1`bx;
+        end
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
@@ -28,14 +32,14 @@ module test_mux16;
     integer i;
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("mux16.fst");
+    $dumpfile("mux5.fst");
     $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
-    $display("s   a                | y (correct out)");
-    for (i = 0; i < 1048576; i = i + 1) begin
-        a = i[15:0];
-        s = i[20:16];
+    $display("s   a         | y (correct out)");
+    for (i = 0; i < 2048; i = i + 1) begin
+        a = i[7:0];
+        s = i[11:8];
         #1 print_io();
     end
     

@@ -43,7 +43,11 @@ module test_mux{n};
     logic correct_out;
 
     always_comb begin : behavioural_solution_logic
-    correct_out = a[s];
+        if (s < {n}) begin
+            correct_out = a[s];
+        end else begin
+            correct_out = 2`b00;//1`bx;
+        end
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
@@ -59,7 +63,7 @@ module test_mux{n};
     $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
-    $display("s{' ' * (n_bits - 1)}a{' ' * (n_2 - 1)} | y (correct out)");
+    $display("s{' ' * n_bits}a{' ' * n_2} | y (correct out)");
     for (i = 0; i < {2 ** (n_2 + n_bits)}; i = i + 1) begin
         a = i[{n_2 - 1}:0];
         s = i[{n_2 + n_bits}:{n_2}];

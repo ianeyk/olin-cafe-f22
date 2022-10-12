@@ -20,7 +20,7 @@ module mux_n #(parameter n = 2) (a, s, y);
     
     logic [`n2-1:0] a2; // length n2
   
-    always_comb a2 = {{ndiff{1'bx}}, a};
+    always_comb a2 = {{ndiff{1'b0}}, a};
 
     always @* $display("n = %b", n);
     always @* $display("ns = %b", `ns);

@@ -34,7 +34,9 @@ module mux{n}(a, s, y);
     input [{n_bits - 1}:0] s;
     output logic y; // single bit output of mux
     
-"""
+    logic [{n_2 - 1}:0] a2; // length n2
+    always_comb a2 = {{{{{n_2 - n_bits}{{1'b0}}}}, a}};
+""" # I promise this works ^ (double {{ is interpreted as a literal \{ character inside of f-strings)
 
         module_body = self.recursive_body(layer = n_bits, component_idx = "0", a_start_idx = 0, target = "y", max_layer = n_bits)
 
@@ -50,7 +52,7 @@ endmodule
         mux_name = f"mux_layer{layer}_{component_idx}{' ' * (layer - 1)}"
         var_name = f"y_layer{layer}_{component_idx}"
         if layer == 0:
-            module_body = f"""{indent}always_comb {target} = a[{a_start_idx}]; // wire"""
+            module_body = f"""{indent}always_comb {target} = a2[{a_start_idx}]; // wire"""
         else:
             module_body = f"""{indent}logic [1:0] {var_name};
 {self.recursive_body(layer - 1, component_idx + "0", a_start_idx,                    target = var_name + "[0]", max_layer = max_layer)}
