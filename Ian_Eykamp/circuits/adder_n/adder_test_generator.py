@@ -54,7 +54,7 @@ adder{n} UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
         $display("%b %b  %b  | %b %b (%b %b)", a, b, cin, cout, s, correct_cout, correct_s);
     endtask
 
-    time i;
+    time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
         $dumpfile("test_adder{n}.fst");

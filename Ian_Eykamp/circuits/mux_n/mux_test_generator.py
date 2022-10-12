@@ -60,7 +60,7 @@ module test_mux{n};
         $display("%b %b | %b (%b)", s, a, y, correct_out);
     endtask
 
-    time i;
+    time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
     $dumpfile("./{self.mux_dir}/mux{n}.fst");
