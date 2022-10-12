@@ -11,6 +11,7 @@ class AdderTestGenerator:
         self.write_file(sv)
     
     def write_file(self, txt: str) -> None:
+        assert(self.n > 1) # we cannot overwrite adder1, because this referred to in the base case in the above code!
         f = open(f"{self.adder_dir}/test_adder{self.n}.sv", "w")
         f.write(txt)
         f.close()
