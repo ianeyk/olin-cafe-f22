@@ -6,21 +6,11 @@ VVP_POST=-fst
 # VIVADO=vivado -mode batch -source # Not used in this demo.
 
 #target : # dependencies
+test_mux2: test_mux2.sv mux2.sv
+	${IVERILOG} $^ -o test_mux2.bin && ${VVP} test_mux2.bin ${VVP_POST}
 
-test_adder1: test_adder1.sv adder1.sv
-	${IVERILOG} $^ -o test_adder1.bin && ${VVP} test_adder1.bin ${VVP_POST}
-
-test_adder2: test_adder2.sv adder2.sv
-	${IVERILOG} $^ -o test_adder2.bin && ${VVP} test_adder2.bin ${VVP_POST}
-
-test_adder3: test_adder3.sv adder3.sv
-	${IVERILOG} $^ -o test_adder3.bin && ${VVP} test_adder3.bin ${VVP_POST}
-
-test_adder4: test_adder4.sv adder4.sv
-	${IVERILOG} $^ -o test_adder4.bin && ${VVP} test_adder4.bin ${VVP_POST}
-
-test_adder_n: test_adder_n.sv adder_n.sv
-	${IVERILOG} $^ -o test_adder_n.bin && ${VVP} test_adder_n.bin ${VVP_POST}
+test_mux4: test_mux4.sv mux4.sv
+	${IVERILOG} $^ -o test_mux4.bin && ${VVP} test_mux4.bin ${VVP_POST}
 
 waves_mux:
 	gtkwave mux.fst

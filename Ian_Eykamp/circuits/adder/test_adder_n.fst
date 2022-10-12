@@ -1,43 +1,50 @@
 `timescale 1ns/1ps
 `default_nettype none
-module test_mux2;
+module test_adder_n;
 
 int errors = 0;
 
-logic a, b, s;
-wire y;
+logic [3:0] a, b;
+logic cin;
+wire [3:0] s;
+wire cout;
 
-mux2 UUT(.a({b, a}), .s(s), .y(y));
+adder_n #(.n(4)) UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
 
 /*
 */
 
 
 // Some behavioural comb. logic that computes correct values.
-logic correct_out;
+logic [3:0] correct_s;
+logic correct_cout;
+logic [4:0] extra_bit_sum;
 
 always_comb begin : behavioural_solution_logic
-  correct_out = s ? b : a;
+  extra_bit_sum = a + b + cin;
+  correct_s = extra_bit_sum[3:0];
+  correct_cout = extra_bit_sum[4];
 end
 
 // You can make "tasks" in testbenches. Think of them like methods of a class, 
 // they have access to the member variables.
 task print_io;
-  $display("%b %b %b | %b (%b)", s, a, b, y, correct_out);
+  $display("%b %b  %b  | %b %b (%b %b)", a, b, cin, cout, s, correct_cout, correct_s);
+  // $display("%b %b | %b %b (%b)", en, a, out[0], out[1], correct_out);
 endtask
 
 integer i;
 // 2) the test cases - initial blocks are like programming, not hardware
 initial begin
-  $dumpfile("mux2.fst");
+  $dumpfile("test_adder_n.fst");
   $dumpvars(0, UUT);
   
   $display("Checking all inputs.");
-  $display("s a b | y (correct out)");
-  for (i = 0; i < 8; i = i + 1) begin
-    b = i[0];
-    a = i[1];
-    s = i[2];
+  $display("a  b  cin | c s  (correct_c correct_s)");
+  for (i = 0; i < (2**9); i = i + 1) begin
+    a = i[7:4];
+    b = i[3:0];
+    cin = i[8];
     #1 print_io();
   end
 
@@ -57,9 +64,9 @@ end
 
 // Note: the triple === (corresponding !==) check 4-state (e.g. 0,1,x,z) values.
 //       It's best practice to use these for checkers!
-always @(a or b or s) begin
+always @(a or b or cin) begin
   #1;
-  assert(y === correct_out) else begin
+  assert((s === correct_s) & (cout === correct_cout)) else begin
     // $display("  ERROR: mux out should be %b, is %b", out, correct_out);
     errors = errors + 1;
   end

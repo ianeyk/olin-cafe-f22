@@ -9,6 +9,12 @@ VVP_POST=-fst
 test_mux2: test_mux2.sv mux2.sv
 	${IVERILOG} $^ -o test_mux2.bin && ${VVP} test_mux2.bin ${VVP_POST}
 
+test_mux4: test_mux4.sv mux4.sv
+	${IVERILOG} $^ -o test_mux4.bin && ${VVP} test_mux4.bin ${VVP_POST}
+
+test_mux_n: test_mux_n.sv mux_n.sv
+	${IVERILOG} $^ -o test_mux_n.bin && ${VVP} test_mux_n.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 
