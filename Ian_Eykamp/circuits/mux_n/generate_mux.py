@@ -9,4 +9,6 @@ def generate_mux(n, dir):
 
 if __name__ == '__main__':
     n = sys.argv[1]
-    generate_mux(int(n), dir = "./")
+    generate_mux(int(n), dir = "./generated_muxes")
+    
+# generate_mux(int(12), dir = "./") // uncomment for debugging

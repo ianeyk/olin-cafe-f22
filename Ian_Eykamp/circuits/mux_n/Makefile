@@ -15,9 +15,9 @@ test_mux4: test_mux4.sv mux4.sv
 test_mux8: test_mux8.sv mux8.sv
 	${IVERILOG} $^ -o test_mux8.bin && ${VVP} test_mux8.bin ${VVP_POST}
 
-mux: test_mux$(filter-out mux,$(MAKECMDGOALS)).sv mux$(filter-out mux,$(MAKECMDGOALS)).sv
+mux: ./generated_muxes/test_mux$(filter-out mux,$(MAKECMDGOALS)).sv ./generated_muxes/mux$(filter-out mux,$(MAKECMDGOALS)).sv
 		python3 generate_mux.py $(filter-out $@,$(MAKECMDGOALS))
-		${IVERILOG} $^ -o test_mux$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} test_mux$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
+		${IVERILOG} $^ -o ./generated_muxes/test_mux$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} ./generated_muxes/test_mux$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
 
 %:      # thanks to chakrit
 	@:    # thanks to William Pursell

@@ -1,9 +1,9 @@
 import math
 
 class MuxGenerator:
-    def __init__(self, n: int = 4, dir: str = "./Ian_Eykamp/circuits/mux_n/") -> None:
+    def __init__(self, n: int = 4, mux_dir: str = "./Ian_Eykamp/circuits/mux_n/generated_muxes") -> None:
         self.n = n
-        self.dir = dir
+        self.mux_dir = mux_dir
         # generate the .sv file and print it
         sv = self.generate_sv()
         # print(sv)
@@ -11,7 +11,7 @@ class MuxGenerator:
 
     def write_file(self, txt: str) -> None:
         assert(self.n > 2) # we cannot overwrite mux2, because this referred to in the base case in the above code!
-        f = open(f"{self.dir}/mux{self.n}.sv", "w")
+        f = open(f"{self.mux_dir}/mux{self.n}.sv", "w")
         f.write(txt)
         f.close()
     
