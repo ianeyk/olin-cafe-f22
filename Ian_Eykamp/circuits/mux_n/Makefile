@@ -12,6 +12,17 @@ test_mux2: test_mux2.sv mux2.sv
 test_mux4: test_mux4.sv mux4.sv
 	${IVERILOG} $^ -o test_mux4.bin && ${VVP} test_mux4.bin ${VVP_POST}
 
+test_mux8: test_mux8.sv mux8.sv
+	${IVERILOG} $^ -o test_mux8.bin && ${VVP} test_mux8.bin ${VVP_POST}
+
+mux: test_mux$(filter-out mux,$(MAKECMDGOALS)).sv mux$(filter-out mux,$(MAKECMDGOALS)).sv
+		python3 generate_mux.py $(filter-out $@,$(MAKECMDGOALS))
+		${IVERILOG} $^ -o test_mux$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} test_mux$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
+
+%:      # thanks to chakrit
+	@:    # thanks to William Pursell
+
+
 waves_mux:
 	gtkwave mux.fst
 

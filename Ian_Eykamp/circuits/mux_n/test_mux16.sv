@@ -1,15 +1,15 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module test_mux4;
+module test_mux16;
 
     int errors = 0;
 
-    logic [3:0] a;
-    logic [1:0] s;
+    logic [15:0] a;
+    logic [3:0] s;
     wire y;
 
-    mux4 UUT(.a(a), .s(s), .y(y));
+    mux16 UUT(.a(a), .s(s), .y(y));
 
 
     // Some behavioural comb. logic that computes correct values.
@@ -28,14 +28,14 @@ module test_mux4;
     integer i;
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("mux4.fst");
+    $dumpfile("mux16.fst");
     $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
-    $display("s a    | y (correct out)");
-    for (i = 0; i < 64; i = i + 1) begin
-        a = i[3:0];
-        s = i[6:4];
+    $display("s   a                | y (correct out)");
+    for (i = 0; i < 1048576; i = i + 1) begin
+        a = i[15:0];
+        s = i[20:16];
         #1 print_io();
     end
     

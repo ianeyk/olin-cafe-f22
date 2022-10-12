@@ -1,17 +1,44 @@
-`timescale 1ns/1ps
-`default_nettype none
+import math
 
-module test_mux4;
+class MuxTestGenerator:
+    def __init__(self, n: int = 4, dir: str = "./Ian_Eykamp/circuits/mux_n") -> None:
+        self.n = n
+        self.dir = dir
+        
+        sv = self.generate_sv()
+        # print(sv)
+        self.write_file(sv)
+    
+    def write_file(self, txt: str) -> None:
+        f = open(f"{self.dir}/test_mux{self.n}.sv", "w")
+        f.write(txt)
+        f.close()
+    
+    def generate_sv(self) -> str:
+        n = self.n
+
+        file_header = """`timescale 1ns/1ps
+`default_nettype none
+"""
+
+        n_bits = math.ceil(math.log2(n)) # number of bits in the select bus rounded up to the nearest whole bit
+        n_2 = 2 ** n_bits # rounds n up to the nearest multiple of two
+        n_half = n_2 / 2 # number of bits in each sub-mux
+
+        module_header = f"""
+module test_mux{n};
 
     int errors = 0;
 
-    logic [3:0] a;
-    logic [1:0] s;
+    logic [{n - 1}:0] a;
+    logic [{n_bits - 1}:0] s;
     wire y;
 
-    mux4 UUT(.a(a), .s(s), .y(y));
+    mux{n} UUT(.a(a), .s(s), .y(y));
 
+"""
 
+        module_body = f"""
     // Some behavioural comb. logic that computes correct values.
     logic correct_out;
 
@@ -28,17 +55,19 @@ module test_mux4;
     integer i;
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("mux4.fst");
+    $dumpfile("mux{n}.fst");
     $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
-    $display("s a    | y (correct out)");
-    for (i = 0; i < 64; i = i + 1) begin
-        a = i[3:0];
-        s = i[6:4];
+    $display("s{' ' * (n_bits - 1)}a{' ' * (n_2 - 1)} | y (correct out)");
+    for (i = 0; i < {2 ** (n_2 + n_bits)}; i = i + 1) begin
+        a = i[{n_2 - 1}:0];
+        s = i[{n_2 + n_bits}:{n_2}];
         #1 print_io();
     end
-    
+    """
+
+        module_footer = r"""
     if (errors !== 0) begin
         $display("---------------------------------------------------------------");
         $display("-- FAILURE                                                   --");
@@ -62,3 +91,6 @@ module test_mux4;
     end
 
 endmodule
+"""
+
+        return file_header + module_header + module_body + module_footer
