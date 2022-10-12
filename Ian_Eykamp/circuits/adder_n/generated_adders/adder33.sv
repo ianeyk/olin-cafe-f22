@@ -2,11 +2,11 @@
 `default_nettype none
 `include "./adder1.sv"
 
-module adder32(a, b, cin, s, cout);
+module adder33(a, b, cin, s, cout);
 
-    input [31:0] a, b;
+    input [32:0] a, b;
     input cin;
-    output logic [31:0] s; // output (sum)
+    output logic [32:0] s; // output (sum)
     output logic cout; // output carry bit
     
     // AUTO-GENERATED COMBINATIONAL LOGIC
@@ -72,8 +72,10 @@ module adder32(a, b, cin, s, cout);
     adder1 bit29(.a(a[29]), .b(b[29]), .cin(c28), .s(s[29]), .cout(c29));
     logic c30;
     adder1 bit30(.a(a[30]), .b(b[30]), .cin(c29), .s(s[30]), .cout(c30));
+    logic c31;
+    adder1 bit31(.a(a[31]), .b(b[31]), .cin(c30), .s(s[31]), .cout(c31));
 
     // final bit gets carried out
-    adder1 bit31(.a(a[31]), .b(b[31]), .cin(c30), .s(s[31]), .cout(cout));
+    adder1 bit32(.a(a[32]), .b(b[32]), .cin(c31), .s(s[32]), .cout(cout));
     
 endmodule

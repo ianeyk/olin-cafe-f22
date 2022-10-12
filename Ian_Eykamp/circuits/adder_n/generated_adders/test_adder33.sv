@@ -1,27 +1,27 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module test_adder12;
+module test_adder33;
 
 int errors = 0;
 
-logic [11:0] a, b;
+logic [32:0] a, b;
 logic cin;
-wire [11:0] s;
+wire [32:0] s;
 wire cout;
 
-adder12 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
+adder33 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
 
 
     // Some behavioural comb. logic that computes correct values.
-    logic [11:0] correct_s;
+    logic [32:0] correct_s;
     logic correct_cout;
-    logic [12:0] extra_bit_sum;
+    logic [33:0] extra_bit_sum;
 
     always_comb begin : behavioural_solution_logic
         extra_bit_sum = a + b + cin;
-        correct_s = extra_bit_sum[11:0];
-        correct_cout = extra_bit_sum[12];
+        correct_s = extra_bit_sum[32:0];
+        correct_cout = extra_bit_sum[33];
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
@@ -30,20 +30,25 @@ adder12 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
         $display("%b %b  %b  | %b %b (%b %b)", a, b, cin, cout, s, correct_cout, correct_s);
     endtask
 
-    time i;
+    time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-        $dumpfile("test_adder12.fst");
+        $dumpfile("test_adder33.fst");
         $dumpvars(0, UUT);
         
         $display("Checking all inputs.");
-$display("a            b            cin | cout s             (correct cout, correct s)");
-    for (i = 0; i < 1024; i = i + 1) begin
-        a = $random;
-        b = $random;
-        cin = $random;
-        #1 print_io();
-    end
+
+        $display("a                                 b                                 cin | cout s                                  (correct cout, correct s)");
+        for (i = 0; i < 1024; i = i + 1) begin
+            a[31:0] = $random;
+            a[32:31] = $random;
+
+            b[31:0] = $random;
+            b[32:31] = $random;
+
+            cin = $random;
+            #1 print_io();
+        end
     
         if (errors !== 0) begin
             $display("---------------------------------------------------------------");
@@ -60,8 +65,8 @@ $display("a            b            cin | cout s             (correct cout, corr
 
     // Note: the triple === (corresponding !==) check 4-state (e.g. 0,1,x,z) values.
     //       It's best practice to use these for checkers!
-    always @(a or s) begin
-        assert(y === correct_out) else begin
+    always @(a or b or cin) begin
+        assert((s === correct_s) & (cout === correct_cout)) else begin
             // $display("  ERROR: mux out should be %b, is %b", out, correct_out);
             errors = errors + 1;
         end

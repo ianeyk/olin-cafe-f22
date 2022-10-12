@@ -1,27 +1,27 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module test_adder30;
+module test_adder5;
 
 int errors = 0;
 
-logic [29:0] a, b;
+logic [4:0] a, b;
 logic cin;
-wire [29:0] s;
+wire [4:0] s;
 wire cout;
 
-adder30 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
+adder5 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
 
 
     // Some behavioural comb. logic that computes correct values.
-    logic [29:0] correct_s;
+    logic [4:0] correct_s;
     logic correct_cout;
-    logic [30:0] extra_bit_sum;
+    logic [5:0] extra_bit_sum;
 
     always_comb begin : behavioural_solution_logic
         extra_bit_sum = a + b + cin;
-        correct_s = extra_bit_sum[29:0];
-        correct_cout = extra_bit_sum[30];
+        correct_s = extra_bit_sum[4:0];
+        correct_cout = extra_bit_sum[5];
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
@@ -33,15 +33,17 @@ adder30 UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
     time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-        $dumpfile("test_adder30.fst");
+        $dumpfile("test_adder5.fst");
         $dumpvars(0, UUT);
         
         $display("Checking all inputs.");
 
-        $display("a                              b                              cin | cout s                               (correct cout, correct s)");
+        $display("a     b     cin | cout s      (correct cout, correct s)");
         for (i = 0; i < 1024; i = i + 1) begin
-            a = $random;
-            b = $random;
+            a[4:0] = $random;
+            
+            b[4:0] = $random;
+            
             cin = $random;
             #1 print_io();
         end
