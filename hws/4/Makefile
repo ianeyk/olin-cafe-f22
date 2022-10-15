@@ -19,6 +19,7 @@ test_mux2: test_mux2.sv mux2.sv
 	${IVERILOG} $^ -o test_mux2.bin && ${VVP} test_mux2.bin ${VVP_POST}
 
 mux: ./generated_muxes/test_mux$(filter-out mux,$(MAKECMDGOALS)).sv ./generated_muxes/mux$(filter-out mux,$(MAKECMDGOALS)).sv
+		mkdir generated_muxes
 		python3 generate_mux.py $(filter-out $@,$(MAKECMDGOALS))
 		${IVERILOG} $^ -o ./generated_muxes/test_mux$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} ./generated_muxes/test_mux$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
 
@@ -29,6 +30,7 @@ test_adder1: test_adder1.sv adder1.sv
 	${IVERILOG} $^ -o test_adder1.bin && ${VVP} test_adder1.bin ${VVP_POST}
 
 adder: ./generated_adders/test_adder$(filter-out adder,$(MAKECMDGOALS)).sv ./generated_adders/adder$(filter-out adder,$(MAKECMDGOALS)).sv
+		mkdir generated_adders
 		python3 generate_adder.py $(filter-out $@,$(MAKECMDGOALS))
 		${IVERILOG} $^ -o ./generated_adders/test_adder$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} ./generated_adders/test_adder$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
 
@@ -43,4 +45,4 @@ clean:
 
 # Call this to generate your submission zip file.
 submission:
-	zip submission.zip Makefile *.sv README.md *.pdf
+	zip submission.zip Makefile *.sv README.md *.pdf *.py

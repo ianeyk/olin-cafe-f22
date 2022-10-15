@@ -58,7 +58,7 @@ adder{n} UUT(.a(a), .b(b), .cin(cin), .s(s), .cout(cout));
     time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-        $dumpfile("test_adder{n}.fst");
+        $dumpfile("./{self.adder_dir}/test_adder{n}.fst");
         $dumpvars(0, UUT);
         
         $display("Checking all inputs.");
@@ -115,10 +115,25 @@ endmodule
             body = f"""
         $display("a{' ' * n}b{' ' * n}cin | cout s{' ' * n} (correct cout, correct s)");
         for (i = 0; i < {2 ** sample_size}; i = i + 1) begin
-            a = $random;
-            b = $random;
+{self.random_int_n_bits(var_name = "a", size = n)}
+{self.random_int_n_bits(var_name = "b", size = n)}
             cin = $random;
             #1 print_io();
         end"""
         
         return body
+    
+    def random_int_n_bits(self, var_name: str, size: int):
+        prev_bit_idx = 0
+        bit_idx = 31
+        assignment = ""
+        while bit_idx < size - 1:
+            assignment += f"""            {var_name}[{bit_idx}:{prev_bit_idx}] = $random;
+"""
+            prev_bit_idx = bit_idx
+            bit_idx += 32
+        # then
+        assignment += f"""            {var_name}[{size - 1}:{prev_bit_idx}] = $random;
+"""
+        
+        return assignment
