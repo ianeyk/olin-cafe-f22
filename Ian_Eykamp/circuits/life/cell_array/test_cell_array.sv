@@ -1,13 +1,13 @@
 `timescale 1ns/1ps
 `default_nettype none
-module test_cell_row;
+module test_cell_array;
 
 int errors = 0;
 
 logic [7:0] this_row, top_row, bottom_row;
 wire [7:0] next_state;
 
-cell_row UUT(.this_row(this_row), .top_row(top_row), .bottom_row(bottom_row), .next_state(next_state));
+cell_array UUT(.this_row(this_row), .top_row(top_row), .bottom_row(bottom_row), .next_state(next_state));
 
 // Some behavioural comb. logic that computes correct values.
 logic [7:0] correct_out;

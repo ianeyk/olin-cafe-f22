@@ -34,6 +34,9 @@ test_adder4: adder/test_adder4.sv adder/adder4.sv
 test_adder_n: adder/test_adder_n.sv adder/adder_n.sv
 	${IVERILOG} $^ -o adder/test_adder_n.bin && ${VVP} adder/test_adder_n.bin ${VVP_POST}
 
+test_cell_row: cell_row/test_cell_row.sv cell_row/cell_row.sv
+	${IVERILOG} $^ -o cell_row/test_cell_row.bin && ${VVP} cell_row/test_cell_row.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 
