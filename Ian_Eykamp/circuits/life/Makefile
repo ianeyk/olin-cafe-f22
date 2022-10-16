@@ -40,6 +40,12 @@ test_cell_row: cell_row/test_cell_row.sv cell_row/cell_row.sv
 test_cell_array: cell_array/test_cell_array.sv cell_array/cell_array.sv
 	${IVERILOG} $^ -o cell_array/test_cell_array.bin && ${VVP} cell_array/test_cell_array.bin ${VVP_POST}
 
+test_timer_8tick: timer/test_timer_8tick.sv timer/timer_8tick.sv
+	${IVERILOG} $^ -o timer/test_timer_8tick.bin && ${VVP} timer/test_timer_8tick.bin ${VVP_POST}
+
+test_timer_1second: timer/test_timer_1second.sv timer/timer_1second.sv
+	${IVERILOG} $^ -o timer/test_timer_1second.bin && ${VVP} timer/test_timer_1second.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 
