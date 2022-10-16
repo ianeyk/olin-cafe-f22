@@ -1,3 +1,6 @@
+`ifndef INCLUDE_ADDER3
+`define INCLUDE_ADDER3 1
+
 `include "./adder/adder2.sv"
 
 `timescale 1ns/1ps
@@ -21,3 +24,5 @@ adder1 bit0(.a(a[0]), .b(b[0]), .cin(cin), .s(s[0]), .cout(c1));
 adder2 bit12(.a(a[2:1]), .b(b[2:1]), .cin(c1),  .s(s[2:1]), .cout(cout));
 
 endmodule
+
+`endif

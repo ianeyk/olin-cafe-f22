@@ -1,3 +1,6 @@
+`ifndef INCLUDE_ADDER1
+`define INCLUDE_ADDER1 1
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -20,3 +23,5 @@ always_comb s =    (a & b_bar & cin_bar) | (a_bar & b & cin_bar) | (a_bar & b_ba
 always_comb cout = (a_bar & b & cin)     | (a & b_bar & cin)     | (a & b & cin_bar)     | (a & b & cin);
 
 endmodule
+
+`endif

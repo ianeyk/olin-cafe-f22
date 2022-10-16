@@ -23,29 +23,30 @@ logic every_second;
 timer_8tick tick_counter(.clk(clk), .rst(rst), .next_tick(tick));
 timer_1second pulse_per_second(.clk(clk), .rst(rst), .output_pulse(every_second));
 
-logic [63:0] prev_cells;
-logic [63:0] next_cells;
+bit [63:0] prev_cells; // logic [63:0] prev_cells;
+bit [63:0] next_cells; // logic [63:0] next_cells;
 
 cell_array cells(.cells_in(prev_cells), .cells_out(next_cells));
 
-always @(posedge(tick)) begin
-    logic [7:0] row0;
-    row0 = {8{(tick == 3'd0)}} & next_cells[0:7];
-    logic [7:0] row1;
-    row1 = {8{(tick == 3'd1)}} & next_cells[8:15];
-    logic [7:0] row2;
-    row2 = {8{(tick == 3'd2)}} & next_cells[16:23];
-    logic [7:0] row3;
-    row3 = {8{(tick == 3'd3)}} & next_cells[24:31];
-    logic [7:0] row4;
-    row4 = {8{(tick == 3'd4)}} & next_cells[32:39];
-    logic [7:0] row5;
-    row5 = {8{(tick == 3'd5)}} & next_cells[40:47];
-    logic [7:0] row6;
-    row6 = {8{(tick == 3'd6)}} & next_cells[48:55];
-    logic [7:0] row7;
-    row7 = {8{(tick == 3'd7)}} & next_cells[56:63];
+logic [7:0] row0;
+always_comb row0 = {8{(tick == 3'd0)}} & next_cells[7:0];
+logic [7:0] row1;
+always_comb row1 = {8{(tick == 3'd1)}} & next_cells[15:8];
+logic [7:0] row2;
+always_comb row2 = {8{(tick == 3'd2)}} & next_cells[23:16];
+logic [7:0] row3;
+always_comb row3 = {8{(tick == 3'd3)}} & next_cells[31:24];
+logic [7:0] row4;
+always_comb row4 = {8{(tick == 3'd4)}} & next_cells[39:32];
+logic [7:0] row5;
+always_comb row5 = {8{(tick == 3'd5)}} & next_cells[47:40];
+logic [7:0] row6;
+always_comb row6 = {8{(tick == 3'd6)}} & next_cells[55:48];
+logic [7:0] row7;
+always_comb row7 = {8{(tick == 3'd7)}} & next_cells[63:56];
 
+always @(posedge(tick)) begin
+    $display(" %b", next_cells);
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
