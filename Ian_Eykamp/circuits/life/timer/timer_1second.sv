@@ -14,7 +14,8 @@ logic [23:0] next_tick; // which tick are we on? (0-7)
 adder24 tick_incrementer(.a(current_tick), .b(24'b0), .cin(1'b1), .s(next_tick), .cout(dead_end0));
 
 logic [23:0] one_second_at_12MHz;
-always_comb one_second_at_12MHz = 24'd14; //24`d12_000_000; // 12 mega (million) // must be two less
+always_comb one_second_at_12MHz = 24`d12_000_000; // 12 mega (million) // must be two less
+// for testing, make this 24'd16  ^^^^^^
 
 logic [23:0] comparator_difference;
 logic comparator_result;
