@@ -4,42 +4,74 @@ module test_cell_array;
 
 int errors = 0;
 
-logic [7:0] this_row, top_row, bottom_row;
-wire [7:0] next_state;
+logic [63:0] cells_in;
+wire [63:0] cells_out;
 
-cell_array UUT(.this_row(this_row), .top_row(top_row), .bottom_row(bottom_row), .next_state(next_state));
+cell_array UUT(.cells_in, .cells_out);
 
 // Some behavioural comb. logic that computes correct values.
-logic [7:0] correct_out;
+logic [63:0] correct_out;
 logic [3:0] num_neighbors;
-logic [10*3-1:0] whole_array;
-integer loc;
+logic [10*10-1:0] whole_array;
+integer row;
+integer col;
 
 always_comb begin : behavioural_solution_logic
-  whole_array[0] = 0;
-  whole_array[8:1] = top_row;
-  whole_array[10:9] = 0;
-  whole_array[18:11] = this_row;
-  whole_array[20:19] = 0;
-  whole_array[28:21] = bottom_row;
-  whole_array[29] = 0;
+
+whole_array[9:0] = 0;
+
+whole_array[10] = 0;
+whole_array[18:11] = cells_in[7:0];
+whole_array[19] = 0;
+
+whole_array[20] = 0;
+whole_array[28:21] = cells_in[15:8];
+whole_array[29] = 0;
+
+whole_array[30] = 0;
+whole_array[38:31] = cells_in[23:16];
+whole_array[39] = 0;
+
+whole_array[40] = 0;
+whole_array[48:41] = cells_in[31:24];
+whole_array[49] = 0;
+
+whole_array[50] = 0;
+whole_array[58:51] = cells_in[39:32];
+whole_array[59] = 0;
+
+whole_array[60] = 0;
+whole_array[68:61] = cells_in[47:40];
+whole_array[69] = 0;
+
+whole_array[70] = 0;
+whole_array[78:71] = cells_in[55:48];
+whole_array[79] = 0;
+
+whole_array[80] = 0;
+whole_array[88:81] = cells_in[63:56];
+whole_array[89] = 0;
+
+whole_array[99:90] = 0;
 
 
-  for (loc = 0; loc < 8; loc = loc + 1) begin
-      num_neighbors = whole_array[loc] + whole_array[loc + 1] + whole_array[loc + 2] + whole_array[loc + 10] + whole_array[loc + 10 + 2] + whole_array[loc + 20] + whole_array[loc + 20 + 1] + whole_array[loc + 20 + 2];
-      if (this_row[loc]) begin
+  for (row = 0; row < 8; row = row + 1) begin
+    for (col = 0; col < 8; col = col + 1) begin
+      num_neighbors = whole_array[10 * row + col] + whole_array[10 * row + col + 1] + whole_array[10 * row + col + 2] + whole_array[10 * row + col + 10] + whole_array[10 * row + col + 10 + 2] + whole_array[10 * row + col + 20] + whole_array[10 * row + col + 20 + 1] + whole_array[10 * row + col + 20 + 2];
+      if (cells_in[row * 8 + col]) begin
           if (num_neighbors == 2 | num_neighbors == 3) begin
-              correct_out[loc] = 1;
+              correct_out[row * 8 + col] = 1;
           end else begin
-              correct_out[loc] = 0;
+              correct_out[row * 8 + col] = 0;
           end
       end else begin
           if (num_neighbors == 3) begin
-              correct_out[loc] = 1;
+              correct_out[row * 8 + col] = 1;
           end else begin
-              correct_out[loc] = 0;
+              correct_out[row * 8 + col] = 0;
           end
       end
+    end
   end
 
 end
@@ -47,7 +79,7 @@ end
 // You can make "tasks" in testbenches. Think of them like methods of a class, 
 // they have access to the member variables.
 task print_io;
-  $display("%b\n%b |  %b\n%b | (%b)\n\n", top_row, this_row, next_state, bottom_row, correct_out);
+  $display("%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n%b  |  %b  |  (%b)\n", cells_in[7:0], cells_out[7:0], correct_out[7:0], cells_in[15:8], cells_out[15:8],correct_out[15:8], cells_in[23:16], cells_out[23:16], correct_out[23:16], cells_in[31:24], cells_out[31:24], correct_out[31:24], cells_in[39:32], cells_out[39:32], correct_out[39:32], cells_in[47:40], cells_out[47:40], correct_out[47:40], cells_in[55:48], cells_out[55:48], correct_out[55:48], cells_in[63:56], cells_out[63:56], correct_out[63:56]);
   // $display("%b %b | %b %b (%b)", en, a, out[0], out[1], correct_out);
 endtask
 
@@ -58,11 +90,10 @@ initial begin
   $dumpvars(0, UUT);
   
   $display("Checking all inputs.");
-  $display("top_row   \nthis_row   |  next_state\nbottom_row | (correct_out)");
+  $display("cells_in  |  cells_out |  (correct_out)");
   for (i = 0; i < (2**6); i = i + 1) begin
-    this_row = $random;
-    top_row = $random;
-    bottom_row = $random;
+    cells_in[31:0] = $random;
+    cells_in[63:32] = $random;
 
     #1 print_io();
   end
@@ -83,9 +114,9 @@ end
 
 // Note: the triple === (corresponding !==) check 4-state (e.g. 0,1,x,z) values.
 //       It's best practice to use these for checkers!
-always @(this_row, top_row, bottom_row) begin
+always @(cells_in) begin
   #1;
-  assert(next_state === correct_out) else begin
+  assert(cells_out === correct_out) else begin
     // $display("  ERROR: mux out should be %b, is %b", out, correct_out);
     errors = errors + 1;
   end

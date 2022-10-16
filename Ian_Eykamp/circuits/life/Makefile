@@ -37,6 +37,9 @@ test_adder_n: adder/test_adder_n.sv adder/adder_n.sv
 test_cell_row: cell_row/test_cell_row.sv cell_row/cell_row.sv
 	${IVERILOG} $^ -o cell_row/test_cell_row.bin && ${VVP} cell_row/test_cell_row.bin ${VVP_POST}
 
+test_cell_array: cell_array/test_cell_array.sv cell_array/cell_array.sv
+	${IVERILOG} $^ -o cell_array/test_cell_array.bin && ${VVP} cell_array/test_cell_array.bin ${VVP_POST}
+
 waves_mux:
 	gtkwave mux.fst
 

@@ -1,35 +1,24 @@
 `timescale 1ns/1ps
 `default_nettype none
-`include "./cell/cell8.sv"
+`include "./cell_row/cell_row.sv"
 
-module cell_row(this_row, top_row, bottom_row, next_state);
+module cell_array(cells_in, cells_out);
 
-input [7:0] this_row, top_row, bottom_row;
-output logic [7:0] next_state;
+input [63:0] cells_in;
+output logic [63:0] cells_out;
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 
-logic [7:0] cell0neighbors, cell1neighbors, cell2neighbors, cell3neighbors, cell4neighbors, cell5neighbors, cell6neighbors, cell7neighbors;
-logic zero;
+logic [7:0] zero8;
+always_comb zero8 = 0;
 
-always_comb zero = 0;
-
-always_comb cell0neighbors = {zero,        this_row[1], zero,       top_row[0], top_row[1], zero,          bottom_row[0], bottom_row[1]};
-always_comb cell1neighbors = {this_row[0], this_row[2], top_row[0], top_row[1], top_row[2], bottom_row[0], bottom_row[1], bottom_row[2]};
-always_comb cell2neighbors = {this_row[1], this_row[3], top_row[1], top_row[2], top_row[3], bottom_row[1], bottom_row[2], bottom_row[3]};
-always_comb cell3neighbors = {this_row[2], this_row[4], top_row[2], top_row[3], top_row[4], bottom_row[2], bottom_row[3], bottom_row[4]};
-always_comb cell4neighbors = {this_row[3], this_row[5], top_row[3], top_row[4], top_row[5], bottom_row[3], bottom_row[4], bottom_row[5]};
-always_comb cell5neighbors = {this_row[4], this_row[6], top_row[4], top_row[5], top_row[6], bottom_row[4], bottom_row[5], bottom_row[6]};
-always_comb cell6neighbors = {this_row[5], this_row[7], top_row[5], top_row[6], top_row[7], bottom_row[5], bottom_row[6], bottom_row[7]};
-always_comb cell7neighbors = {this_row[6], zero,        top_row[6], top_row[7], zero,       bottom_row[6], bottom_row[7], zero         };
-
-cell8 cell0(.current_state(this_row[0]), .neighbors(cell0neighbors), .next_state(next_state[0]));
-cell8 cell1(.current_state(this_row[1]), .neighbors(cell1neighbors), .next_state(next_state[1]));
-cell8 cell2(.current_state(this_row[2]), .neighbors(cell2neighbors), .next_state(next_state[2]));
-cell8 cell3(.current_state(this_row[3]), .neighbors(cell3neighbors), .next_state(next_state[3]));
-cell8 cell4(.current_state(this_row[4]), .neighbors(cell4neighbors), .next_state(next_state[4]));
-cell8 cell5(.current_state(this_row[5]), .neighbors(cell5neighbors), .next_state(next_state[5]));
-cell8 cell6(.current_state(this_row[6]), .neighbors(cell6neighbors), .next_state(next_state[6]));
-cell8 cell7(.current_state(this_row[7]), .neighbors(cell7neighbors), .next_state(next_state[7]));
+cell_row row0(.this_row(cells_in[8*1 - 1: 8*0]), .top_row(zero8),                  .bottom_row(cells_in[8*2 - 1: 8*1]), .next_state(cells_out[8*1 - 1: 8*0]));
+cell_row row1(.this_row(cells_in[8*2 - 1: 8*1]), .top_row(cells_in[8*1 - 1: 8*0]), .bottom_row(cells_in[8*3 - 1: 8*2]), .next_state(cells_out[8*2 - 1: 8*1]));
+cell_row row2(.this_row(cells_in[8*3 - 1: 8*2]), .top_row(cells_in[8*2 - 1: 8*1]), .bottom_row(cells_in[8*4 - 1: 8*3]), .next_state(cells_out[8*3 - 1: 8*2]));
+cell_row row3(.this_row(cells_in[8*4 - 1: 8*3]), .top_row(cells_in[8*3 - 1: 8*2]), .bottom_row(cells_in[8*5 - 1: 8*4]), .next_state(cells_out[8*4 - 1: 8*3]));
+cell_row row4(.this_row(cells_in[8*5 - 1: 8*4]), .top_row(cells_in[8*4 - 1: 8*3]), .bottom_row(cells_in[8*6 - 1: 8*5]), .next_state(cells_out[8*5 - 1: 8*4]));
+cell_row row5(.this_row(cells_in[8*6 - 1: 8*5]), .top_row(cells_in[8*5 - 1: 8*4]), .bottom_row(cells_in[8*7 - 1: 8*6]), .next_state(cells_out[8*6 - 1: 8*5]));
+cell_row row6(.this_row(cells_in[8*7 - 1: 8*6]), .top_row(cells_in[8*6 - 1: 8*5]), .bottom_row(cells_in[8*8 - 1: 8*7]), .next_state(cells_out[8*7 - 1: 8*6]));
+cell_row row7(.this_row(cells_in[8*8 - 1: 8*7]), .top_row(cells_in[8*7 - 1: 8*6]), .bottom_row(zero8),                  .next_state(cells_out[8*8 - 1: 8*7]));
 
 endmodule
