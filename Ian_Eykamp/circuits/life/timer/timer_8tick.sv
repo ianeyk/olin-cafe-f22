@@ -2,11 +2,12 @@
 `default_nettype none
 `include "./adder/adder3.sv"
 
-module timer_8tick(clk, rst, next_tick);
+module timer_8tick(clk, rst, tick_out);
 
 reg bit [2:0] current_tick;
 input clk, rst;
-output logic [2:0] next_tick; // which tick are we on? (0-7)
+output logic [2:0] tick_out; // which tick are we on? (0-7)
+reg bit [2:0] next_tick;
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 logic dead_end;
@@ -20,6 +21,7 @@ always_comb current_tick_will_be = ~rst & next_tick;
 always @(posedge(clk) or posedge(rst)) begin
     // $display("---%b -- %d", rst, next_tick);
     current_tick <= current_tick_will_be;
+    tick_out <= current_tick_will_be;
 end
 
 endmodule

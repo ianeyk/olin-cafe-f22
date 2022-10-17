@@ -26,7 +26,7 @@ initial begin
   @(negedge clk) rst = 0;
   repeat (100) begin
     @(posedge clk);
-    $display("%d", leds_out);
+    $display("%b", leds_out);
   end
   $display("... done. Use gtkwave to see what this does!");
   $finish;

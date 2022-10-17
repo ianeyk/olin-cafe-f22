@@ -20,7 +20,7 @@ always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_000
 
 logic [2:0] tick;
 logic every_second;
-timer_8tick tick_counter(.clk(clk), .rst(rst), .next_tick(tick));
+timer_8tick tick_counter(.clk(clk), .rst(rst), .tick_out(tick));
 timer_1second pulse_per_second(.clk(clk), .rst(rst), .output_pulse(every_second));
 
 bit [63:0] prev_cells; // logic [63:0] prev_cells;
@@ -45,12 +45,12 @@ always_comb row6 = {8{(tick == 3'd6)}} & next_cells[55:48];
 logic [7:0] row7;
 always_comb row7 = {8{(tick == 3'd7)}} & next_cells[63:56];
 
-always @(posedge(tick)) begin
-    $display(" %b", next_cells);
+always @(tick) begin
+    $display("tick: %d", tick);
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
-always @(posedge(every_second)) begin
+always @(posedge(every_second) or posedge(rst)) begin
     prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);
 end
 

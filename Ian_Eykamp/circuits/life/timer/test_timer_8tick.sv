@@ -7,12 +7,12 @@ module test_timer_8tick;
 always #10 clk = ~clk;
 
 logic rst, clk;
-wire [2:0] next_tick;
+wire [2:0] tick_out;
 
 timer_8tick UUT(
   .clk(clk),
   .rst(rst),
-  .next_tick(next_tick)
+  .tick_out(tick_out)
 );
 
 initial begin
@@ -26,7 +26,7 @@ initial begin
   @(negedge clk) rst = 0;
   repeat (64) begin
     @(posedge clk);
-    $display("%d", next_tick);
+    $display("%d", tick_out);
   end
   $display("... done. Use gtkwave to see what this does!");
   $finish;
