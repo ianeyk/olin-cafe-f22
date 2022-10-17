@@ -18,7 +18,7 @@ logic [2:0] current_tick_will_be;
 always_comb current_tick_will_be = ~rst & next_tick;
 
 // ands
-always @(posedge(clk) or posedge(rst)) begin
+always @(posedge(clk) or rst) begin
     // $display("---%b -- %d", rst, next_tick);
     current_tick <= current_tick_will_be;
     tick_out <= current_tick_will_be;

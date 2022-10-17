@@ -14,7 +14,8 @@ logic [63:0] rst64;
 always_comb rst64 = {64{rst}};
 
 logic [63:0] initial_state;
-always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
+// always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
+always_comb initial_state = 64'b00000000_00011100_00000000_00000000_00000000_00000000_00000000_00000000; // blinker
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 
@@ -45,13 +46,23 @@ always_comb row6 = {8{(tick == 3'd6)}} & next_cells[55:48];
 logic [7:0] row7;
 always_comb row7 = {8{(tick == 3'd7)}} & next_cells[63:56];
 
+bit [63:0] prev_cells_will_be;
+always_comb prev_cells_will_be = (~rst64 & next_cells) | (rst64 & initial_state);
+
 always @(tick) begin
-    $display("tick: %d", tick);
+    // $display("tick: %d, every_second: %b", tick, every_second);
+    // $display("tick: %d, cell_state = %b", tick, prev_cells);
+    // $display("rst: %b", rst);
+    // $display("prev_cells_will_be: %b", prev_cells_will_be);
+
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
-always @(posedge(every_second) or posedge(rst)) begin
-    prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);
+always @(posedge(every_second) or rst) begin
+    $display("EVERY SECOND");
+    prev_cells <= prev_cells_will_be;
+    // prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);
+    // $display("cell state = %b", prev_cells);
 end
 
 endmodule
