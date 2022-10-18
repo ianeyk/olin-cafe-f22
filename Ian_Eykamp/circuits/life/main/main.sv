@@ -4,18 +4,28 @@
 `include "./timer/timer_8tick.sv"
 `include "./timer/timer_1second.sv"
 `include "./mux/mux8.sv"
+`include "./decoder/decoder3_8.sv"
 
-module main(clk, rst, leds_out);
+module main(clk, rst, rows_out, columns_out);
 
 input clk, rst;
-output logic [7:0] leds_out;
+output logic [7:0] rows_out, columns_out;
+
+// led driver logic
+//
+// rows are driven low by the combinational logic...
+logic [7:0] leds_out;
+always_comb rows_out = ~leds_out;
+//
+// and columns are driven high by decoding the tick signal.
+decoder3_8 column_select(.a(tick), .en(1'b1), .out(columns_out));
 
 logic [63:0] rst64;
 always_comb rst64 = {64{rst}};
 
 logic [63:0] initial_state;
 // always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
-always_comb initial_state = 64'b00000000_00011100_00000000_00000000_00000000_00000000_00000000_00000000; // blinker
+always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 
@@ -59,7 +69,7 @@ always @(tick) begin
 end
 
 always @(posedge(every_second) or rst) begin
-    $display("EVERY SECOND");
+    // $display("EVERY SECOND");
     prev_cells <= prev_cells_will_be;
     // prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);
     // $display("cell state = %b", prev_cells);

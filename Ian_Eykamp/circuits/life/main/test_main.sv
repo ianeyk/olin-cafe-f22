@@ -1,5 +1,6 @@
 `timescale 1ns/1ps
 `default_nettype none
+// `include "./main/main.sv"
 
 module test_main;
 
@@ -7,13 +8,9 @@ module test_main;
 always #10 clk = ~clk;
 
 logic rst, clk;
-wire [7:0] leds_out;
+wire [7:0] rows_out, columns_out;
 
-main UUT(
-  .clk(clk),
-  .rst(rst),
-  .leds_out(leds_out)
-);
+main UUT(.clk(clk), .rst(rst), .rows_out(rows_out), .columns_out(columns_out));
 
 time i;
 
@@ -29,11 +26,11 @@ initial begin
   #5 @(negedge clk) rst = 0;
   repeat (320) begin
     @(posedge clk);
-    $display("%b", leds_out);
+    $display("%b  |  %b", columns_out, rows_out);
     
     // add breaks between grids
     i = i + 1;
-    if (i % 8 == 0) begin
+    if (i % 8 == 7) begin
       $display("");
     end
 
