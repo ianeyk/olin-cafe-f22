@@ -62,7 +62,7 @@ main.bit: $(MAIN_SRCS)
 	@echo "########################################"
 	@echo "#### Building FPGA bitstream        ####"
 	@echo "########################################"
-	${VIVADO} build.tcl
+	${VIVADO} ./build.tcl
 
 program_fpga_vivado: main.bit
 	@echo "########################################"

@@ -3,7 +3,7 @@
 # read_edif and read_ip commands are useful for using other IP.
 # Note - you can add `start_gui` between any of these commands to interject into the Vivado environment. This lets you use any tools (and you can open any checkpoint too!).
 
-read_verilog [ glob ./hdl/*.sv ]
+read_verilog ./main/main.sv # [ glob ./hdl/*.sv ]
 read_xdc ./main.xdc
 
 # Sythesis & Optimization

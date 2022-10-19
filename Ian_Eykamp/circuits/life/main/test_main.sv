@@ -10,7 +10,10 @@ always #10 clk = ~clk;
 logic rst, clk;
 wire [7:0] rows_out, columns_out;
 
-main UUT(.clk(clk), .rst(rst), .rows_out(rows_out), .columns_out(columns_out));
+logic [1:0] buttons;
+always_comb buttons = {1'b0, rst};
+
+main UUT(.clk(clk), .buttons(buttons), .rows_out(rows_out), .columns_out(columns_out));
 
 time i;
 

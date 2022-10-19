@@ -6,10 +6,13 @@
 `include "./mux/mux8.sv"
 `include "./decoder/decoder3_8.sv"
 
-module main(clk, rst, rows_out, columns_out);
-
-input clk, rst;
+module main(clk, buttons, rows_out, columns_out);
+input wire clk;
+input [1:0] buttons;
 output logic [7:0] rows_out, columns_out;
+
+logic rst;
+always_comb rst = buttons[0];
 
 // led driver logic
 //
