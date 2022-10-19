@@ -71,8 +71,12 @@ always @(tick) begin
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
-always @(posedge(every_second)) begin
+always @(posedge(every_second) or rst) begin  //    WORKS IN SIMULATION
+// always @(posedge(every_second)) begin    //    WORKS IN COMPILER
+
     // $display("EVERY SECOND");
+    // $display("prev_cells_will_be: %b", prev_cells_will_be);
+    // $display("rst64: %b", rst64);
     prev_cells <= prev_cells_will_be;
     // prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);
     // $display("cell state = %b", prev_cells);

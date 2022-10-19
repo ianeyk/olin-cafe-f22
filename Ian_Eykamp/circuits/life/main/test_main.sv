@@ -11,7 +11,7 @@ logic rst, clk;
 wire [7:0] rows_out, columns_out;
 
 logic [1:0] buttons;
-always_comb buttons = {1'b0, rst};
+always_comb buttons = {rst, rst};
 
 main UUT(.clk(clk), .buttons(buttons), .rows_out(rows_out), .columns_out(columns_out));
 
@@ -33,7 +33,7 @@ initial begin
     
     // add breaks between grids
     i = i + 1;
-    if (i % 8 == 7) begin
+    if (i % 8 == 0) begin
       $display("");
     end
 

@@ -4,12 +4,13 @@
 
 module timer_8tick(clk, rst, tick_out);
 
-reg [2:0] current_tick;
-// reg bit [2:0] current_tick;
 input wire clk, rst;
 output logic [2:0] tick_out; // which tick are we on? (0-7)
-// reg bit [2:0] next_tick;
-reg [2:0] next_tick;
+
+reg bit [2:0] current_tick;     //      WORKS IN SIMULATION
+reg bit [2:0] next_tick;        //      WORKS IN SIMULATION
+// reg [2:0] current_tick;      //      WORKS IN COMPILER
+// reg [2:0] next_tick;         //      WORKS IN COMPILER
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 logic dead_end;
