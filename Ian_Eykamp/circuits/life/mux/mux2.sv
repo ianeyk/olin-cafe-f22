@@ -3,8 +3,8 @@
 
 module mux2(a, s, y);
 
-    input [1:0] a;
-    input s;
+    input wire [1:0] a;
+    input wire s;
     output logic y; // the last or logic
 
     // Below is "STRUCTURAL" verilog - explicit hardware

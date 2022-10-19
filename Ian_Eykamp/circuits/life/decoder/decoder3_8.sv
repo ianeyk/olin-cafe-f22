@@ -5,8 +5,8 @@
 
 module decoder3_8(a, en, out);
 
-input en;
-input [2:0] a;
+input wire en;
+input wire [2:0] a;
 output logic [7:0] out; // the last or logic
 
 // Below is "STRUCTURAL" verilog - explicit hardware

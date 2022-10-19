@@ -4,8 +4,8 @@
 
 module timer_1second(clk, rst, output_pulse); // 12 MHz
 
-reg bit [23:0] current_tick;
-input clk, rst;
+reg [23:0] current_tick;
+input wire clk, rst;
 output logic output_pulse;
 
 // Below is "STRUCTURAL" verilog - explicit hardware
@@ -35,7 +35,7 @@ always_comb comparator_result24 = {24{comparator_result}};
 always_comb current_tick_will_be = ~rst24 & ~comparator_result24 & next_tick;
 
 // ands
-always @(posedge(clk) or posedge(rst)) begin
+always @(posedge(clk)) begin
     output_pulse <= output_pulse_will_be;
     current_tick <= current_tick_will_be;
     // $display(" --- %b, %b, => %b", comparator_difference, ~comparator_result24, current_tick_will_be);

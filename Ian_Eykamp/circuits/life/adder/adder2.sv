@@ -5,8 +5,8 @@
 
 module adder2(a, b, cin, s, cout);
 
-input [1:0] a, b;
-input cin;
+input wire [1:0] a, b;
+input wire cin;
 output logic [1:0] s; // the last or logic
 output logic cout;
 

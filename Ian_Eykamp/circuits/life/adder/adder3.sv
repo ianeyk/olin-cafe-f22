@@ -8,8 +8,8 @@
 
 module adder3(a, b, cin, s, cout);
 
-input [2:0] a, b;
-input cin;
+input wire [2:0] a, b;
+input wire cin;
 output logic [2:0] s; // the last or logic
 output logic cout;
 

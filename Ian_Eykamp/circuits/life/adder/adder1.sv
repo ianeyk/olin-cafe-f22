@@ -6,7 +6,7 @@
 
 module adder1(a, b, cin, s, cout);
 
-input a, b, cin;
+input wire a, b, cin;
 output logic s, cout; // the last or logic
 
 // Below is "STRUCTURAL" verilog - explicit hardware

@@ -4,8 +4,8 @@
 
 module adder24(a, b, cin, s, cout);
 
-    input [23:0] a, b;
-    input cin;
+    input wire [23:0] a, b;
+    input wire cin;
     output logic [23:0] s; // output (sum)
     output logic cout; // output carry bit
     

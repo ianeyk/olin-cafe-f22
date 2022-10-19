@@ -1,0 +1,150 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Wed Oct 19 15:15:42 2022
+# Process ID: 15621
+# Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life
+# Command line: vivado -mode batch -source ./build.tcl
+# Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.log
+# Journal file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.jou
+# Running On: ieykamp-Latitude-5411, OS: Linux, CPU Frequency: 2700.000 MHz, CPU Physical cores: 6, Host memory: 16437 MB
+#-----------------------------------------------------------
+source ./build.tcl
+# read_verilog ./main/main.sv
+read_verilog: Time (s): cpu = 00:00:07 ; elapsed = 00:00:05 . Memory (MB): peak = 2603.828 ; gain = 3.992 ; free physical = 7459 ; free virtual = 14123
+# read_xdc ./main.xdc
+# synth_design -top main -part xc7a15tcpg236-1
+Command: synth_design -top main -part xc7a15tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Device 21-403] Loading part xc7a15tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 15638
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2603.840 ; gain = 0.000 ; free physical = 5675 ; free virtual = 12337
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'main' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:9]
+INFO: [Synth 8-6157] synthesizing module 'decoder3_8' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder3_8.sv:6]
+INFO: [Synth 8-6157] synthesizing module 'decoder1_2' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder1_2.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'decoder1_2' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder1_2.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'decoder2_4' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder2_4.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'decoder2_4' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder2_4.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'decoder3_8' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/decoder/decoder3_8.sv:6]
+INFO: [Synth 8-6157] synthesizing module 'timer_8tick' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/timer/timer_8tick.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'adder3' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder3.sv:9]
+INFO: [Synth 8-6157] synthesizing module 'adder1' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder1.sv:7]
+INFO: [Synth 8-6155] done synthesizing module 'adder1' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder1.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'adder2' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder2.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'adder2' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder2.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'adder3' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder3.sv:9]
+INFO: [Synth 8-6155] done synthesizing module 'timer_8tick' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/timer/timer_8tick.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'timer_1second' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/timer/timer_1second.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'adder24' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder24.sv:5]
+INFO: [Synth 8-6155] done synthesizing module 'adder24' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/adder/adder24.sv:5]
+INFO: [Synth 8-6155] done synthesizing module 'timer_1second' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/timer/timer_1second.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'cell_array' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell_array/cell_array.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'cell_row' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell_row/cell_row.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'cell8' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell/cell8.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sum8' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/sum/sum8.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'sum8' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/sum/sum8.sv:6]
+INFO: [Synth 8-6157] synthesizing module 'comparator2_3' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/naive_comparator/comparator2_3.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'comparator2_3' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/naive_comparator/comparator2_3.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'comparator3' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/naive_comparator/comparator3.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'comparator3' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/naive_comparator/comparator3.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'cell8' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell/cell8.sv:7]
+INFO: [Synth 8-6155] done synthesizing module 'cell_row' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell_row/cell_row.sv:5]
+INFO: [Synth 8-6155] done synthesizing module 'cell_array' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/cell_array/cell_array.sv:5]
+WARNING: [Synth 8-567] referenced signal 'row0' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row1' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row2' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row3' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row4' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row5' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row6' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+WARNING: [Synth 8-567] referenced signal 'row7' should be on the sensitivity list [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:65]
+INFO: [Synth 8-6155] done synthesizing module 'main' (0#1) [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:9]
+WARNING: [Synth 8-6014] Unused sequential element tick_out_reg was removed.  [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/timer/timer_8tick.sv:24]
+WARNING: [Synth 8-7129] Port buttons[1] in module main is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2603.840 ; gain = 0.000 ; free physical = 6768 ; free virtual = 13447
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2603.840 ; gain = 0.000 ; free physical = 6768 ; free virtual = 13447
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2603.840 ; gain = 0.000 ; free physical = 6768 ; free virtual = 13447
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2603.840 ; gain = 0.000 ; free physical = 6762 ; free virtual = 13441
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc]
+WARNING: [Vivado 12-584] No ports matched 'leds[0]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:7]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:7]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'leds[1]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:8]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:8]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rgb[2]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:10]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:10]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rgb[1]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:11]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:11]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rgb[0]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:12]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:12]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rows_out[8]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:24]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:24]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'columns_out[8]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:31]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:31]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'columns_out[04]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:60]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:60]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'columns_out[03]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:61]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:61]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'columns_out[02]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:62]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:62]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'columns_out[01]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:63]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:63]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rows_out[01]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:64]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:64]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rows_out[02]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:65]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:65]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rows_out[03]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:66]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:66]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'rows_out[04]'. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:67]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc:67]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+Finished Parsing XDC File [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/main_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/main_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2667.859 ; gain = 0.000 ; free physical = 6653 ; free virtual = 13323
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2667.859 ; gain = 0.000 ; free physical = 6653 ; free virtual = 13323
+INFO: [Common 17-41] Interrupt caught. Command should exit soon.
+1
+INFO: [Common 17-83] Releasing license: Synthesis
+42 Infos, 25 Warnings, 15 Critical Warnings and 1 Errors encountered.
+synth_design failed
+INFO: [Common 17-344] 'source' was cancelled
+INFO: [Common 17-206] Exiting Vivado at Wed Oct 19 15:16:04 2022...

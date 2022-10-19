@@ -1,9 +1,18 @@
 # -Wall turns on all warnings
 # -g2012 selects the 2012 version of iVerilog
-IVERILOG=iverilog -g2012 -Wall -y./hdl -y./tests -Y.sv -I./hdl
+IVERILOG=iverilog -g2012 -Wall -y ./hdl -I ./hdl
+IVERILOG_SIM_ARGS= -y ./tests -I ./tests
 VVP=vvp
 VVP_POST=-fst
-# VIVADO=vivado -mode batch -source # Not used in this demo.
+VIVADO=vivado -mode batch -source
+
+
+CONWAY_SRCS=main/main.sv timer/timer_1second.sv timer/timer_8tick.sv decoder/decoder3_8.sv cell/cell8.sv cell_row/cell_row.sv cell_array/cell_array.sv adder/adder1.sv adder/adder2.sv adder/adder3.sv adder/adder4.sv adder/adder24.sv naive_comparator/comparator2_3.sv naive_comparator/comparator3.sv
+# DECODER_SRCS=hdl/decoder*.sv
+MAIN_SRCS=${CONWAY_SRCS}
+
+# Look up .PHONY rules for Makefiles
+.PHONY: clean submission remove_solutions
 
 #target : # dependencies
 

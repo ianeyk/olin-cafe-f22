@@ -71,7 +71,7 @@ always @(tick) begin
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
-always @(posedge(every_second) or rst) begin
+always @(posedge(every_second)) begin
     // $display("EVERY SECOND");
     prev_cells <= prev_cells_will_be;
     // prev_cells <= (~rst64 & next_cells) | (rst64 & initial_state);

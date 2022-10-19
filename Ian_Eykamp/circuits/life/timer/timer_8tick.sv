@@ -4,10 +4,10 @@
 
 module timer_8tick(clk, rst, tick_out);
 
-reg bit [2:0] current_tick;
-input clk, rst;
+reg [2:0] current_tick;
+input wire clk, rst;
 output logic [2:0] tick_out; // which tick are we on? (0-7)
-reg bit [2:0] next_tick;
+reg [2:0] next_tick;
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 logic dead_end;
@@ -18,7 +18,7 @@ logic [2:0] current_tick_will_be;
 always_comb current_tick_will_be = ~rst & next_tick;
 
 // ands
-always @(posedge(clk) or rst) begin
+always @(posedge(clk)) begin
     // $display("---%b -- %d", rst, next_tick);
     current_tick <= current_tick_will_be;
     tick_out <= current_tick_will_be;

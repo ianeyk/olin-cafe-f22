@@ -6,8 +6,8 @@
 
 module cell8(current_state, neighbors, next_state);
 
-input current_state;
-input [7:0] neighbors;
+input wire current_state;
+input wire [7:0] neighbors;
 output logic next_state;
 
 // Below is "STRUCTURAL" verilog - explicit hardware
