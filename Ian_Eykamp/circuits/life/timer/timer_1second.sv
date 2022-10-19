@@ -36,7 +36,7 @@ always_comb comparator_result24 = {24{comparator_result}};
 always_comb current_tick_will_be = ~rst24 & ~comparator_result24 & next_tick;
 
 // ands
-always @(posedge(clk)) begin
+always_ff @(posedge(clk)) begin
     output_pulse <= output_pulse_will_be;
     current_tick <= current_tick_will_be;
     // $display(" --- %b, %b, => %b", comparator_difference, ~comparator_result24, current_tick_will_be);

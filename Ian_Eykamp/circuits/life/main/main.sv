@@ -27,8 +27,8 @@ logic [63:0] rst64;
 always_comb rst64 = {64{rst}};
 
 logic [63:0] initial_state;
+always_comb initial_state = 64'b00011000_00100100_01000010_10000001_10000001_01000010_00100100_00011000; // octagon
 // always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
-always_comb initial_state = 64'b00000000_00000000_00000000_00011100_00000000_00000000_00000000_00000000; // blinker
 
 // Below is "STRUCTURAL" verilog - explicit hardware
 
@@ -62,7 +62,8 @@ always_comb row7 = {8{&(tick ~^ 3'd7)}} & next_cells[63:56];
 bit [63:0] prev_cells_will_be;
 always_comb prev_cells_will_be = (~rst64 & next_cells) | (rst64 & initial_state);
 
-always @(tick) begin
+// always @(tick) begin
+always_ff @(posedge(clk)) begin
     // $display("tick: %d, every_second: %b", tick, every_second);
     // $display("tick: %d, cell_state = %b", tick, prev_cells);
     // $display("rst: %b", rst);
@@ -72,7 +73,10 @@ always @(tick) begin
 end
 
 always @(posedge(every_second) or rst) begin  //    WORKS IN SIMULATION
-// always @(posedge(every_second)) begin    //    WORKS IN COMPILER
+// ug902 // posedge(reset)
+// always_ff
+// always_ff @(posedge(every_second)) begin    //    WORKS IN COMPILER
+// always_ff @(posedge(every_second) or posedge(rst)) begin    //    THIRD OPTION (doesn't work in compiler)
 
     // $display("EVERY SECOND");
     // $display("prev_cells_will_be: %b", prev_cells_will_be);

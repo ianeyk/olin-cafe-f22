@@ -33,7 +33,7 @@ initial begin
     
     // add breaks between grids
     i = i + 1;
-    if (i % 8 == 0) begin
+    if (i % 8 == 1) begin
       $display("");
     end
 

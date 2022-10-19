@@ -2,8 +2,8 @@
 # Vivado v2022.1 (64-bit)
 # SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
 # IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
-# Start of session at: Wed Oct 19 16:49:30 2022
-# Process ID: 33777
+# Start of session at: Wed Oct 19 17:30:39 2022
+# Process ID: 80440
 # Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life
 # Command line: vivado -mode batch -source ./build.tcl
 # Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.log
@@ -21,7 +21,7 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t
 INFO: [Device 21-403] Loading part xc7a15tcpg236-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 33784
+INFO: [Synth 8-7075] Helper process launched with PID 80467
 ERROR: [Synth 8-2715] syntax error near bit [./timer/timer_8tick.sv:10]
 ERROR: [Synth 8-8779] SystemVerilog keyword bit used in incorrect context [./timer/timer_8tick.sv:10]
 ERROR: [Synth 8-36] 'current_tick' is not declared [./timer/timer_8tick.sv:18]
@@ -36,10 +36,10 @@ INFO: [Synth 8-8750] module 'mux8' ignored due to previous errors [./mux/mux8.sv
 INFO: [Synth 8-8750] module 'decoder1_2' ignored due to previous errors [./decoder/decoder1_2.sv:20]
 INFO: [Synth 8-8750] module 'decoder2_4' ignored due to previous errors [./decoder/decoder2_4.sv:20]
 INFO: [Synth 8-8750] module 'decoder3_8' ignored due to previous errors [./decoder/decoder3_8.sv:20]
-INFO: [Synth 8-8750] module 'main' ignored due to previous errors [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:85]
+INFO: [Synth 8-8750] module 'main' ignored due to previous errors [/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv:87]
 Failed to read verilog '/home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/main/main.sv'
 INFO: [Common 17-83] Releasing license: Synthesis
 15 Infos, 0 Warnings, 0 Critical Warnings and 7 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Wed Oct 19 16:49:46 2022...
+INFO: [Common 17-206] Exiting Vivado at Wed Oct 19 17:30:56 2022...
