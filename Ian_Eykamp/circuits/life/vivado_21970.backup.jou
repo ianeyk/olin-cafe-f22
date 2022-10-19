@@ -2,8 +2,8 @@
 # Vivado v2022.1 (64-bit)
 # SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
 # IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
-# Start of session at: Wed Oct 19 15:06:12 2022
-# Process ID: 10302
+# Start of session at: Wed Oct 19 16:00:48 2022
+# Process ID: 21970
 # Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life
 # Command line: vivado -mode batch -source ./build.tcl
 # Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.log

@@ -5,8 +5,10 @@
 module timer_8tick(clk, rst, tick_out);
 
 reg [2:0] current_tick;
+// reg bit [2:0] current_tick;
 input wire clk, rst;
 output logic [2:0] tick_out; // which tick are we on? (0-7)
+// reg bit [2:0] next_tick;
 reg [2:0] next_tick;
 
 // Below is "STRUCTURAL" verilog - explicit hardware

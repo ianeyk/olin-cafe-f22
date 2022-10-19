@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2022.1 (lin64) Build 3526262 Mon Apr 18 15:47:01 MDT 2022
-| Date         : Wed Oct 19 15:18:45 2022
+| Date         : Wed Oct 19 16:09:03 2022
 | Host         : ieykamp-Latitude-5411 running 64-bit Ubuntu 22.04.1 LTS
 | Command      : report_drc -file drc.log
 | Design       : main
@@ -24,11 +24,11 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 181
+             Violations found: 182
 +-----------+------------------+-----------------------------------------------------+------------+
 | Rule      | Severity         | Description                                         | Violations |
 +-----------+------------------+-----------------------------------------------------+------------+
-| RTSTAT-11 | Critical Warning | Invalid Site Programming                            | 17         |
+| RTSTAT-11 | Critical Warning | Invalid Site Programming                            | 18         |
 | CFGBVS-1  | Warning          | Missing CFGBVS and CONFIG_VOLTAGE Design Properties | 1          |
 | PDCN-1569 | Warning          | LUT equation term check                             | 163        |
 +-----------+------------------+-----------------------------------------------------+------------+
@@ -62,60 +62,65 @@ Related violations: <none>
 
 RTSTAT-11#6 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[2]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y31.
+Invalid site programming for net tick_counter/columns_out_OBUF[1]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y23.
 Related violations: <none>
 
 RTSTAT-11#7 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[3]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y18.
+Invalid site programming for net tick_counter/columns_out_OBUF[2]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y31.
 Related violations: <none>
 
 RTSTAT-11#8 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[4]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y128.
+Invalid site programming for net tick_counter/columns_out_OBUF[3]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y18.
 Related violations: <none>
 
 RTSTAT-11#9 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[5]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y94.
+Invalid site programming for net tick_counter/columns_out_OBUF[4]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y128.
 Related violations: <none>
 
 RTSTAT-11#10 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[6]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y137.
+Invalid site programming for net tick_counter/columns_out_OBUF[5]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y94.
 Related violations: <none>
 
 RTSTAT-11#11 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/columns_out_OBUF[7]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y127.
+Invalid site programming for net tick_counter/columns_out_OBUF[6]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y137.
 Related violations: <none>
 
 RTSTAT-11#12 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/rows_out_OBUF[0]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y24.
+Invalid site programming for net tick_counter/columns_out_OBUF[7]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y127.
 Related violations: <none>
 
 RTSTAT-11#13 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/rows_out_OBUF[1]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y22.
+Invalid site programming for net tick_counter/rows_out_OBUF[0]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y24.
 Related violations: <none>
 
 RTSTAT-11#14 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/rows_out_OBUF[2]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y21.
+Invalid site programming for net tick_counter/rows_out_OBUF[1]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y22.
 Related violations: <none>
 
 RTSTAT-11#15 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/rows_out_OBUF[3]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y85.
+Invalid site programming for net tick_counter/rows_out_OBUF[2]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y21.
 Related violations: <none>
 
 RTSTAT-11#16 Critical Warning
 Invalid Site Programming  
-Invalid site programming for net tick_counter/rows_out_OBUF[4]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y126.
+Invalid site programming for net tick_counter/rows_out_OBUF[3]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y85.
 Related violations: <none>
 
 RTSTAT-11#17 Critical Warning
+Invalid Site Programming  
+Invalid site programming for net tick_counter/rows_out_OBUF[4]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X0Y126.
+Related violations: <none>
+
+RTSTAT-11#18 Critical Warning
 Invalid Site Programming  
 Invalid site programming for net tick_counter/rows_out_OBUF[5]. Please generate/review DRC report results for PDIL message(s) and/or run report_route_status for more information. The following site(s) are invalid: OLOGIC_X1Y84.
 Related violations: <none>
