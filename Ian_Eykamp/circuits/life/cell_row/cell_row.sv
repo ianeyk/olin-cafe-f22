@@ -30,6 +30,6 @@ cell8 cell3(.current_state(this_row[3]), .neighbors(cell3neighbors), .next_state
 cell8 cell4(.current_state(this_row[4]), .neighbors(cell4neighbors), .next_state(next_state[4]));
 cell8 cell5(.current_state(this_row[5]), .neighbors(cell5neighbors), .next_state(next_state[5]));
 cell8 cell6(.current_state(this_row[6]), .neighbors(cell6neighbors), .next_state(next_state[6]));
-cell8 cell7(.current_state(this_row[7]), .neighbors(cell7neighbors), .next_state(next_state[7]));
+cell8 cell7 (.current_state(this_row[7]), .neighbors(cell7neighbors), .next_state(next_state[7]));
 
 endmodule

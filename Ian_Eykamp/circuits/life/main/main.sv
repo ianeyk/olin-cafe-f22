@@ -12,7 +12,7 @@ input [1:0] buttons;
 output logic [7:0] rows_out, columns_out;
 
 logic rst;
-always_comb rst = buttons[0];
+always_comb rst = buttons[0] | buttons[1];
 
 // led driver logic
 //
@@ -43,21 +43,21 @@ bit [63:0] next_cells; // logic [63:0] next_cells;
 cell_array cells(.cells_in(prev_cells), .cells_out(next_cells));
 
 logic [7:0] row0;
-always_comb row0 = {8{&(tick ~^ 3'd0)}} & next_cells[7:0]; // and of bitwise xnors
+always_comb row0 = {8{&(tick ~^ 3'd7)}} & next_cells[7:0]; // and of bitwise xnors
 logic [7:0] row1;
-always_comb row1 = {8{&(tick ~^ 3'd1)}} & next_cells[15:8];
+always_comb row1 = {8{&(tick ~^ 3'd0)}} & next_cells[15:8];
 logic [7:0] row2;
-always_comb row2 = {8{&(tick ~^ 3'd2)}} & next_cells[23:16];
+always_comb row2 = {8{&(tick ~^ 3'd1)}} & next_cells[23:16];
 logic [7:0] row3;
-always_comb row3 = {8{&(tick ~^ 3'd3)}} & next_cells[31:24];
+always_comb row3 = {8{&(tick ~^ 3'd2)}} & next_cells[31:24];
 logic [7:0] row4;
-always_comb row4 = {8{&(tick ~^ 3'd4)}} & next_cells[39:32];
+always_comb row4 = {8{&(tick ~^ 3'd3)}} & next_cells[39:32];
 logic [7:0] row5;
-always_comb row5 = {8{&(tick ~^ 3'd5)}} & next_cells[47:40];
+always_comb row5 = {8{&(tick ~^ 3'd4)}} & next_cells[47:40];
 logic [7:0] row6;
-always_comb row6 = {8{&(tick ~^ 3'd6)}} & next_cells[55:48];
+always_comb row6 = {8{&(tick ~^ 3'd5)}} & next_cells[55:48];
 logic [7:0] row7;
-always_comb row7 = {8{&(tick ~^ 3'd7)}} & next_cells[63:56];
+always_comb row7 = {8{&(tick ~^ 3'd6)}} & next_cells[63:56];
 
 bit [63:0] prev_cells_will_be;
 always_comb prev_cells_will_be = (~rst64 & next_cells) | (rst64 & initial_state);
@@ -72,10 +72,10 @@ always_ff @(posedge(clk)) begin
     leds_out = row0 | row1 | row2 | row3 | row4 | row5 | row6 | row7;
 end
 
-always @(posedge(every_second) or rst) begin  //    WORKS IN SIMULATION
+// always @(posedge(every_second) or rst) begin  //    WORKS IN SIMULATION
 // ug902 // posedge(reset)
 // always_ff
-// always_ff @(posedge(every_second)) begin    //    WORKS IN COMPILER
+always_ff @(posedge(every_second)) begin    //    WORKS IN COMPILER
 // always_ff @(posedge(every_second) or posedge(rst)) begin    //    THIRD OPTION (doesn't work in compiler)
 
     // $display("EVERY SECOND");

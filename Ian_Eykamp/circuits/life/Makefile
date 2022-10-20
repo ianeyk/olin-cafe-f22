@@ -40,6 +40,9 @@ test_adder3: adder/test_adder3.sv adder/adder3.sv
 test_adder4: adder/test_adder4.sv adder/adder4.sv
 	${IVERILOG} $^ -o adder/test_adder4.bin && ${VVP} adder/test_adder4.bin ${VVP_POST}
 
+test_adder32: adder/test_adder32.sv adder/adder32.sv
+	${IVERILOG} $^ -o adder/test_adder32.bin && ${VVP} adder/test_adder32.bin ${VVP_POST}
+
 test_adder_n: adder/test_adder_n.sv adder/adder_n.sv
 	${IVERILOG} $^ -o adder/test_adder_n.bin && ${VVP} adder/test_adder_n.bin ${VVP_POST}
 

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2022.1 (lin64) Build 3526262 Mon Apr 18 15:47:01 MDT 2022
-| Date         : Wed Oct 19 17:37:09 2022
+| Date         : Wed Oct 19 19:31:36 2022
 | Host         : ieykamp-Latitude-5411 running 64-bit Ubuntu 22.04.1 LTS
 | Command      : report_timing -sort_by group -max_paths 100 -path_type summary -file timing.log
 | Design       : main
@@ -13,106 +13,130 @@ Timing Report
 
 Startpoint                     Endpoint                       Slack(ns)     
 ----------------------------------------------------------------------------
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[0]_inv/D          78.105        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[5]_inv/D          78.173        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[3]_inv/D          78.367        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[2]_inv/D          78.432        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[4]_inv/D          78.439        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[7]_inv/D          78.569        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[1]_inv/D          78.603        
-tick_counter/current_tick_reg[2]/C
-                               leds_out_reg[6]_inv/D          78.688        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[19]/D
-                                                              79.023        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[16]/D
-                                                              79.054        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[20]/D
-                                                              79.087        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[21]/D
-                                                              79.101        
-pulse_per_second/current_tick_reg[1]/C
-                               pulse_per_second/current_tick_reg[22]/D
-                                                              79.111        
-pulse_per_second/current_tick_reg[1]/C
-                               pulse_per_second/current_tick_reg[23]/D
-                                                              79.160        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[4]/D
-                                                              79.256        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[0]/D
-                                                              79.258        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[1]/D
-                                                              79.310        
-pulse_per_second/current_tick_reg[1]/C
-                               pulse_per_second/current_tick_reg[17]/D
-                                                              79.317        
-pulse_per_second/current_tick_reg[21]/C
+pulse_per_second/current_tick_reg[3]/C
                                pulse_per_second/current_tick_reg[2]/D
-                                                              79.344        
-pulse_per_second/current_tick_reg[1]/C
-                               pulse_per_second/current_tick_reg[18]/D
-                                                              79.366        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[9]/D
-                                                              79.378        
-pulse_per_second/current_tick_reg[21]/C
+                                                              77.391        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[4]/D
+                                                              77.400        
+pulse_per_second/current_tick_reg[3]/C
                                pulse_per_second/current_tick_reg[3]/D
-                                                              79.393        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[7]/D
-                                                              79.443        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[15]/D
-                                                              79.444        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[11]/D
-                                                              79.445        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[10]/D
-                                                              79.458        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[8]/D
-                                                              79.492        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[12]/D
-                                                              79.493        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[14]/D
-                                                              79.497        
-pulse_per_second/current_tick_reg[2]/C
-                               pulse_per_second/current_tick_reg[13]/D
-                                                              79.513        
-pulse_per_second/current_tick_reg[2]/C
+                                                              77.409        
+pulse_per_second/current_tick_reg[3]/C
                                pulse_per_second/current_tick_reg[5]/D
-                                                              79.551        
-pulse_per_second/current_tick_reg[2]/C
+                                                              77.590        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[0]/D
+                                                              77.975        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[18]/D
+                                                              78.012        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[19]/D
+                                                              78.027        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[1]/D
+                                                              78.027        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[9]/D
+                                                              78.036        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[7]/D
+                                                              78.106        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[26]/D
+                                                              78.114        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[27]/D
+                                                              78.121        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[8]/D
+                                                              78.158        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[10]/D
+                                                              78.195        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[24]/D
+                                                              78.204        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[11]/D
+                                                              78.281        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[31]/D
+                                                              78.291        
+pulse_per_second/current_tick_reg[3]/C
                                pulse_per_second/current_tick_reg[6]/D
-                                                              79.556        
-pulse_per_second/current_tick_reg[21]/C
+                                                              78.333        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[30]/D
+                                                              78.365        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[25]/D
+                                                              78.393        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[28]/D
+                                                              78.407        
+pulse_per_second/current_tick_reg[1]/C
+                               pulse_per_second/current_tick_reg[20]/D
+                                                              78.428        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[21]/D
+                                                              78.437        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[14]/D
+                                                              78.438        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[16]/D
+                                                              78.438        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[29]/D
+                                                              78.438        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[12]/D
+                                                              78.440        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[15]/D
+                                                              78.440        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[22]/D
+                                                              78.457        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[17]/D
+                                                              78.487        
+pulse_per_second/current_tick_reg[3]/C
+                               pulse_per_second/current_tick_reg[13]/D
+                                                              78.492        
+pulse_per_second/current_tick_reg[0]/C
+                               pulse_per_second/current_tick_reg[23]/D
+                                                              78.494        
+pulse_per_second/current_tick_reg[3]/C
                                pulse_per_second/output_pulse_reg/D
-                                                              80.121        
+                                                              78.497        
 tick_counter/current_tick_reg[0]/C
-                               tick_counter/current_tick_reg[2]/D
-                                                              81.132        
+                               leds_out_reg[1]_inv/D          78.524        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[5]_inv/D          78.795        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[2]_inv/D          78.983        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[7]_inv/D          79.020        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[4]_inv/D          79.224        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[0]_inv/D          79.362        
+tick_counter/current_tick_reg[2]/C
+                               leds_out_reg[3]_inv/D          79.435        
+tick_counter/current_tick_reg[0]/C
+                               leds_out_reg[6]_inv/D          79.563        
 tick_counter/current_tick_reg[0]/C
                                tick_counter/current_tick_reg[1]/D
-                                                              81.377        
+                                                              79.874        
+tick_counter/current_tick_reg[0]/C
+                               tick_counter/current_tick_reg[2]/D
+                                                              80.177        
 tick_counter/current_tick_reg[0]/C
                                tick_counter/current_tick_reg[0]/D
-                                                              82.258        
+                                                              82.196        
 
 
 

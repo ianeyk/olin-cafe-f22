@@ -2,12 +2,12 @@
 # Vivado v2022.1 (64-bit)
 # SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
 # IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
-# Start of session at: Wed Oct 19 17:34:26 2022
-# Process ID: 95530
+# Start of session at: Wed Oct 19 19:28:15 2022
+# Process ID: 175011
 # Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life
 # Command line: vivado -mode batch -source ./build.tcl
 # Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.log
 # Journal file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/Ian_Eykamp/circuits/life/vivado.jou
-# Running On: ieykamp-Latitude-5411, OS: Linux, CPU Frequency: 2700.000 MHz, CPU Physical cores: 6, Host memory: 16437 MB
+# Running On: ieykamp-Latitude-5411, OS: Linux, CPU Frequency: 3078.550 MHz, CPU Physical cores: 6, Host memory: 16437 MB
 #-----------------------------------------------------------
 source ./build.tcl
