@@ -73,10 +73,10 @@ always_ff @(posedge(clk)) begin
 end
 
 // always @(posedge(every_second) or rst) begin  //    WORKS IN SIMULATION
-// ug902 // posedge(reset)
-// always_ff
 always_ff @(posedge(every_second)) begin    //    WORKS IN COMPILER
 // always_ff @(posedge(every_second) or posedge(rst)) begin    //    THIRD OPTION (doesn't work in compiler)
+// ug902 // posedge(reset)
+// always_ff
 
     // $display("EVERY SECOND");
     // $display("prev_cells_will_be: %b", prev_cells_will_be);
