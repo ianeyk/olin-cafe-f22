@@ -27,6 +27,9 @@ test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv
 clean:
 	rm -f *.bin *.fst vivado*.log *.jou vivado*.str *.log *.checkpoint *.bit *.html *.xml
 
+homework_pdf: README.md
+	pandoc $^ -o Homework5.pdf
+
 # Call this to generate your submission zip file.
 submission: clean
 	zip submission.zip Makefile hdl/*.sv tests/*.sv *.md *.pdf wave_cfgs/*.gtkw
