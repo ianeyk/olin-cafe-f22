@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Oct 25 13:30:58 2022
+[*]
+[dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/hws/5/triangle_generator.fst"
+[dumpfile_mtime] "Tue Oct 25 13:26:32 2022"
+[dumpfile_size] 1954
+[savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/hws/5/wave_cfgs/triangle_generator.gtkw"
+[timestart] 0
+[size] 1846 1016
+[pos] -1 -1
+*-19.597588 1804000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] test_triangle_generator.
+[sst_width] 233
+[signals_width] 268
+[sst_expanded] 1
+[sst_vpaned_height] 289
+@28
+test_triangle_generator.UUT.add_or_subtract_bit
+@22
+test_triangle_generator.UUT.add_or_subtract_num[3:0]
+@28
+test_triangle_generator.UUT.clk
+@c10023
+test_triangle_generator.UUT.counter[3:0]
+@28
+(0)test_triangle_generator.UUT.counter[3:0]
+(1)test_triangle_generator.UUT.counter[3:0]
+(2)test_triangle_generator.UUT.counter[3:0]
+(3)test_triangle_generator.UUT.counter[3:0]
+@1411203
+-group_end
+@22
+test_triangle_generator.UUT.counter_will_be[3:0]
+@28
+test_triangle_generator.UUT.ena
+@22
+test_triangle_generator.UUT.next_counter[3:0]
+@28
+test_triangle_generator.UUT.next_state
+@22
+test_triangle_generator.UUT.out[3:0]
+@28
+test_triangle_generator.UUT.rst
+test_triangle_generator.UUT.state
+test_triangle_generator.UUT.ticks_reached
+test_triangle_generator.UUT.trash_can
+[pattern_trace] 1
+[pattern_trace] 0

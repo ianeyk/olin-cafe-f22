@@ -10,6 +10,9 @@ ADDER_SOURCES=hdl/adder_1.sv hdl/adder_n.sv
 test_comparators: tests/test_comparators.sv hdl/comparator_eq.sv hdl/comparator_lt.sv ${ADDER_SOURCES}
 	${IVERILOG} $^ -o test_slt.bin && ${VVP} test_slt.bin ${VVP_POST}
 
+test_mux2: tests/test_mux2.sv hdl/mux2.sv
+	${IVERILOG} $^ -o test_mux2.bin && ${VVP} test_mux2.bin ${VVP_POST}
+
 waves_comparator: test_comparators
 	gtkwave comparators.fst --save=wave_cfgs/comparators.gtkw
 
@@ -25,7 +28,7 @@ waves_pwm: tests/test_pwm.sv
 test_pulse_generator: tests/test_pulse_generator.sv hdl/pulse_generator.sv hdl/comparator_lt.sv hdl/comparator_eq.sv ${ADDER_SOURCES}
 	${IVERILOG} $^ -o test_pulse_generator.bin && ${VVP} test_pulse_generator.bin ${VVP_POST}
 
-test_triangle_generator: tests/test_triangle_generator.sv hdl/triangle_generator.sv
+test_triangle_generator: tests/test_triangle_generator.sv hdl/triangle_generator.sv hdl/mux2.sv hdl/adder_n.sv hdl/adder_1.sv hdl/comparator_eq.sv
 	${IVERILOG} $^ -o test_triangle_generator.bin && ${VVP} test_triangle_generator.bin ${VVP_POST}
 
 test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv
