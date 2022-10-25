@@ -7,11 +7,12 @@ parameter N = 32;
 int errors = 0;
 
 logic signed [N-1:0] a, b; // Adding the 'signed' keyword here makes the behavioural logic compute a signed slt.
-wire equals, less_than;
+logic unsigned [N-1:0] a_u, b_u;
+wire equals, less_than, less_than_unsigned;
 
 comparator_eq #(.N(N)) UUT_EQ(.a(a), .b(b), .out(equals));
 comparator_lt #(.N(N)) UUT_LT(.a(a), .b(b), .out(less_than));
-
+comparator_lt_unsigned #(.N(N)) UUT_LTU(.a(a), .b(b), .out(less_than_unsigned));
 
 /*
 It's impossible to exhaustively test all inputs as N gets larger, there are just
@@ -28,17 +29,21 @@ that we'll explore in further testbenches.
 
 
 // Some behavioural comb. logic that computes correct values.
-logic correct_equals, correct_less_than;
+logic correct_equals, correct_less_than, correct_less_than_unsigned;
+
+always_comb a_u = a;
+always_comb b_u = b;
 
 always_comb begin : behavioural_solution_logic
   correct_less_than = a < b;
   correct_equals = a == b;
+  correct_less_than_unsigned = a_u < b_u;
 end
 
 // You can make "tasks" in testbenches. Think of them like methods of a class, 
 // they have access to the member variables.
 task print_io;
-  $display("%8h %8h | == %b (%b) | <  %b (%b)", a, b, equals, correct_equals, less_than, correct_less_than);
+  $display("%8h %8h | == %b (%b) | <  %b (%b) | u<  %b (%b)", a, b, equals, correct_equals, less_than, correct_less_than, less_than_unsigned, correct_less_than_unsigned);
 endtask
 
 

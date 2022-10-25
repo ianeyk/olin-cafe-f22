@@ -45,6 +45,8 @@ always_comb counter_will_be = next_counter | {N{rst}};
 
 always_comb next_state = (state ^ ticks_reached) & ~rst; // toggles state when ticks_reached goes temporarily high
 
+always_comb out = counter & {N{ena}};
+
 always_ff @(posedge(clk)) begin
   $display("counter: %b, ticks_reached: %b, next_state = %b", counter, ticks_reached, next_state);
   counter <= counter_will_be;
