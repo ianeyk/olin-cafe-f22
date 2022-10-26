@@ -61,14 +61,33 @@ initial begin
   a = -1;
   b = 1;
   #1 print_io();
-
+  
   a = 38273;
   b = 38273;
   #1 print_io();
 
   // Add more interesting tests here!
-
+  a = 0;
+  b = 1;
+  #1 print_io();
   
+  a = 1;
+  b = 0;
+  #1 print_io();
+
+  a = -2;
+  b = -1;
+  #1 print_io();
+
+  a = 2**(N-1) - 1;
+  b = 2**(N-1) - 2;
+  #1 print_io();
+
+  a = 2**(N-1) - 1;
+  b = 2**(N-2) - 1;
+  #1 print_io();
+
+
   $display("Random testing.");
   for (int i = 0; i < 10; i = i + 1) begin : random_testing
     a = $random();
