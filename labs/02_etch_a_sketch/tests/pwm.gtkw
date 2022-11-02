@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Nov  2 00:36:23 2022
+[*]
+[dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/pwm.fst"
+[dumpfile_mtime] "Wed Nov  2 00:35:49 2022"
+[dumpfile_size] 18420
+[savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/tests/pwm.gtkw"
+[timestart] 0
+[size] 1846 1016
+[pos] -39 -39
+*-30.492872 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] test_pwm.
+[sst_width] 233
+[signals_width] 225
+[sst_expanded] 1
+[sst_vpaned_height] 289
+@28
+test_pwm.PWM.clk
+@22
+test_pwm.PWM.counter[3:0]
+@28
+test_pwm.PWM.counter_comparator
+test_pwm.PWM.dead_end[1:0]
+@22
+test_pwm.PWM.duty[3:0]
+@28
+test_pwm.PWM.ena
+@22
+test_pwm.PWM.next_counter[3:0]
+@28
+test_pwm.PWM.out
+test_pwm.PWM.rst
+test_pwm.PWM.step
+@22
+test_pwm.PWM.ticks[3:0]
+test_pwm.PWM.ticks_minus_one[3:0]
+[pattern_trace] 1
+[pattern_trace] 0

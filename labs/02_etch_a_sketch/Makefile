@@ -19,9 +19,11 @@ test_pulse_generator: tests/test_pulse_generator.sv hdl/pulse_generator.sv hdl/a
 waves_pulse_generator: test_pulse_generator
 	gtkwave pulse_generator.fst -a tests/pulse_generator.gtkw
 
-test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv
+test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv hdl/adder_n.sv hdl/adder_1.sv hdl/comparator_eq.sv hdl/comparator_lt_unsigned.sv
 	@echo "This might take a while, we're testing a lot of clock cycles!"
 	${IVERILOG} $^ -o test_pwm.bin && ${VVP} test_pwm.bin ${VVP_POST}
+waves_pwm: test_pwm
+	gtkwave pwm.fst -a tests/pwm.gtkw
 
 test_triangle_generator: tests/test_triangle_generator.sv hdl/triangle_generator.sv
 	${IVERILOG} $^ -o test_triangle_generator.bin && ${VVP} test_triangle_generator.bin ${VVP_POST}

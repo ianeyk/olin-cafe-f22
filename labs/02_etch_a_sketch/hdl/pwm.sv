@@ -13,6 +13,13 @@ input wire [N-1:0] duty; // The "duty cycle" input.
 output logic out;
 
 logic [N-1:0] counter;
+logic [N-1:0] next_counter;
+logic counter_comparator;
+
+logic [N-1:0] ticks; // const
+logic [N-1:0] ticks_minus_one;
+always_comb ticks = {N{1'b1}};
+adder_n #(.N(N)) ticks_reset_value(.a(ticks), .b({N{1'b1}}), .c_in(1'b0), .sum(ticks_minus_one), .c_out(dead_end[1]));
 
 // Create combinational (always_comb) and sequential (always_ff @(posedge clk)) 
 // logic that drives the out signal.
@@ -23,24 +30,18 @@ logic [N-1:0] counter;
 // You can use behavioural combinational logic, but try to keep your sequential
 //   and combinational blocks as separate as possible.
 
-logic [N-1:0] counter;
-logic [N-1:0] next_counter;
-
-logic counter_comparator;
-always_comb out = counter_comparator;
 
 logic [1:0] dead_end;
 adder_n #(.N(N)) decrementer(.a(counter), .b({N{1'b1}}), .c_in(1'b0), .sum(next_counter), .c_out(dead_end[0]));
-// comparator_eq ticks_reached(.a(counter), .b({N{1'b0}}), .out(counter_comparator));
 always_comb counter_comparator = ~(|counter); // == 0;
 
-adder_n #(.N(N)) ticks_reset_value(.a(ticks), .b({N{1'b1}}), .c_in(1'b0), .sum(ticks_minus_one), .c_out(dead_end[1]));
+comparator_lt_unsigned #(.N(N)) duty_on(.a(counter), .b(duty), .out(out));
 
 always_ff @(posedge(clk)) begin
   if (rst) begin
     counter <= ticks;
   end else begin
-    if (ena) begin
+    if (ena & step) begin
       if (counter_comparator) begin
         counter <= ticks_minus_one;
       end else begin
