@@ -1,32 +1,37 @@
 [*]
-[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Oct 26 15:29:30 2022
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Nov  2 01:19:10 2022
 [*]
-[dumpfile] "/home/avinash/src/cafe-instructors/labs/02_etch_a_sketch/triangle_generator.fst"
-[dumpfile_mtime] "Wed Oct 26 15:27:55 2022"
-[dumpfile_size] 733
-[savefile] "/home/avinash/src/cafe-instructors/labs/02_etch_a_sketch/tests/triangle_generator.gtkw"
-[timestart] 0
-[size] 2560 1440
-[pos] -6 -41
-*-20.269419 3210000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/triangle_generator.fst"
+[dumpfile_mtime] "Wed Nov  2 01:18:28 2022"
+[dumpfile_size] 1642
+[savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/tests/triangle_generator.gtkw"
+[timestart] 738000
+[size] 1846 1016
+[pos] -1 -1
+*-16.734205 988100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_triangle_generator.
 [sst_width] 329
 [signals_width] 222
 [sst_expanded] 1
 [sst_vpaned_height] 451
 @28
-test_triangle_generator.UUT.rst
 test_triangle_generator.UUT.clk
-test_triangle_generator.UUT.ena
-test_triangle_generator.UUT.state
-@200
--See Data Format > Analog
 @8022
+test_triangle_generator.UUT.counter[3:0]
+test_triangle_generator.UUT.up_counter[3:0]
+@8023
 test_triangle_generator.UUT.out[3:0]
-@20000
--
--
--
+@28
+test_triangle_generator.UUT.counter_comparator
+test_triangle_generator.UUT.ena
+@22
+test_triangle_generator.UUT.next_counter[3:0]
+@28
+test_triangle_generator.UUT.rst
+test_triangle_generator.UUT.state
+@22
+test_triangle_generator.UUT.ticks[3:0]
+test_triangle_generator.UUT.ticks_minus_one[3:0]
 [pattern_trace] 1
 [pattern_trace] 0
