@@ -1,0 +1,34 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Nov  1 23:31:39 2022
+[*]
+[dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/pulse_generator.fst"
+[dumpfile_mtime] "Tue Nov  1 23:30:45 2022"
+[dumpfile_size] 986
+[savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/tests/pulse_generator.gtkw"
+[timestart] 0
+[size] 1846 1016
+[pos] -39 -39
+*-24.023836 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] test_pulse_generator.
+[sst_width] 233
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 289
+@28
+test_pulse_generator.UUT.clk
+@22
+test_pulse_generator.UUT.counter[6:0]
+@28
+test_pulse_generator.UUT.counter_comparator
+test_pulse_generator.UUT.dead_end
+test_pulse_generator.UUT.ena
+@22
+test_pulse_generator.UUT.next_counter[6:0]
+@28
+test_pulse_generator.UUT.out
+test_pulse_generator.UUT.rst
+@22
+test_pulse_generator.UUT.ticks[6:0]
+[pattern_trace] 1
+[pattern_trace] 0

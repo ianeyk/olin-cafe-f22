@@ -27,7 +27,7 @@ initial begin
   ena = 1;
   clk = 0;
   ticks = CLK_TICKS;
-  $display("Output a pulse ever %d (%d) ticks...", ticks, CLK_TICKS);
+  $display("Output a pulse every %d ticks...", ticks);
   
   repeat (2) @(negedge clk);
   rst = 0;

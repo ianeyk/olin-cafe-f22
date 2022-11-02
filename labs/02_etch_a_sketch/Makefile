@@ -14,8 +14,10 @@ MAIN_MEMORIES=memories/ili9341_init.memh
 # Look up .PHONY rules for Makefiles
 .PHONY: clean submission remove_solutions
 
-test_pulse_generator: tests/test_pulse_generator.sv hdl/pulse_generator.sv
+test_pulse_generator: tests/test_pulse_generator.sv hdl/pulse_generator.sv hdl/adder_n.sv hdl/adder_1.sv hdl/comparator_eq.sv
 	${IVERILOG} $^ -o test_pulse_generator.bin && ${VVP} test_pulse_generator.bin ${VVP_POST}
+waves_pulse_generator: test_pulse_generator
+	gtkwave pulse_generator.fst -a tests/pulse_generator.gtkw
 
 test_pwm: tests/test_pwm.sv hdl/pulse_generator.sv hdl/pwm.sv
 	@echo "This might take a while, we're testing a lot of clock cycles!"
