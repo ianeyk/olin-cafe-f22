@@ -46,3 +46,25 @@ memories/ili9341_init.memh: generate_memories.py
 memories/fibonacci.memh: generate_memories.py
 	./generate_memories.py --memory fibonacci --out memories/fibonacci.memh
 
+test_main: tests/test_main.sv
+	@echo "This might take a while, we're testing a lot of clock cycles!"
+	${IVERILOG} $^ -o test_main.bin && ${VVP} test_main.bin ${VVP_POST}
+
+main.bit: $(MAIN_SRCS)
+	@echo "########################################"
+	@echo "#### Building FPGA bitstream        ####"
+	@echo "########################################"
+	${VIVADO} build.tcl
+
+program_fpga_vivado: main.bit
+	@echo "########################################"
+	@echo "#### Programming FPGA (Vivado)      ####"
+	@echo "########################################"
+	${VIVADO} program.tcl
+
+program_fpga_digilent: main.bit
+	@echo "########################################"
+	@echo "#### Programming FPGA (Digilent)    ####"
+	@echo "########################################"
+	djtgcfg enum
+	djtgcfg prog -d CmodA7 -i 0 -f main.bit

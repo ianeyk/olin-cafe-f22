@@ -1,0 +1,32 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Tue Nov  1 21:32:01 2022
+# Process ID: 13978
+# Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch
+# Command line: vivado -mode batch -source build.tcl
+# Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/vivado.log
+# Journal file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/vivado.jou
+# Running On: ieykamp-Latitude-5411, OS: Linux, CPU Frequency: 2700.000 MHz, CPU Physical cores: 6, Host memory: 16437 MB
+#-----------------------------------------------------------
+source build.tcl
+# read_verilog [ glob ./hdl/*.sv ]
+# read_xdc ./main.xdc
+# synth_design -top main -part xc7a35tcpg236-1
+Command: synth_design -top main -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 14005
+ERROR: [Synth 8-9123] an enum variable may only be assigned the same enum typed variable or one of its values [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/triangle_generator.sv:50]
+INFO: [Synth 8-8750] module 'triangle_generator' ignored due to previous errors [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/triangle_generator.sv:61]
+Failed to read verilog '/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/triangle_generator.sv'
+INFO: [Common 17-83] Releasing license: Synthesis
+7 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Tue Nov  1 21:32:19 2022...

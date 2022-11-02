@@ -1,3 +1,7 @@
+`ifndef INCLUDE_TRIANGLE_GENERATOR
+`define INCLUDE_TRIANGLE_GENERATOR
+`include "./hdl/adder_n.sv"
+
 // Generates "triangle" waves (counts from 0 to 2^N-1, then back down again)
 // The triangle should increment/decrement only if the ena signal is high, and hold its value otherwise.
 module triangle_generator(clk, rst, ena, out);
@@ -47,7 +51,12 @@ always_ff @(posedge(clk)) begin
     if (ena) begin
       if (counter_comparator) begin
         counter <= ticks_minus_one;
-        state <= ~state;
+        
+        case(state) // state <= ~state;
+            COUNTING_DOWN: state <= COUNTING_UP;
+            COUNTING_UP: state <= COUNTING_DOWN;
+        endcase
+        
       end else begin
         counter <= next_counter;
         state <= state;
@@ -59,3 +68,5 @@ always_ff @(posedge(clk)) begin
 end
 
 endmodule
+
+`endif

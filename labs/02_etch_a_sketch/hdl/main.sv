@@ -73,6 +73,11 @@ MMCME2_BASE_inst (
 touch_t touch0, touch1;
 
 `define LAB_PART_1 // Uncomment once you start working on the next parts.
+`ifdef LAB_PART_1
+`include "./hdl/pulse_generator.sv"
+`include "./hdl/triangle_generator.sv"
+`include "./hdl/pwm.sv"
+`endif
 
 /* ------------------------------------------------------------------------- */
 /* -- Part 1 - Intro to Sequential Logic on FPGAs                         -- */

@@ -1,3 +1,8 @@
+`ifndef INCLUDE_PWM
+`define INCLUDE_PWM
+`include "./hdl/adder_n.sv"
+`include "./hdl/comparator_lt_unsigned.sv"
+
 /*
   A pulse width modulation module 
 */
@@ -54,3 +59,5 @@ always_ff @(posedge(clk)) begin
 end
 
 endmodule
+
+`endif

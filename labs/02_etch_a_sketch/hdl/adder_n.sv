@@ -1,5 +1,6 @@
 `ifndef INCLUDE_ADDER_N
 `define INCLUDE_ADDER_N
+`include "./hdl/adder_1.sv"
 
 module adder_n(a, b, c_in, sum, c_out);
 
