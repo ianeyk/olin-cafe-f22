@@ -3,6 +3,9 @@
 `timescale 1ns / 100ps
 `default_nettype none
 
+`define N_BITS_TO_TRANSMIT 16
+`define N_BITS_TO_RECEIVE 24
+
 module spi_controller(
   clk, rst, sclk, csb, mosi, miso,
   spi_mode, i_ready, i_valid, i_data, o_ready, o_valid, o_data,
@@ -13,7 +16,7 @@ input wire clk, rst; // default signals.
 
 // SPI Signals
 output logic sclk; // Serial clock to secondary device.
-output logic csb; // chip select bar, needs to go low at the start of any SPI transaction, then go high whne done.
+output logic csb; // chip select bar, needs to go low at the start of any SPI transaction, then go high when done.
 output logic mosi; // Main Out Secondary In (sends serial data to secondary device)
 input wire miso; // Main In Secondary Out (receives serial data from secondary device)
 
@@ -21,12 +24,12 @@ input wire miso; // Main In Secondary Out (receives serial data from secondary d
 input spi_transaction_t spi_mode;
 output logic i_ready;
 input wire i_valid;
-input wire [15:0] i_data;
+input wire [N_BITS_TO_TRANSMIT-1:0] i_data;
 
 input wire o_ready; // Unused for now.
 output logic o_valid;
-output logic [23:0] o_data;
-output logic unsigned [4:0] bit_counter; // The number of the current bit being transmit.
+output logic [N_BITS_TO_RECEIVE-1:0] o_data;
+output logic unsigned [4:0] bit_counter; // The number of the current bit being transmitted.
 
 // TX : transmitting
 // RX: receiving

@@ -46,7 +46,7 @@ memories/ili9341_init.memh: generate_memories.py
 memories/fibonacci.memh: generate_memories.py
 	./generate_memories.py --memory fibonacci --out memories/fibonacci.memh
 
-test_main: tests/test_main.sv
+test_main: tests/test_main.sv hdl/main.sv
 	@echo "This might take a while, we're testing a lot of clock cycles!"
 	${IVERILOG} $^ -o test_main.bin && ${VVP} test_main.bin ${VVP_POST}
 
