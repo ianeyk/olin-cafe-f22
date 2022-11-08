@@ -12,6 +12,12 @@ always_comb bitwise_xnor = ~bitwise_xor; // 1 0 0 1
 always_comb out = &(bitwise_xnor);
 
 // Copy any other modules you use into the HDL folder and update the Makefile accordingly.
+always_comb begin
+  // behavioural: high level
+  out = (a == b);
+
+  
+end
 
 endmodule
 
