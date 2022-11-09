@@ -1,13 +1,13 @@
 import math
 
-class ShifterTestGenerator:
+class RightShifterTestGenerator:
     def __init__(self, n: int = 4, mux_dir: str = "./Ian_Eykamp/circuits/mux_n/generated_muxes") -> None:
         self.n = n
         self.n_bits = math.ceil(math.log2(n)) # number of bits in the select bus rounded up to the nearest whole bit
         self.n_2 = 2 ** self.n_bits # rounds n up to the nearest multiple of two
         self.n_half = self.n_2 / 2 # number of bits in each sub-mux
-        self.test_module_name = f"shifter{n}"
-        self.module_names = [f"shifter_ll{n}", f"shifter_rl{n}", f"shifter_ra{n}"]
+        self.module_name = f"shifter_ll{n}"
+
         self.mux_dir = mux_dir
         
         sv = self.generate_sv()
@@ -16,7 +16,7 @@ class ShifterTestGenerator:
     
     def write_file(self, txt: str) -> None:
         assert(self.n > 2) # we cannot overwrite mux2, because this referred to in the base case in the above code!
-        f = open(f"{self.mux_dir}/test_{self.test_module_name}.sv", "w")
+        f = open(f"{self.mux_dir}/test_{self.module_name}.sv", "w")
         f.write(txt)
         f.close()
     
@@ -29,53 +29,41 @@ class ShifterTestGenerator:
 
         file_header = f"""`timescale 1ns/1ps
 `default_nettype none
-`include "./generated_shifters/{self.module_names[0]}.sv"
-`include "./generated_shifters/{self.module_names[1]}.sv"
-`include "./generated_shifters/{self.module_names[2]}.sv"
+//`include "./generated_shifters/{self.module_name}.sv"
 """
 
         module_header = f"""
-module test_{self.test_module_name};
+module test_{self.module_name};
 
     int errors = 0;
 
     logic [{n - 1}:0] a;
     logic [{n_bits - 1}:0] s;
-    wire [{n - 1}:0] y_ll;
-    wire [{n - 1}:0] y_rl;
-    wire [{n - 1}:0] y_ra;
+    wire [{n - 1}:0] y;
 
-    {self.module_names[0]} UUT_ll(.a(a), .s(s), .y(y_ll));
-    {self.module_names[1]} UUT_rl(.a(a), .s(s), .y(y_rl));
-    {self.module_names[2]} UUT_ra(.a(a), .s(s), .y(y_ra));
+    {self.module_name} UUT(.a(a), .s(s), .y(y));
 
 """
 
         module_body = f"""
     // Some behavioural comb. logic that computes correct values.
-    logic [{n - 1}:0] correct_out_ll;
-    logic [{n - 1}:0] correct_out_rl;
-    logic [{n - 1}:0] correct_out_ra;
+    logic [{n - 1}:0] correct_out;
 
     always_comb begin : behavioural_solution_logic
-        correct_out_ll = a << s;
-        correct_out_rl = a >> s;
-        correct_out_ra = a >>> s;
+        correct_out = a << s;
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
     // they have access to the member variables.
     task print_io;
-        $display("%b %b | %b (%b), %b (%b), %b (%b)", s, a, y_ll, correct_out_ll, y_rl, correct_out_rl, y_ra, correct_out_ra);
+        $display("%b %b | %b (%b)", s, a, y, correct_out);
     endtask
 
     time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("./{self.mux_dir}/{self.test_module_name}.fst");
-    $dumpvars(0, UUT_ll);
-    $dumpvars(0, UUT_rl);
-    $dumpvars(0, UUT_ra);
+    $dumpfile("./{self.mux_dir}/{self.module_name}.fst");
+    $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
 {self.make_test_loop()}
@@ -98,7 +86,7 @@ module test_{self.test_module_name};
     // Note: the triple === (corresponding !==) check 4-state (e.g. 0,1,x,z) values.
     //       It's best practice to use these for checkers!
     always @(a or s) begin
-        assert(y_ll === correct_out_ll & y_rl === correct_out_rl & y_ra === correct_out_ra) else begin
+        assert(y === correct_out) else begin
             // $display("  ERROR: mux out should be %b, is %b", out, correct_out);
             errors = errors + 1;
         end

@@ -1,10 +1,13 @@
+`ifndef INCLUDE_MUX_5
+`define INCLUDE_MUX_5
+
 `timescale 1ns/1ps
 `default_nettype none
 `include "./mux2.sv"
 
-module mux8(a, s, y);
+module mux5(a, s, y);
 
-    input [7:0] a;
+    input [4:0] a;
     input [2:0] s;
     output logic y; // single bit output of mux
     
@@ -34,3 +37,5 @@ module mux8(a, s, y);
     mux2 mux_layer3_0  (.a(y_layer3_0), .s(s[2]), .y(y));
     
 endmodule
+
+`endif

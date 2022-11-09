@@ -18,7 +18,10 @@ class MuxGenerator:
     def generate_sv(self) -> str:
         n = self.n  # local variable to simplify notation
 
-        file_header = """`timescale 1ns/1ps
+        file_header = f"""`ifndef INCLUDE_MUX_{n}
+`define INCLUDE_MUX_{n}
+
+`timescale 1ns/1ps
 `default_nettype none
 `include "./mux2.sv"
 """
@@ -43,7 +46,8 @@ module mux{n}(a, s, y);
         module_footer = """
     
 endmodule
-"""
+
+`endif"""
 
         return file_header + module_header + module_body + module_footer
 

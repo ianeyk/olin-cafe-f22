@@ -1,22 +1,22 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module test_mux8;
+module test_mux11;
 
     int errors = 0;
 
-    logic [7:0] a;
-    logic [2:0] s;
+    logic [10:0] a;
+    logic [3:0] s;
     wire y;
 
-    mux8 UUT(.a(a), .s(s), .y(y));
+    mux11 UUT(.a(a), .s(s), .y(y));
 
 
     // Some behavioural comb. logic that computes correct values.
     logic correct_out;
 
     always_comb begin : behavioural_solution_logic
-        if (s < 8) begin
+        if (s < 11) begin
             correct_out = a[s];
         end else begin
             correct_out = 2`b00;//1`bx;
@@ -32,15 +32,15 @@ module test_mux8;
     time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("././generated_muxes/mux8.fst");
+    $dumpfile("././generated_muxes/mux11.fst");
     $dumpvars(0, UUT);
     
     $display("Checking all inputs.");
-$display("s   a        | y (correct out)");
+$display("s    a                | y (correct out)");
     for (i = 0; i < 1024; i = i + 1) begin
-        a[7:0] = $random;
+        a[10:0] = $random;
 
-        s[2:0] = $random;
+        s[3:0] = $random;
 
         #1 print_io();
     end

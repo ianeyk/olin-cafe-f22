@@ -11,7 +11,7 @@ test_mux2: test_mux2.sv mux2.sv
 
 shifter: ./generated_shifters/test_shifter$(filter-out shifter,$(MAKECMDGOALS)).sv ./generated_shifters/shifter$(filter-out shifter,$(MAKECMDGOALS)).sv
 		python3 generate_mux.py $(filter-out $@,$(MAKECMDGOALS))
-		python3 generate_shifter.py $(filter-out $@,$(MAKECMDGOALS))
+		python3 generate_shifters.py $(filter-out $@,$(MAKECMDGOALS))
 		${IVERILOG} $^ -o ./generated_shifters/test_shifter$(filter-out $@,$(MAKECMDGOALS)).bin && ${VVP} ./generated_shifters/test_shifter$(filter-out $@,$(MAKECMDGOALS)).bin ${VVP_POST}
 
 %:      # thanks to chakrit
