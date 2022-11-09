@@ -8,20 +8,16 @@ module test_shifter8;
 
     logic [7:0] a;
     logic [2:0] s;
-    wire y;
+    wire [7:0] y;
 
     shifter8 UUT(.a(a), .s(s), .y(y));
 
 
     // Some behavioural comb. logic that computes correct values.
-    logic correct_out;
+    logic [7:0] correct_out;
 
     always_comb begin : behavioural_solution_logic
-        if (s < 8) begin
-            correct_out = a[s];
-        end else begin
-            correct_out = 2'b00;//1'bx;
-        end
+        correct_out = a << s;
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 

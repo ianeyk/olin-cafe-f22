@@ -39,7 +39,7 @@ module test_{self.module_name};
 
     logic [{n - 1}:0] a;
     logic [{n_bits - 1}:0] s;
-    wire y;
+    wire [{n - 1}:0] y;
 
     {self.module_name} UUT(.a(a), .s(s), .y(y));
 
@@ -47,14 +47,10 @@ module test_{self.module_name};
 
         module_body = f"""
     // Some behavioural comb. logic that computes correct values.
-    logic correct_out;
+    logic [{n - 1}:0] correct_out;
 
     always_comb begin : behavioural_solution_logic
-        if (s < {n}) begin
-            correct_out = a[s];
-        end else begin
-            correct_out = 2'b00;//1'bx;
-        end
+        correct_out = a << s;
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
