@@ -21,7 +21,7 @@ class LeftShifterGenerator:
 
         file_header = f"""`timescale 1ns/1ps
 `default_nettype none
-`include "./generated_muxes/mux{n}.sv"
+`include "./shifter/generated_muxes/mux{n}.sv"
 """
 
         n_bits = math.ceil(math.log2(n)) # number of bits in the select bus rounded up to the nearest whole bit

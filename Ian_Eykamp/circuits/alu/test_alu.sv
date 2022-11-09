@@ -32,6 +32,8 @@ int errors_by_op[0:10];
 logic [31:0] test_vector[0:N_TEST_VECTOR-1];
 logic loop ;
 initial begin
+  $display("Hello World!");
+
   $dumpfile("alu.fst");
   $dumpvars(0, ALU);
   $dumpvars(0, ALU_B);
@@ -56,7 +58,7 @@ initial begin
       #10;
     end
     #10;
-    if(control == control.last) loop = 0;;
+    if(control == control.last) loop = 0;
     control = control.next;
   end
   #10;
