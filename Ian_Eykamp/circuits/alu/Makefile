@@ -7,7 +7,7 @@ VVP_POST=-fst
 .PHONY: clean submission
 
 # VVV Add any additional files you need for the alu to the targets. VVV
-ALU_SRCS:=hdl/mux*.sv adder*.sv alu.sv hdl/shift*.sv
+ALU_SRCS:=hdl/mux*.sv adder*.sv alu.sv hdl/shift*.sv alu_types.sv
 ALU_TEST_FILES:=test_alu.sv alu_behavioural.sv
 test_alu: ${ALU_TEST_FILES} alu_testcases.memh
 	${IVERILOG} ${ALU_TEST_FILES} -o test_alu.bin && ${VVP} test_alu.bin ${VVP_POST}

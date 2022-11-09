@@ -23,7 +23,7 @@ wire correct_overflow; // Is high if the result of an ADD or SUB wraps around th
 wire correct_zero;  // Is high if the result is ever all zeros.
 wire correct_equal; // is high if a == b.
 
-alu #(N) ALU(.a(a), .b(b), .control(control), .result(result), .overflow(overflow), .zero(zero), .equal(equal));
+alu ALU(.a(a), .b(b), .op(control), .out(result), .overflow(overflow), .outputs_zero(zero), .inputs_equal(equal));
 alu_behavioural #(N) ALU_B(.a(a), .b(b), .control(control), .result(correct_result), .overflow(correct_overflow), .zero(correct_zero), .equal(correct_equal));
 
 int errors;
@@ -77,18 +77,18 @@ always @(a or b or control) begin
   #1;  //this delay makes sure that all values are stable from last change
   
   if(zero !== correct_zero) begin
-    $display("@%t: Error: ZERO  : a = %h, b = %h, result = %h, zero = %b, should be %b", $time, a, b, result, zero, correct_zero);
+    $display("@%t: Error: ZERO   : a = %h, b = %h, result = %h, zero = %b, should be %b", $time, a, b, result, zero, correct_zero);
     errors = errors + 1;
   end
 
   if(equal !== correct_equal) begin
-    $display("@%t: Error: EQUAL  : a = %h, b = %h, result = %h, equal = %b, should be %b", $time, a, b, result, equal, correct_equal);
+    $display("@%t: Error: EQUAL   : a = %h, b = %h, result = %h, equal = %b, should be %b", $time, a, b, result, equal, correct_equal);
     errors = errors + 1;
   end
 
   // Comment out this check if you didn't have time to do the overflow logic.
   if(overflow !== correct_overflow) begin
-    $display("@%t: Error: OVERFLOW  : a = %h, b = %h, result = %h, overflow = %b, should be %b", $time, a, b, result, overflow, correct_overflow);
+    $display("@%t: Error: OVERFLOW: a = %h, b = %h, result = %h, overflow = %b, should be %b", $time, a, b, result, overflow, correct_overflow);
     errors = errors + 1;
   end
   

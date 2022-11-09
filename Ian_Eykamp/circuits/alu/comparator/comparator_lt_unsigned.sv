@@ -1,4 +1,4 @@
-`include "./hdl/adder_n.sv"
+`include "./adder_n/generated_adders/adder32.sv"
 
 module comparator_lt_unsigned(a, b, out);
 parameter N = 32;
@@ -10,7 +10,7 @@ output logic out;
 
 logic signed [N-1:0] diff;
 logic carry_out;
-adder_n #(.N(N)) subtractor_from_2N(.a(a), .b(~b), .c_in(1'b1), .sum(diff), .c_out(carry_out));
+adder32 subtractor_from_2N(.a(a), .b(~b), .cin(1'b1), .s(diff), .cout(carry_out));
 // computes A + (2^N - B) = 2^N + (A - B)
 // if A > B, there is a carry out
 // if A == B, there is a carry out (2^N carries out)

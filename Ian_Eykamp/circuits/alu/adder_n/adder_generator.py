@@ -18,9 +18,11 @@ class AdderGenerator:
     def generate_sv(self) -> str:
         n = self.n  # local variable to simplify notation
 
-        file_header = """`timescale 1ns/1ps
+        file_header = f"""`ifndef INCLUDE_ADDER{n}
+`define INCLUDE_ADDER{n}
+`timescale 1ns/1ps
 `default_nettype none
-`include "./adder1.sv"
+`include "./adder_n/adder1.sv"
 """
 
         n_bits = math.ceil(math.log2(n)) # number of bits in the select bus rounded up to the nearest whole bit
@@ -43,7 +45,8 @@ module adder{n}(a, b, cin, s, cout);
         module_footer = """
     
 endmodule
-"""
+
+`endif"""
 
         return file_header + module_header + module_body + module_footer
 

@@ -1,3 +1,5 @@
+`ifndef INCLUDE_ADDER32
+`define INCLUDE_ADDER32
 `timescale 1ns/1ps
 `default_nettype none
 `include "./adder_n/adder1.sv"
@@ -77,3 +79,5 @@ module adder32(a, b, cin, s, cout);
     adder1 bit31(.a(a[31]), .b(b[31]), .cin(c30), .s(s[31]), .cout(cout));
     
 endmodule
+
+`endif

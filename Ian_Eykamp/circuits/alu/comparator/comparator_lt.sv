@@ -1,4 +1,4 @@
-`include "./hdl/adder_n.sv"
+`include "./adder_n/generated_adders/adder32.sv"
 
 module comparator_lt(a, b, out);
 parameter N = 32;
@@ -20,7 +20,7 @@ always_comb b_loses_on_sign = ~sign_a & sign_b;
 
 logic signed [N-1:0] diff;
 logic carry_out;
-adder_n #(.N(N)) subtractor(.a(a), .b(~b), .c_in(1'b1), .sum(diff), .c_out(carry_out));
+adder32 subtractor(.a(a), .b(~b), .cin(1'b1), .s(diff), .cout(carry_out));
 
 logic diff_sign;
 always_comb diff_sign = diff[N-1];

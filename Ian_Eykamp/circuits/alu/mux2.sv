@@ -1,3 +1,6 @@
+`ifndef INCLUDE_MUX2
+`define INCLUDE_MUX2
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -17,3 +20,5 @@ module mux2(a, s, y);
     always_comb y = (s_bar & a[0]) | (s & a[1]);
 
 endmodule
+
+`endif

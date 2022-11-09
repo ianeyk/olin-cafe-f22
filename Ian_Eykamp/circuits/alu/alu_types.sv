@@ -1,17 +1,30 @@
 `ifndef ALU_TYPES_H
 `define ALU_TYPES_H
 
+// typedef enum logic [3:0] {
+//   ALU_AND  = 4'b0001,
+//   ALU_OR   = 4'b0010,
+//   ALU_XOR  = 4'b0011,
+//   ALU_SLL  = 4'b0101,
+//   ALU_SRL  = 4'b0110,
+//   ALU_SRA  = 4'b0111,
+//   ALU_ADD  = 4'b1000,
+//   ALU_SUB  = 4'b1100,
+//   ALU_SLT  = 4'b1101,
+//   ALU_SLTU = 4'b1111
+// } alu_control_t;
+
 typedef enum logic [3:0] {
-  ALU_AND  = 4'b0001,
-  ALU_OR   = 4'b0010,
-  ALU_XOR  = 4'b0011,
-  ALU_SLL  = 4'b0101,
-  ALU_SRL  = 4'b0110,
-  ALU_SRA  = 4'b0111,
-  ALU_ADD  = 4'b1000,
-  ALU_SUB  = 4'b1100,
-  ALU_SLT  = 4'b1101,
-  ALU_SLTU = 4'b1111
+  ALU_AND  = 4'd0,
+  ALU_OR   = 4'd1,
+  ALU_XOR  = 4'd2,
+  ALU_SLL  = 4'd3,
+  ALU_SRL  = 4'd4,
+  ALU_SRA  = 4'd5,
+  ALU_ADD  = 4'd6,
+  ALU_SUB  = 4'd7,
+  ALU_SLT  = 4'd8,
+  ALU_SLTU = 4'd9
 } alu_control_t;
 
 function string alu_control_name(alu_control_t control);
