@@ -52,7 +52,7 @@ module {self.module_name}(a, s, y);
             
             ////////////////////////   INPUT WIRE {input}   ////////////////////////
             
-            """
+"""
             module_body += self.recursive_body(input = input, layer = n_bits, component_idx = "0", a_start_idx = 0, target = f"y[{input}]", max_layer = n_bits)
 
         module_footer = """
