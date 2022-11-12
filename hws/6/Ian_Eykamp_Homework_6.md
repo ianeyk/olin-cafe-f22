@@ -45,7 +45,14 @@ The operating principle of the ALU is it performs all the specified operations i
 
 To make the test cases work, I had to restrict the domain for the test case for the shifters such that $0 \le b \le 31$. I ignored overflow errors.
 
+As an aside, an inverter is not needed as a separate ALU operation, because taking `a XOR {32{1'b1}}` produces the inverse of `a`, `~a`.
+
 ### Register File
+
+The register file is constructed from 32 independent 32-bit registers. The reason explicit registers are needed is because they have an accessable enable control. On the writing side, the `wr_ena` and `wr_addr` signals control a decoder which selects which one of the registers is enabled; all registers are connected on with `wr_data` as their `D` input, so that when one of them is enabled, the data is written to that register.
+
+On the reading side, all the register data is connected to two 32-bit 32-1 muxes which allow two of the registers to be read out simultaneously.
+
 
 
 ## Note from Ian

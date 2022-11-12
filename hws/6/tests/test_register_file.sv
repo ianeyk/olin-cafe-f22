@@ -41,7 +41,7 @@ initial begin
     @(negedge clk);
     wr_ena = 1;
     wr_addr = i[4:0];
-    wr_data = -1*(i + 1);
+    wr_data = -16*(i + 1);
     @(posedge clk);
   end
   wr_ena = 0;

@@ -31,10 +31,10 @@ always_comb decoder = wr_ena ? (32'b1 << wr_addr) : 32'b0;
         return output
     
     def make_read_ports(self, port_id):
-        output = f"""mux32_32 read_port_{port_id}(.a({{word0"""
-        for i in range(1, self.n):
-            output += f", word{i}"
-        output += f"}}), .s(rd_addr{port_id}), .y(rd_data{port_id}));\n"
+        output = f"""mux32_32 read_port_{port_id}(.a({{"""
+        for i in range(self.n - 1, 1 - 1, -1):
+            output += f"word{i}, "
+        output += f"word0}}), .s(rd_addr{port_id}), .y(rd_data{port_id}));\n"
         # output += f"always_comb word31 = {{32{{1'b0}}}};"
         return output
 

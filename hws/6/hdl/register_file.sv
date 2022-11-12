@@ -60,8 +60,8 @@ register #(.N(32)) reg_31(.clk(clk), .ena(decoder[31]), .rst(1'b0), .d(wr_data),
 logic [31:0] word0, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13, word14, word15, word16, word17, word18, word19, word20, word21, word22, word23, word24, word25, word26, word27, word28, word29, word30, word31;
 // decoder for enabling the registers for writing one at a time
 always_comb decoder = wr_ena ? (32'b1 << wr_addr) : 32'b0;
-mux32_32 read_port_0(.a({word0, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13, word14, word15, word16, word17, word18, word19, word20, word21, word22, word23, word24, word25, word26, word27, word28, word29, word30, word31}), .s(rd_addr0), .y(rd_data0));
-mux32_32 read_port_1(.a({word0, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13, word14, word15, word16, word17, word18, word19, word20, word21, word22, word23, word24, word25, word26, word27, word28, word29, word30, word31}), .s(rd_addr1), .y(rd_data1));
+mux32_32 read_port_0(.a({word31, word30, word29, word28, word27, word26, word25, word24, word23, word22, word21, word20, word19, word18, word17, word16, word15, word14, word13, word12, word11, word10, word9, word8, word7, word6, word5, word4, word3, word2, word1, word0}), .s(rd_addr0), .y(rd_data0));
+mux32_32 read_port_1(.a({word31, word30, word29, word28, word27, word26, word25, word24, word23, word22, word21, word20, word19, word18, word17, word16, word15, word14, word13, word12, word11, word10, word9, word8, word7, word6, word5, word4, word3, word2, word1, word0}), .s(rd_addr1), .y(rd_data1));
 
 always_comb word0 = 32'd0;
 
