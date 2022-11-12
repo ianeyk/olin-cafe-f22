@@ -43,7 +43,7 @@ module {self.module_name}(a, s, y);
             a_select = "".join([f", a[{b}]" for b in range(n-1, bit-1, -1)])
             # module_body += f"""{indent}mux{n} shifter_bit_{bit}(.a({{{{{n - bit - 1}{{1'b0}}}}, a[{bit}:0]}}), .s(s), .y(y[{bit}]));
             # module_body += f"""{indent}mux{n} shifter_bit_{bit}(.a({{{a_select}{{{bit}{{1'b0}}}}}}), .s(s), .y(y[{bit}]));
-            module_body += f"""{indent}mux{n} shifter_bit_{bit}(.a({{{{{bit}{{1'b0}}}}{a_select}}}), .s(s), .y(y[{bit}]));
+            module_body += f"""{indent}mux{n} shifter_bit_{bit}(.a({{{{{bit}{{a[{n - 1}]}}}}{a_select}}}), .s(s), .y(y[{bit}]));
 """
             pass
         # module_body = self.recursive_body(layer = n_bits, component_idx = "0", a_start_idx = 0, target = "y", max_layer = n_bits)

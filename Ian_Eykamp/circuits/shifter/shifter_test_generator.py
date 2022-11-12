@@ -39,7 +39,7 @@ module test_{self.test_module_name};
 
     int errors = 0;
 
-    logic [{n - 1}:0] a;
+    logic signed [{n - 1}:0] a;
     logic [{n_bits - 1}:0] s;
     wire [{n - 1}:0] y_ll;
     wire [{n - 1}:0] y_rl;
@@ -58,9 +58,15 @@ module test_{self.test_module_name};
     logic [{n - 1}:0] correct_out_ra;
 
     always_comb begin : behavioural_solution_logic
-        correct_out_ll = a << s;
-        correct_out_rl = a >> s;
-        correct_out_ra = a >>> s;
+        if(s >= {n}) begin
+            correct_out_ll = {n}'b0;
+            correct_out_rl = {n}'b0;
+            correct_out_ra = {n}'b0;
+        end else begin
+            correct_out_ll = a << s;
+            correct_out_rl = a >> s;
+            correct_out_ra = a >>> s;
+        end
     end
 
     // You can make "tasks" in testbenches. Think of them like methods of a class, 
@@ -99,7 +105,7 @@ module test_{self.test_module_name};
     //       It's best practice to use these for checkers!
     always @(a or s) begin
         assert(y_ll === correct_out_ll & y_rl === correct_out_rl & y_ra === correct_out_ra) else begin
-            // $display("  ERROR: mux out should be %b, is %b", out, correct_out);
+            $display("  ERROR: shifter_ra out should be %b, is %b", correct_out_ra, y_ra);
             errors = errors + 1;
         end
     end

@@ -1,34 +1,34 @@
 `timescale 1ns/1ps
 `default_nettype none
-`include "./generated_shifters/shifter_ll5.sv"
-`include "./generated_shifters/shifter_rl5.sv"
-`include "./generated_shifters/shifter_ra5.sv"
+`include "./generated_shifters/shifter_ll6.sv"
+`include "./generated_shifters/shifter_rl6.sv"
+`include "./generated_shifters/shifter_ra6.sv"
 
-module test_shifter5;
+module test_shifter6;
 
     int errors = 0;
 
-    logic signed [4:0] a;
+    logic signed [5:0] a;
     logic [2:0] s;
-    wire [4:0] y_ll;
-    wire [4:0] y_rl;
-    wire [4:0] y_ra;
+    wire [5:0] y_ll;
+    wire [5:0] y_rl;
+    wire [5:0] y_ra;
 
-    shifter_ll5 UUT_ll(.a(a), .s(s), .y(y_ll));
-    shifter_rl5 UUT_rl(.a(a), .s(s), .y(y_rl));
-    shifter_ra5 UUT_ra(.a(a), .s(s), .y(y_ra));
+    shifter_ll6 UUT_ll(.a(a), .s(s), .y(y_ll));
+    shifter_rl6 UUT_rl(.a(a), .s(s), .y(y_rl));
+    shifter_ra6 UUT_ra(.a(a), .s(s), .y(y_ra));
 
 
     // Some behavioural comb. logic that computes correct values.
-    logic [4:0] correct_out_ll;
-    logic [4:0] correct_out_rl;
-    logic [4:0] correct_out_ra;
+    logic [5:0] correct_out_ll;
+    logic [5:0] correct_out_rl;
+    logic [5:0] correct_out_ra;
 
     always_comb begin : behavioural_solution_logic
-        if(s >= 5) begin
-            correct_out_ll = 5'b0;
-            correct_out_rl = 5'b0;
-            correct_out_ra = 5'b0;
+        if(s >= 6) begin
+            correct_out_ll = 6'b0;
+            correct_out_rl = 6'b0;
+            correct_out_ra = 6'b0;
         end else begin
             correct_out_ll = a << s;
             correct_out_rl = a >> s;
@@ -45,7 +45,7 @@ module test_shifter5;
     time i; // 64-bit integer, not 32
     // 2) the test cases - initial blocks are like programming, not hardware
     initial begin
-    $dumpfile("././generated_shifters/shifter5.fst");
+    $dumpfile("././generated_shifters/shifter6.fst");
     $dumpvars(0, UUT_ll);
     $dumpvars(0, UUT_rl);
     $dumpvars(0, UUT_ra);
@@ -53,7 +53,7 @@ module test_shifter5;
     $display("Checking all inputs.");
 $display("s   a        | y (correct out)");
     for (i = 0; i < 1024; i = i + 1) begin
-        a[4:0] = $random;
+        a[5:0] = $random;
 
         s[2:0] = $random;
 
