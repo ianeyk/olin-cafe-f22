@@ -5,7 +5,7 @@
 `include "./comparator/comparator_eq.sv"
 `include "./comparator/comparator_lt.sv"
 `include "./comparator/comparator_lt_unsigned.sv"
-`include "./multi_mux/generated_muxes/mux10_32.sv"
+`include "./multi_mux/generated_muxes/mux16_32.sv"
 
 `timescale 1ns/1ps
 `default_nettype none
@@ -78,7 +78,7 @@ comparator_lt_unsigned less_than_unsigned_module(.a(a), .b(b), .out(sltu_result)
 comparator_eq equality_comparator(.a(a), .b(b), .out(inputs_equal));
 // always_comb out = and_result;
 
-mux10_32 operation_selector(.a(all_possible_operations), .s(op), .y(out));
+mux16_32 operation_selector(.a(all_possible_operations), .s(op), .y(out));
 // mux10_32 operation_selector(.a(all_possible_operations), .s(5'b0), .y(out));
 
 always_comb outputs_zero = ~(|out);
