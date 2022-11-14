@@ -39,7 +39,7 @@ The multi-bit mux is essentially a series of $m$ one-bit muxes, each of which co
 **Figure 3.** HDL example for a 2-bit, 3-input mux.
 
 ### ALU
-My shifter code can be found in the `hw6/hdl/alu` folder. Navigate into this directory and run `make test_alu`. The ALU succeeds on all tests.
+My ALU code can be found in the `hw6/hdl/alu` folder. Navigate into this directory and run `make test_alu`. The ALU succeeds on all tests.
 
 The operating principle of the ALU is it performs all the specified operations in parallel, then loads the results of these calculations into a 32-bit, $n$-input mux, where $n$ is the number of unique operations. The control input to the ALU acts as the select input for the mux.
 
@@ -47,13 +47,21 @@ To make the test cases work, I had to restrict the domain for the test case for 
 
 As an aside, an inverter is not needed as a separate ALU operation, because taking `a XOR {32{1'b1}}` produces the inverse of `a`, `~a`.
 
+![image](images/alu_schematic.jpg)
+**Figure 4.** ALU schematic with parallel operations and 32-bit mux.
+
 ### Register File
+
+My register file code can be found in `hw6/hdl/register_file.sv`. You can run `make test_register_file` from the root folder. The register file can be successfully written and read.
 
 The register file is constructed from 32 independent 32-bit registers. The reason explicit registers are needed is because they have an accessable enable control. On the writing side, the `wr_ena` and `wr_addr` signals control a decoder which selects which one of the registers is enabled; all registers are connected on with `wr_data` as their `D` input, so that when one of them is enabled, the data is written to that register.
 
 On the reading side, all the register data is connected to two 32-bit 32-1 muxes which allow two of the registers to be read out simultaneously.
 
+The zero index of the mux is permanently tied to `32'b0`; there is no register that corresponds to `wr_addr = 0`.
 
+![image](images/register_file_schematic.jpg)
+**Figure 5.** Register file schematic with a decoder for the write port and two muxes for the read ports.
 
 ## Note from Ian
 The biggest difficulties for me with this homework were
@@ -62,4 +70,4 @@ The biggest difficulties for me with this homework were
 
 2) My insistence on making all my modules from scratch, including the m-bit, n-input mux, instead of using behavioral logic or the provided modules.
 
-3) Tech week did more to me than suck away all my time, it also made me overall sleep-deprived and generally unproductive during the day. When I did try and do work at night, I was certainly not at my best, and I should have used the time to catch up on sleep instead of catching up on assignments. I didn't do any work that I am proud of during the last week---for any class---, and I felt bad about turning in some of my assignments for my other classes when I knew they were not my best work. Thank you for being lenient and letting me manage my time the way I needed to. I am feeling much more productive this weekend after 8 hours of sleep and a stellar opening night of Assassins, and I am starting to bxe optimistic again about being able to catch up in all of my classes before (or at the very least during) Thanksgiving break.
+3) Tech week did more to me than suck away all my time, it also made me overall sleep-deprived and generally unproductive during the day. When I did try and do work at night, I was certainly not at my best, and I should have used the time to catch up on sleep instead of catching up on assignments. I didn't do any work that I am proud of during the last week---for any class---, and I felt bad about turning in some of my assignments for my other classes when I knew they were not my best work. Thank you for being lenient and letting me manage my time the way I needed to. I am feeling much more productive this weekend after 8 hours of sleep and a stellar opening night of Assassins, and I am starting to be optimistic again about being able to catch up in all of my classes before (or at the very least during) Thanksgiving break.
