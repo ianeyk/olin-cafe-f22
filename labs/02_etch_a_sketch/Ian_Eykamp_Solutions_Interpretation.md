@@ -1,8 +1,19 @@
-# Ian Eykamp Solutions Interpretation
+# Ian Eykamp Lab 2
 
-Avinash said that an appropriate MVP for this project was to read throught the solutions to the lab and demonstrate my understanding of the solutions.
+## Signal Generators
+
+I reused my signal generators from Homework 5. The schematics are shown in Figures 1-3.
+![Pulse generator schematic](images/counter_schematic.jpg)
+**Figure 1.** Pulse generator schematic.
+
+![Triangle generator schematic](images/triangle_schematic.jpg)
+**Figure 2.** Triangle generator schematic.
+
+![PWM generator schematic](images/pwm_schematic.jpg)
+**Figure 3.** PWM generator schematic.
 
 ## SPI Controller
+Avinash said that an appropriate MVP for this project was to read throught the solutions to the lab and demonstrate my understanding of the solutions.
 
 The SPI controller is driven by a bit counter that determines which bit is either being read or transmitted. On the negative edge of each `sclk` cycle, the bit counter is decremented by one until it reaches zero, at which point it is reset to the number of bits that need to be transmitted or received (depending on the configuration specified by the enum `spi_mode`).
 
@@ -23,3 +34,4 @@ Again, there is a `bit_counter` which controls when new data bits are read and w
 The FSM for the I2C controller has slightly more states than the SPI controller, because in addition to read and write states, it has to interpret which part of the message it is on. The message is strucured with a start bit, followed by a 7-bit address, address acknowledge bit, and then 8 bits of data. This structure is repeated for both reading and writing. The main thing that happens in each state is decrementing `bit_counter` and writing or reading and interpreting the proper bit from the `sda` line. The FSM stays on each state for the appropriate number of `scl` cycles before advancing to the next part of the message.
 
 ![I2C finite state machine diagram](images/i2c_fsm.jpg)
+

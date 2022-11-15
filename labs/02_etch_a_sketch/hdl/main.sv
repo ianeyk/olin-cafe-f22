@@ -193,17 +193,16 @@ enum logic [2:0] {S_IDLE, S_DRAWING, S_START_CLEAR, S_CLEARING, S_ERROR} vram_st
 always_ff @(posedge clk) begin
   if(rst) begin
     vram_state <= S_START_CLEAR;
-    vram_wr_ena <= 1'b0;
+    vram_wr_ena <= 1'b0;  
     vram_wr_addr <= 0;
-    vram_wr_data <= 0;
+    vram_wr_data <= BLACK;
     vram_clear_counter <= VRAM_L * VRAM_W;
-  end
-  else if(ena) begin
+  end else begin
     case(vram_state)
       S_IDLE : begin
         vram_wr_ena <= 1'b0;
         vram_wr_addr <= 0;
-        vram_wr_data <= 0;
+        vram_wr_data <= BLACK;
         vram_state <= S_DRAWING;
       end
       S_START_CLEAR : begin

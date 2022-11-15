@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2022.1 (lin64) Build 3526262 Mon Apr 18 15:47:01 MDT 2022
-| Date         : Mon Nov 14 20:37:05 2022
+| Date         : Tue Nov 15 10:08:05 2022
 | Host         : ieykamp-Latitude-5411 running 64-bit Ubuntu 22.04.1 LTS
 | Command      : report_drc -file drc.log -verbose
 | Design       : main
@@ -25,12 +25,13 @@ Table of Contents
            Ruledeck: default
              Max violations: <unlimited>
              Violations found: 3
-+----------+----------+--------------------------------------------------------------+------------+
-| Rule     | Severity | Description                                                  | Violations |
-+----------+----------+--------------------------------------------------------------+------------+
-| CFGBVS-1 | Warning  | Missing CFGBVS and CONFIG_VOLTAGE Design Properties          | 1          |
-| PDCN-137 | Warning  | enum_RAM_EXTENSION_A_not_NONE_connects_ADDRARDADDRL15_Tieoff | 2          |
-+----------+----------+--------------------------------------------------------------+------------+
++----------+----------+-----------------------------------------------------+------------+
+| Rule     | Severity | Description                                         | Violations |
++----------+----------+-----------------------------------------------------+------------+
+| CFGBVS-1 | Warning  | Missing CFGBVS and CONFIG_VOLTAGE Design Properties | 1          |
+| DPOP-1   | Warning  | PREG Output pipelining                              | 1          |
+| DPOP-2   | Warning  | MREG Output pipelining                              | 1          |
++----------+----------+-----------------------------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
@@ -47,14 +48,14 @@ Neither the CFGBVS nor CONFIG_VOLTAGE voltage property is set in the current_des
 Refer to the device configuration user guide for more information.
 Related violations: <none>
 
-PDCN-137#1 Warning
-enum_RAM_EXTENSION_A_not_NONE_connects_ADDRARDADDRL15_Tieoff  
-RAMB36E1 site RAMB36_X2Y3 has BlockRam (VRAM/ram_reg_0_0) with RAM_EXTENSION_A attribute set to LOWER and ADDRARADDRL15 pin tied to LOGIC 0 (GND). In this case only the Lower BRAM will be used.
+DPOP-1#1 Warning
+PREG Output pipelining  
+DSP vram_wr_addr0 output vram_wr_addr0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
-PDCN-137#2 Warning
-enum_RAM_EXTENSION_A_not_NONE_connects_ADDRARDADDRL15_Tieoff  
-RAMB36E1 site RAMB36_X2Y4 has BlockRam (VRAM/ram_reg_1_0) with RAM_EXTENSION_A attribute set to UPPER and ADDRARADDRL15 pin tied to LOGIC 0 (GND). In this case only the Lower BRAM will be used.
+DPOP-2#1 Warning
+MREG Output pipelining  
+DSP vram_wr_addr0 multiplier stage vram_wr_addr0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
 Related violations: <none>
 
 
