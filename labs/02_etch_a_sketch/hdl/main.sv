@@ -206,7 +206,7 @@ always_ff @(posedge clk) begin
         vram_state <= S_DRAWING;
       end
       S_START_CLEAR : begin
-        vram_clear_counter <= VRAM_L * VRAM_W;
+        vram_clear_counter <= VRAM_L;
         vram_state <= S_CLEARING;
       end
       S_CLEARING : begin
