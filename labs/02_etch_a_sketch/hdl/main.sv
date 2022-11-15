@@ -196,7 +196,7 @@ always_ff @(posedge clk) begin
     vram_wr_ena <= 1'b0;  
     vram_wr_addr <= 0;
     vram_wr_data <= BLACK;
-    vram_clear_counter <= VRAM_L;
+    vram_clear_counter <= 0;
   end else begin
     case(vram_state)
       S_IDLE : begin
