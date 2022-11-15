@@ -1,0 +1,42 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Mon Nov 14 20:24:15 2022
+# Process ID: 14099
+# Current directory: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch
+# Command line: vivado -mode batch -source build.tcl
+# Log file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/vivado.log
+# Journal file: /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/vivado.jou
+# Running On: ieykamp-Latitude-5411, OS: Linux, CPU Frequency: 2700.000 MHz, CPU Physical cores: 6, Host memory: 16437 MB
+#-----------------------------------------------------------
+source build.tcl
+# read_verilog [ glob ./hdl/*.sv ]
+# read_xdc ./main.xdc
+# synth_design -top main -part xc7a15tcpg236-1
+Command: synth_design -top main -part xc7a15tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Device 21-403] Loading part xc7a15tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 14138
+CRITICAL WARNING: [Synth 8-9873] overwriting previous definition of module 'i2c_controller' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/i2c_controller_original.sv:69]
+INFO: [Synth 8-9937] previous definition of design element 'i2c_controller' is here [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/i2c_controller.sv:194]
+CRITICAL WARNING: [Synth 8-9873] overwriting previous definition of module 'comparator_lt_unsigned' [./hdl/comparator_lt_unsigned.sv:22]
+INFO: [Synth 8-9937] previous definition of design element 'comparator_lt_unsigned' is here [./hdl/comparator_lt_unsigned.sv:22]
+CRITICAL WARNING: [Synth 8-9873] overwriting previous definition of module 'adder_1' [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/adder_1.sv:22]
+INFO: [Synth 8-9937] previous definition of design element 'adder_1' is here [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/adder_1.sv:22]
+WARNING: [Synth 8-6901] identifier 'vram_rd_data_valid' is used before its declaration [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/ili9341_display_controller.sv:131]
+ERROR: [Synth 8-36] 'N_BITS_TO_TRANSMIT' is not declared [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv:27]
+ERROR: [Synth 8-9960] range must be bounded by constant expressions [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv:27]
+ERROR: [Synth 8-36] 'N_BITS_TO_RECEIVE' is not declared [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv:31]
+ERROR: [Synth 8-9960] range must be bounded by constant expressions [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv:31]
+INFO: [Synth 8-8750] module 'spi_controller' ignored due to previous errors [/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv:119]
+Failed to read verilog '/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/02_etch_a_sketch/hdl/spi_controller_original.sv'
+INFO: [Common 17-83] Releasing license: Synthesis
+10 Infos, 1 Warnings, 3 Critical Warnings and 5 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 14 20:24:34 2022...
