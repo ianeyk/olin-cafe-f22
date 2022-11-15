@@ -154,7 +154,7 @@ ili9341_display_controller ILI9341(
   .vram_rd_addr(vram_rd_addr),
   .vram_rd_data(vram_rd_data),
   // !!! NOTE - change enable_test_pattern to zero once you start implementing the video ram !!!
-  .enable_test_pattern(1'b0) 
+  .enable_test_pattern(1'b0)
 );
 
 /* ------------------------------------------------------------------------- */
@@ -187,5 +187,46 @@ block_ram #(.W(VRAM_W), .L(VRAM_L)) VRAM(
   .wr_ena(vram_wr_ena), .wr_addr(vram_wr_addr), .wr_data(vram_wr_data)
 );
 // Add your vram control FSM here:
+
+enum logic [2:0] {S_IDLE, S_DRAWING, S_START_CLEAR, S_CLEARING, S_ERROR} vram_state;
+
+always_ff @(posedge clk) begin
+  if(rst) begin
+    vram_state <= S_START_CLEAR;
+    vram_wr_ena <= 1'b0;
+    vram_wr_addr <= 0;
+    vram_wr_data <= 0;
+    vram_clear_counter <= VRAM_L * VRAM_W;
+  end
+  else if(ena) begin
+    case(vram_state)
+      S_IDLE : begin
+        vram_wr_ena <= 1'b0;
+        vram_wr_addr <= 0;
+        vram_wr_data <= 0;
+        vram_state <= S_DRAWING;
+      end
+      S_START_CLEAR : begin
+        vram_clear_counter <= VRAM_L * VRAM_W;
+        vram_state <= S_CLEARING;
+      end
+      S_CLEARING : begin
+        if (vram_clear_counter == 0) begin
+          vram_state <= S_IDLE;
+        end else begin
+          vram_clear_counter <= vram_clear_counter - 1;
+          vram_wr_ena <= 1'b1;
+          vram_wr_addr <= vram_clear_counter;
+          vram_wr_data <= BLUE;
+        end
+      end
+      S_DRAWING : begin
+        vram_wr_ena <= touch0.valid;
+        vram_wr_addr <= touch0.y * DISPLAY_WIDTH + touch0.x;
+        vram_wr_data <= YELLOW;     
+      end
+    endcase
+  end
+end
 
 endmodule
