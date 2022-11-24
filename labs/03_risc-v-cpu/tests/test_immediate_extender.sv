@@ -35,34 +35,34 @@ $display("control  immediate    | out (correct out)");
     for (i = 0; i < 5; i = i + 1) begin
         case(i) // ibuj
         0: begin
-            immediate = 20'b1010_0000_0000_0000_1010;
-            control = 0;
-            correct_out = 32'b0000_0000_0000_0000_0000_0000_0000_1010;
-            change = 1;
+            #1 immediate = 20'b1010_0000_0000_0000_1010;
+            #1 control = 0;
+            #1 correct_out = 32'b0000_0000_0000_0000_0000_0000_0000_1010;
+            #1 change = 1;
         end
         1: begin
-            immediate = 20'b1010_0000_0000_0000_1010;
-            control = 1;
-            correct_out = 32'b0000_0000_0000_0000_0000_0000_0001_0100;
-            change = 2;
+            #1 immediate = 20'b1010_0000_0000_0000_1010;
+            #1 control = 1;
+            #1 correct_out = 32'b0000_0000_0000_0000_0000_0000_0001_0100;
+            #1 change = 2;
         end
         2: begin
-            immediate = 20'b1010_0000_0000_0000_1010;
-            control = 2;
-            correct_out = 32'b1111_1111_1111_1010_0000_0000_0000_1010;
-            change = 3;
+            #1 immediate = 20'b1010_0000_0000_0000_1010;
+            #1 control = 2;
+            #1 correct_out = 32'b1111_1111_1111_1010_0000_0000_0000_1010;
+            #1 change = 3;
         end
         3: begin
-            immediate = 20'b1010_0000_0000_0000_1010;
-            control = 3;
-            correct_out = 32'b1111_1111_1111_1010_0000_0000_0001_0100;
-            change = 4;
+            #1 immediate = 20'b1010_0000_0000_0000_1010;
+            #1 control = 3;
+            #1 correct_out = 32'b1111_1111_1111_0100_0000_0000_0001_0100;
+            #1 change = 4;
         end
         4: begin
-            immediate = 20'b1010_0000_1001_0000_1010;
-            control = 0;
-            correct_out = 32'b1111_1111_1111_1111_1111_1001_0000_1010;
-            change = 5;
+            #1 immediate = 20'b1010_0000_1001_0000_1010;
+            #1 control = 0;
+            #1 correct_out = 32'b1111_1111_1111_1111_1111_1001_0000_1010;
+            #1 change = 5;
         end
         endcase
         #1 print_io();
