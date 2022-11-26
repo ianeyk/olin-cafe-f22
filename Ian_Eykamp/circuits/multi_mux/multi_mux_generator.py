@@ -14,7 +14,7 @@ class MultiMuxGenerator:
         self.write_file(sv)
 
     def write_file(self, txt: str) -> None:
-        assert(self.n > 2) # we cannot overwrite mux2, because this referred to in the base case in the above code!
+        # assert(self.n > 2) # we cannot overwrite mux2, because this referred to in the base case in the above code!
         f = open(f"{self.mux_dir}/{self.module_name}.sv", "w")
         f.write(txt)
         f.close()

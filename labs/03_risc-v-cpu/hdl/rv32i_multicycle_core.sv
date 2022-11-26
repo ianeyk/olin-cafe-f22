@@ -24,7 +24,7 @@ output logic mem_wr_ena;
 output wire [31:0] PC;
 wire [31:0] PC_old;
 logic PC_ena;
-logic [31:0] PC_next; 
+logic [31:0] PC_next;
 
 // Program Counter Registers
 register #(.N(32), .RESET(PC_START_ADDRESS)) PC_REGISTER (
@@ -59,16 +59,54 @@ register_file REGISTER_FILE(
 
 // ALU and related control signals
 // Feel free to replace with your ALU from the homework.
-logic [31:0] src_a, src_b;
+logic [31:0] alu_src_a, alu_src_b;
 alu_control_t alu_control;
 wire [31:0] alu_result;
 wire overflow, zero, equal;
 alu_behavioural ALU (
-  .a(src_a), .b(src_b), .result(alu_result),
+  .a(alu_src_a), .b(alu_src_b), .result(alu_result),
   .control(alu_control),
   .overflow(overflow), .zero(zero), .equal(equal)
 );
 
 // Implement your multicycle rv32i CPU here!
+logic instruction_store_ena;
+logic [31:0] instruction;
+register #(.N(32)) instruction_store(.clk(clk), .ena(instruction_store_ena), .rst(rst), .d(mem_rd_data), .q(instruction));
+
+logic alu_src_store_ena;
+register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data1), .q(alu_src_a));
+register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data2), .q(alu_src_b));
+
+wire [31:0] immediate_extended;
+wire [19:0] immediate;
+logic [1:0] imm_control;
+immediate_extender imm_extender(.immediate(immediate), .control(imm_control), .out(immediate_extended));
+
+mux2_32 imm_enabler(.a(reg_data2), .s(imm_enable), .y(alu_src_b));
+mux3_32 output_switcher(.a(), .s(), .y());
+
+enum logic [2:0] { IDLE, LOAD_INSTRUCTION, 
+  R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
+  I_START, S_START, B_START, U_START, J_START } cpu_controller;
+
+always_ff @(posedge clk) begin : cpu_controller_fsm
+  if(rst) begin
+    state <= IDLE;
+    reg_write <= 0;
+    imm_control <= 0;
+    immediate <= 20'b0;
+    alu_src_store_ena <= 0;
+    tx_data <= 0;
+    rx_data <= 0;
+    o_data <= 0;
+  end else begin
+    case(state)
+      S_IDLE : begin
+
+      end
+    endcase
+  end
+end
 
 endmodule
