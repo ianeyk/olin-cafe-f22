@@ -3,52 +3,7 @@
 
 `include "alu_types.sv"
 `include "rv32i_defines.sv"
-`include "instruction_parse_defines.sv"
-
-`define RS2_START 24
-`define RS2_END 20
-
-`define RS1_START 19
-`define RS1_END 15
-
-`define FUNCT3_START 14
-`define FUNCT3_END 12
-
-`define FUNCT7_START 31
-`define FUNCT7_END 25
-
-`define OP_START 6
-`define OP_END 0
-
-`define RS1_START 19
-`define RS1_END 15
-
-`define RD_START 11
-`define RS2_END 7
-
-`define I_TYPE_IMM_START 31
-`define I_TYPE_IMM_END 20
-
-`define S_TYPE_IMM_1_START 31
-`define S_TYPE_IMM_1_END 25
-
-`define S_TYPE_IMM_2_START 11
-`define S_TYPE_IMM_2_END 7
-
-`define B_TYPE_IMM_1_START 31
-`define B_TYPE_IMM_1_END 25
-
-`define B_TYPE_IMM_2_START 11
-`define B_TYPE_IMM_2_END 7
-
-`define U_TYPE_IMM_START 31
-`define U_TYPE_IMM_END 12
-
-`define J_TYPE_IMM_START 31
-`define J_TYPE_IMM_END 12
-
-
-
+`include "instruction_bit_lookup_tables.sv"
 
 module rv32i_multicycle_core(
   clk, rst, ena,
@@ -145,18 +100,13 @@ mux3_32 output_switcher(.a({PC, memory_value, alu_result}), .s(output_select), .
 logic [1:0] trash_can;
 adder32 PC_incrementer(.a(PC), .b(32'd4), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
 
-logic [2:0] instruction_type;
-logic [6:0] op_code;
-always_comb op_code = instruction[6:0];
+instruction_t instruction_type;
+op_code_lookup op_code_lookup_table(.instruction(instruction), .instruction_type(instruction_type));
 
-logic instruction_r_type, instruction_i_type, instruction_l_type, instruction_s_type, instruction_b_type, instruction_u_type, instruction_j_type;
-comparator_eq #(.N(32)) is_r_type(.a(op_code), .b(7'd51), .out(instruction_r_type));
-comparator_eq #(.N(32)) is_i_type(.a(op_code), .b(7'd19), .out(instruction_i_type));
-comparator_eq #(.N(32)) is_l_type(.a(op_code), .b(7'd3 ), .out(instruction_l_type));
-comparator_eq #(.N(32)) is_s_type(.a(op_code), .b(7'd35), .out(instruction_s_type));
-comparator_eq #(.N(32)) is_b_type(.a(op_code), .b(7'd99), .out(instruction_b_type));
-comparator_eq #(.N(32)) is_u_type(.a(op_code), .b(7'd55), .out(instruction_u_type));
-comparator_eq #(.N(32)) is_j_type(.a(op_code), .b(7'd111), .out(instruction_j_type));
+alu_control_t r_type_alu_operation;
+alu_control_t i_type_alu_operation;
+r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
+i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
 enum logic [3:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
@@ -210,20 +160,15 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
           instruction_store_ena <= 0;
-          if (instruction_r_type)
-            cpu_controller <= R_START;
-          else if (instruction_i_type)
-            cpu_controller <= I_START;
-          else if (instruction_l_type)
-            cpu_controller <= L_START;
-          else if (instruction_s_type)
-            cpu_controller <= S_START;
-          else if (instruction_b_type)
-            cpu_controller <= B_START;
-          else if (instruction_u_type)
-            cpu_controller <= U_START;
-          else if (instruction_j_type)
-            cpu_controller <= J_START;
+          case instruction_type
+            R_TYPE : cpu_controller <= R_START;
+            I_TYPE : cpu_controller <= I_START;
+            L_TYPE : cpu_controller <= L_START;
+            S_TYPE : cpu_controller <= S_START;
+            B_TYPE : cpu_controller <= B_START;
+            U_TYPE : cpu_controller <= U_START;
+            J_TYPE : cpu_controller <= J_START;
+          endcase
         end
         R_START : begin // Just a filler state with a standard name.
           cpu_controller <= R_READ_REGISTERS;
@@ -237,31 +182,19 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         R_ALU : begin
           alu_src_store <= 0; // lock the value in the register
-          if      (instruction[FUNCT3_START:FUNCT3_END] == 3'b000 & instruction[FUNCT7_START:FUNCT7_END] == 7'b0000000)
-            alu_control <= ALU_ADD;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b000 & instruction[FUNCT7_START:FUNCT7_END] == 7'b1000000)
-            alu_control <= ALU_SUB;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b001)
-            alu_control <= ALU_SLL;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b010)
-            alu_control <= ALU_SLT;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b011)
-            alu_control <= ALU_SLTU;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b100)
-            alu_control <= ALU_XOR;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b101 & instruction[FUNCT7_START:FUNCT7_END] == 7'b0000000)
-            alu_control <= ALU_SRL;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b101 & instruction[FUNCT7_START:FUNCT7_END] == 7'b0100000)
-            alu_control <= ALU_SRA;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b110)
-            alu_control <= ALU_OR;
-          else if (instruction[FUNCT3_START:FUNCT3_END] == 3'b111)
-            alu_control <= ALU_AND;
-          else
-            alu_control <= ALU_INVALID;
+          alu_result_store_ena <= 1;
+          alu_control <= r_type_alu_operation;
           cpu_controller <= R_WRITE_REGISTERS;
         end
-
+        R_WRITE_REGISTERS : begin
+          alu_result_store_ena <= 0; // lock the ALU result
+          reg_write <= 1;
+          output_select <= 0; // from ALU
+          cpu_controller <= R_DONE;
+        end
+        R_DONE : begin
+          reg_write <= 0;
+          cpu_controller <= IDLE;
       endcase
     end
   end
