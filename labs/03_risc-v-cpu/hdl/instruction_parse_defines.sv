@@ -1,3 +1,6 @@
+`ifndef INCLUDE_INSTRUCTION_DEFINES
+`define INCLUDE_INSTRUCTION_DEFINES
+
 `define RS2_START 24
 `define RS2_END 20
 
@@ -7,8 +10,8 @@
 `define FUNCT3_START 14
 `define FUNCT3_END 12
 
-`define FUNCT3_START 31
-`define FUNCT3_END 25
+`define FUNCT7_START 31
+`define FUNCT7_END 25
 
 `define OP_START 6
 `define OP_END 0
@@ -17,7 +20,7 @@
 `define RS1_END 15
 
 `define RD_START 11
-`define RS2_END 7
+`define RD_END 7
 
 `define I_TYPE_IMM_START 31
 `define I_TYPE_IMM_END 20
@@ -39,3 +42,5 @@
 
 `define J_TYPE_IMM_START 31
 `define J_TYPE_IMM_END 12
+
+`endif // INCLUDE

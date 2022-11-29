@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 `default_nettype none
-`include "./adder1.sv"
+`include "adder1.sv"
 
 module adder32(a, b, cin, s, cout);
 

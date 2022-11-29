@@ -3,6 +3,7 @@
 
 `include "alu_types.sv"
 `include "instruction_parse_defines.sv"
+`include "comparator_eq.sv"
 
 typedef enum logic [2:0] {
   R_TYPE = 3'd0,
@@ -20,16 +21,18 @@ module op_code_lookup(instruction, instruction_type);
 input wire [31:0] instruction;
 output instruction_t instruction_type;
 
-wire [6:0] op_code;
+logic [6:0] op_code;
 always_comb op_code = instruction[6:0];
 
-comparator_eq #(.N(32)) assert_if_r_type(.a(op_code), .b(7'd51),  .out(is_r_type));
-comparator_eq #(.N(32)) assert_if_i_type(.a(op_code), .b(7'd19),  .out(is_i_type));
-comparator_eq #(.N(32)) assert_if_l_type(.a(op_code), .b(7'd3 ),  .out(is_l_type));
-comparator_eq #(.N(32)) assert_if_s_type(.a(op_code), .b(7'd35),  .out(is_s_type));
-comparator_eq #(.N(32)) assert_if_b_type(.a(op_code), .b(7'd99),  .out(is_b_type));
-comparator_eq #(.N(32)) assert_if_u_type(.a(op_code), .b(7'd55),  .out(is_u_type));
-comparator_eq #(.N(32)) assert_if_j_type(.a(op_code), .b(7'd111), .out(is_j_type));
+logic is_r_type, is_i_type, is_l_type, is_s_type, is_b_type, is_u_type, is_j_type;
+
+comparator_eq #(.N(7)) assert_if_r_type(.a(op_code), .b(7'd51),  .out(is_r_type));
+comparator_eq #(.N(7)) assert_if_i_type(.a(op_code), .b(7'd19),  .out(is_i_type));
+comparator_eq #(.N(7)) assert_if_l_type(.a(op_code), .b(7'd3 ),  .out(is_l_type));
+comparator_eq #(.N(7)) assert_if_s_type(.a(op_code), .b(7'd35),  .out(is_s_type));
+comparator_eq #(.N(7)) assert_if_b_type(.a(op_code), .b(7'd99),  .out(is_b_type));
+comparator_eq #(.N(7)) assert_if_u_type(.a(op_code), .b(7'd55),  .out(is_u_type));
+comparator_eq #(.N(7)) assert_if_j_type(.a(op_code), .b(7'd111), .out(is_j_type));
 
 always_comb begin
     if (is_r_type)
@@ -55,21 +58,23 @@ module r_type_alu_op_lookup(instruction, alu_operation);
 input wire [31:0] instruction;
 output instruction_t alu_operation;
 
-wire [2:0] funct3;
+logic [2:0] funct3;
 always_comb funct3 = instruction[FUNCT3_START:FUNCT3_END];
-wire [6:0] funct7;
+logic [6:0] funct7;
 always_comb funct7 = instruction[FUNCT7_START:FUNCT7_END];
 
-comparator_eq #(.N(32)) assert_if_alu_add_sub(.a(funct3), .b(3'b000), .out(is_add_sub));
-comparator_eq #(.N(32)) assert_if_alu_sll(    .a(funct3), .b(3'b001), .out(is_sll));
-comparator_eq #(.N(32)) assert_if_alu_slt(    .a(funct3), .b(3'b010), .out(is_slt));
-comparator_eq #(.N(32)) assert_if_alu_sltu(   .a(funct3), .b(3'b011), .out(is_sltu));
-comparator_eq #(.N(32)) assert_if_alu_xor(    .a(funct3), .b(3'b100), .out(is_xor));
-comparator_eq #(.N(32)) assert_if_alu_srl_sra(.a(funct3), .b(3'b101), .out(is_srl_sra));
-comparator_eq #(.N(32)) assert_if_alu_or (    .a(funct3), .b(3'b110), .out(is_or));
-comparator_eq #(.N(32)) assert_if_alu_and(    .a(funct3), .b(3'b111), .out(is_and));
+logic is_add_sub, is_sll, is_slt, is_sltu, is_xor, is_srl_sra, is_or, is_and, is_alternative;
 
-comparator_eq #(.N(32)) alternative_definition(.a(funct7), .b(7'b0100000), .out(is_alternative));
+comparator_eq #(.N(3)) assert_if_alu_add_sub(.a(funct3), .b(3'b000), .out(is_add_sub));
+comparator_eq #(.N(3)) assert_if_alu_sll(    .a(funct3), .b(3'b001), .out(is_sll));
+comparator_eq #(.N(3)) assert_if_alu_slt(    .a(funct3), .b(3'b010), .out(is_slt));
+comparator_eq #(.N(3)) assert_if_alu_sltu(   .a(funct3), .b(3'b011), .out(is_sltu));
+comparator_eq #(.N(3)) assert_if_alu_xor(    .a(funct3), .b(3'b100), .out(is_xor));
+comparator_eq #(.N(3)) assert_if_alu_srl_sra(.a(funct3), .b(3'b101), .out(is_srl_sra));
+comparator_eq #(.N(3)) assert_if_alu_or (    .a(funct3), .b(3'b110), .out(is_or));
+comparator_eq #(.N(3)) assert_if_alu_and(    .a(funct3), .b(3'b111), .out(is_and));
+
+comparator_eq #(.N(7)) alternative_definition(.a(funct7), .b(7'b0100000), .out(is_alternative));
 
 always_comb begin
     if (is_add_sub & ~is_alternative)
@@ -103,10 +108,12 @@ module i_type_alu_op_lookup(instruction, alu_operation);
 input wire [31:0] instruction;
 output instruction_t alu_operation;
 
-wire [2:0] funct3;
+logic [2:0] funct3;
 always_comb funct3 = instruction[FUNCT3_START:FUNCT3_END];
-wire [6:0] funct7;
+logic [6:0] funct7;
 always_comb funct7 = instruction[FUNCT7_START:FUNCT7_END];
+
+logic is_add_sub, is_sll, is_slt, is_sltu, is_xor, is_srl_sra, is_or, is_and, is_alternative;
 
 comparator_eq #(.N(32)) assert_if_alu_add(    .a(funct3), .b(3'b000), .out(is_add_sub));
 comparator_eq #(.N(32)) assert_if_alu_sll(    .a(funct3), .b(3'b001), .out(is_sll));

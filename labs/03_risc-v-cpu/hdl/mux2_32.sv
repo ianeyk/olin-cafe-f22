@@ -3,7 +3,7 @@
 
 `timescale 1ns/1ps
 `default_nettype none
-`include "./mux2.sv"
+`include "mux2.sv"
 
 module mux2_32(a, s, y);
 

@@ -1,6 +1,8 @@
 `default_nettype none
 `timescale 1ns/1ps
 
+`include "decoder_5_to_32.sv"
+
 module register_file(
   clk, // wtf, no rst?  // avi - makes debugging register writes easier
   wr_ena, wr_addr, wr_data,

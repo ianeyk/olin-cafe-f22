@@ -1,8 +1,8 @@
 `ifndef ALU_TYPES_H
 `define ALU_TYPES_H
 
-
 typedef enum logic [3:0] {
+// enum logic [3:0] {
   ALU_AND  = 4'b0001,
   ALU_OR   = 4'b0010,
   ALU_XOR  = 4'b0011,

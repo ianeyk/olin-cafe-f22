@@ -1,6 +1,9 @@
 `timescale 1ns/1ps
 `default_nettype none
 
+`include "decoder_1_to_2.sv"
+`include "decoder_4_to_16.sv"
+
 module decoder_5_to_32(ena, in, out);
 
 input wire ena;

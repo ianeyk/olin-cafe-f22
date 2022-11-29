@@ -4,6 +4,14 @@
 `include "alu_types.sv"
 `include "rv32i_defines.sv"
 `include "instruction_bit_lookup_tables.sv"
+`include "adder32.sv"
+`include "mux2_32.sv"
+`include "mux3_32.sv"
+`include "register.sv"
+`include "register_file.sv"
+`include "alu_behavioral.sv"
+`include "immediate_extender.sv"
+`include "decoder_5_to_32.sv"
 
 module rv32i_multicycle_core(
   clk, rst, ena,
@@ -160,7 +168,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
           instruction_store_ena <= 0;
-          case instruction_type
+          case(instruction_type)
             R_TYPE : cpu_controller <= R_START;
             I_TYPE : cpu_controller <= I_START;
             L_TYPE : cpu_controller <= L_START;
@@ -195,6 +203,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         R_DONE : begin
           reg_write <= 0;
           cpu_controller <= IDLE;
+        end
       endcase
     end
   end

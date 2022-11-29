@@ -1,3 +1,6 @@
+`ifndef INCLUDE_DECODER_1_TO_2
+`define INCLUDE_DECODER_1_TO_2
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -13,3 +16,5 @@ always_comb begin
 end
 
 endmodule
+
+`endif
