@@ -89,7 +89,7 @@ register #(.N(32)) memory_store(.clk(clk), .ena(memory_read_ena), .rst(rst), .d(
 
 logic alu_src_store_ena;
 register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data1), .q(alu_src_a));
-register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data2), .q(alu_src_b));
+register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(alu_src_b_mux), .q(alu_src_b));
 
 logic alu_result_store_ena;
 wire [31:0] alu_result;
@@ -102,7 +102,8 @@ immediate_extender imm_extender(.immediate(immediate), .control(imm_control), .o
 
 logic [1:0] output_select;
 logic imm_select;
-mux2_32 imm_enabler(.a({immediate_extended, reg_data2}), .s(imm_select), .y(alu_src_b));
+wire [31:0] alu_src_b_mux;
+mux2_32 imm_enabler(.a({immediate_extended, reg_data2}), .s(imm_select), .y(alu_src_b_mux));
 mux3_32 output_switcher(.a({PC, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
 
 logic [1:0] trash_can;
@@ -155,7 +156,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           alu_result_store_ena <= 0;
           output_select <= 0;
           memory_read_ena <= 0;
-          PC_ena <= 0;
+          PC_ena <= 1;
           mem_addr <= 0;
           mem_wr_ena <= 0;
           mem_wr_data <= 0;
@@ -164,6 +165,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         LOAD_INSTRUCTION : begin
           instruction_store_ena <= 1;
           mem_addr <= PC;
+          PC_ena <= 0;
           cpu_controller <= DONE_LOADING_INSTRUCTION;
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
@@ -197,6 +199,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         R_WRITE_REGISTERS : begin
           alu_result_store_ena <= 0; // lock the ALU result
           reg_write <= 1;
+          rd <= instruction[`RD_START:`RD_END];
           output_select <= 0; // from ALU
           cpu_controller <= R_DONE;
         end

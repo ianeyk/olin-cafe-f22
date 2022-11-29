@@ -22,6 +22,9 @@ RV32I_SRCS=${RFILE_SRCS} ${ALU_SRCS} ${MMU_SRCS} hdl/rv32i_defines.sv hdl/rv32i_
 test_register_file: tests/test_register_file.sv ${RFILE_SRCS}
 	${IVERILOG} $^ -o test_register_file.bin && ${VVP} test_register_file.bin ${VVP_POST}
 
+waves_register_file:
+	gtkwave register_file.fst -a tests/register_file.gtkw
+
 test_immediate_extender: tests/test_immediate_extender.sv ${EXTENDER_SRCS}
 	${IVERILOG} $^ -o test_immediate_extender.bin && ${VVP} test_immediate_extender.bin ${VVP_POST}
 
