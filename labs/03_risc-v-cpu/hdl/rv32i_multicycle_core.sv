@@ -180,20 +180,31 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
             J_TYPE : cpu_controller <= J_START;
           endcase
         end
+        I_START : begin
+          cpu_controller <= R_READ_REGISTERS; // I type shares with R type FSM with a few simple muxes
+        end
         R_START : begin // Just a filler state with a standard name.
           cpu_controller <= R_READ_REGISTERS;
         end
         R_READ_REGISTERS : begin
           rs1 <= instruction[`RS1_START:`RS1_END];
           rs2 <= instruction[`RS2_START:`RS2_END];
-          imm_select <= 0;
+          case(instruction_type)
+            R_TYPE : imm_select <= 0;
+            I_TYPE : imm_select <= 1;
+            default: imm_select <= 0;
+          endcase
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= R_ALU;
         end
         R_ALU : begin
           alu_src_store_ena <= 0; // lock the value in the register
           alu_result_store_ena <= 1;
-          alu_control <= r_type_alu_operation;
+          case(instruction_type)
+            R_TYPE : alu_control <= r_type_alu_operation;
+            I_TYPE : alu_control <= i_type_alu_operation;
+            default: alu_control <= r_type_alu_operation;
+          endcase
           cpu_controller <= R_WRITE_REGISTERS;
         end
         R_WRITE_REGISTERS : begin
