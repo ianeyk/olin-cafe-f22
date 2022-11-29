@@ -189,6 +189,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         R_READ_REGISTERS : begin
           rs1 <= instruction[`RS1_START:`RS1_END];
           rs2 <= instruction[`RS2_START:`RS2_END];
+          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
           case(instruction_type)
             R_TYPE : imm_select <= 0;
             I_TYPE : imm_select <= 1;
