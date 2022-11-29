@@ -1,3 +1,6 @@
+`ifndef INCLUDE_DECODER_3_TO_8
+`define INCLUDE_DECODER_3_TO_8
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -21,3 +24,5 @@ module decoder_3_to_8(ena, in, out);
   // SOLUTION CODE END
 
 endmodule
+
+`endif

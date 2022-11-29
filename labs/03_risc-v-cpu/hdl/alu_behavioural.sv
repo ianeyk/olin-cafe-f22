@@ -1,3 +1,6 @@
+`ifndef INCLUDE_ALU_BEHAVIOURAL
+`define INCLUDE_ALU_BEHAVIOURAL
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -52,3 +55,5 @@ always_comb begin : behavioural_alu_logic
 end
 
 endmodule
+
+`endif // INCLUDE_ALU_BEHAVIOURAL

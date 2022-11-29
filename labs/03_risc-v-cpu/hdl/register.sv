@@ -1,3 +1,6 @@
+`ifndef INCLUDE_REGISTER
+`define INCLUDE_REGISTER
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -25,3 +28,5 @@ always_ff @(posedge clk) begin
 end
 
 endmodule
+
+`endif // INCLUDE_REGISTER

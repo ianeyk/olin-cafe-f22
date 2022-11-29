@@ -1,3 +1,6 @@
+`ifndef INCLUDE_REGISTER_FILE
+`define INCLUDE_REGISTER_FILE
+
 `default_nettype none
 `timescale 1ns/1ps
 
@@ -218,3 +221,5 @@ register #(.N(32)) r_x31(.clk(clk), .rst(1'b0), .q(x31), .d(wr_data), .ena(wr_en
 
 
 endmodule
+
+`endif // INCLUDE_REGISTER_FILE

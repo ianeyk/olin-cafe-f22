@@ -1,3 +1,6 @@
+`ifndef INCLUDE_DECODER_2_TO_4
+`define INCLUDE_DECODER_2_TO_4
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -31,3 +34,5 @@ module decoder_2_to_4(ena, in, out);
   /* SOLUTION CODE END */
 
 endmodule
+
+`endif

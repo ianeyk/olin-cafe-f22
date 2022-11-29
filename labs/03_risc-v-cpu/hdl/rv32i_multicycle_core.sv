@@ -9,7 +9,7 @@
 `include "mux3_32.sv"
 `include "register.sv"
 `include "register_file.sv"
-`include "alu_behavioral.sv"
+`include "alu_behavioural.sv"
 `include "immediate_extender.sv"
 `include "decoder_5_to_32.sv"
 
@@ -96,7 +96,7 @@ wire [31:0] alu_result;
 register #(.N(32)) alu_result_store(.clk(clk), .ena(alu_result_store_ena), .rst(rst), .d(alu_result_temp), .q(alu_result));
 
 wire [31:0] immediate_extended;
-wire [19:0] immediate;
+logic [19:0] immediate;
 logic [1:0] imm_control;
 immediate_extender imm_extender(.immediate(immediate), .control(imm_control), .out(immediate_extended));
 
@@ -118,7 +118,7 @@ i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_
 
 enum logic [3:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
-  I_START, S_START, B_START, U_START, J_START } cpu_controller;
+  I_START, S_START, B_START, L_START, U_START, J_START } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -182,14 +182,14 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= R_READ_REGISTERS;
         end
         R_READ_REGISTERS : begin
-          rs1 <= instruction[RS1_START:RS1_END];
-          rs2 <= instruction[RS2_START:RS2_END];
+          rs1 <= instruction[`RS1_START:`RS1_END];
+          rs2 <= instruction[`RS2_START:`RS2_END];
           imm_select <= 0;
-          alu_src_store <= 1; // store the value in the register
+          alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= R_ALU;
         end
         R_ALU : begin
-          alu_src_store <= 0; // lock the value in the register
+          alu_src_store_ena <= 0; // lock the value in the register
           alu_result_store_ena <= 1;
           alu_control <= r_type_alu_operation;
           cpu_controller <= R_WRITE_REGISTERS;

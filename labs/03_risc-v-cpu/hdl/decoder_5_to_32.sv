@@ -1,3 +1,6 @@
+`ifndef INCLUDE_DECODER_5_TO_32
+`define INCLUDE_DECODER_5_TO_32
+
 `timescale 1ns/1ps
 `default_nettype none
 
@@ -20,3 +23,5 @@ decoder_4_to_16 DECODER_1(enas[1], in[3:0], out[31:16]);
 // SOLUTION CODE END
 
 endmodule
+
+`endif
