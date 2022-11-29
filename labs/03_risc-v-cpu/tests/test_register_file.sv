@@ -4,6 +4,7 @@
 module test_register_file;
 
 logic clk;
+// logic rst;
 
 // Write channel
 logic wr_ena;
@@ -15,6 +16,7 @@ logic [4:0] rd_addr0, rd_addr1;
 wire [31:0] rd_data0, rd_data1;
 
 register_file UUT(
+  // .rst(rst),
   .clk(clk), .wr_ena(wr_ena), .wr_addr(wr_addr), .wr_data(wr_data),
   .rd_addr0(rd_addr0), .rd_addr1(rd_addr1),
   .rd_data0(rd_data0), .rd_data1(rd_data1)
@@ -28,7 +30,7 @@ initial begin
   wr_data = 0;
   rd_addr0 = 0;
   rd_addr1 = 0;
-  rst = 1;
+  // rst = 1;
 
   $dumpfile("register_file.fst");
   $dumpvars(0, UUT);
@@ -38,8 +40,8 @@ initial begin
   Trying to pick unique values that exercise a lot of bits, so trying negative numbers is good.
   Specifically trying to write to the zero register to make sure that doesn't change.
   */
-  @(negedge clk);
-  rst = 0;
+  // @(negedge clk);
+  // rst = 0;
 
   for(int i = 0; i < 32; i = i + 1) begin
     @(negedge clk);
