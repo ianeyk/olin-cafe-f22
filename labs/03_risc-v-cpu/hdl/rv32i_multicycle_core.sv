@@ -43,17 +43,6 @@ register #(.N(32)) PC_OLD_REGISTER(
   .clk(clk), .rst(rst), .ena(PC_ena), .d(PC), .q(PC_old)
 );
 
-//  an example of how to make named inputs for a mux:
-/*
-    enum logic {MEM_SRC_PC, MEM_SRC_RESULT} mem_src;
-    always_comb begin : memory_read_address_mux
-      case(mem_src)
-        MEM_SRC_RESULT : mem_rd_addr = alu_result;
-        MEM_SRC_PC : mem_rd_addr = PC;
-        default: mem_rd_addr = 0;
-    end
-*/
-
 // Register file
 logic reg_write;
 logic [4:0] rd, rs1, rs2;
@@ -182,6 +171,9 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
             J_TYPE : cpu_controller <= J_START;
           endcase
         end
+
+        //// R-TYPE FSM
+
         R_START : begin // Just a filler state with a standard name.
           cpu_controller <= R_READ_REGISTERS;
         end
@@ -217,8 +209,9 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         I_READ_REGISTERS : begin
           rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END];
+          rs2 <= instruction[`RS2_START:`RS2_END]; // optional
           immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
+          imm_control <= 0; // I-type
           imm_select <= 1;
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= I_ALU;
@@ -248,23 +241,30 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         L_READ_REGISTERS : begin
           rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END];
-          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
-          imm_select <= 1;
+          rs2 <= instruction[`RS2_START:`RS2_END]; // optional
+          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END]; // same bit positions as I-type
+          imm_control <= 1; // L-type
+          imm_select <= 1; // yes, use the immediate bits
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= L_ALU;
         end
         L_ALU : begin
           alu_src_store_ena <= 0; // lock the value in the register
           alu_result_store_ena <= 1;
-          alu_control <= i_type_alu_operation;
+          alu_control <= ALU_ADD;
           cpu_controller <= L_WRITE_REGISTERS;
         end
-        L_WRITE_REGISTERS : begin
+        L_READ_MEMORY : begin
           alu_result_store_ena <= 0; // lock the ALU result
+          memory_read_ena <= 1; // store the value in the other memory register
+          mem_addr <= alu_result;
+          mem_wr_ena <= 0; // just reading
+        end
+        L_WRITE_REGISTERS : begin
+          memory_read_ena <= 0; // lock the memory register
           reg_write <= 1;
           rd <= instruction[`RD_START:`RD_END];
-          output_select <= 0; // from ALU
+          output_select <= 1; // from memory address
           cpu_controller <= L_DONE;
         end
         L_DONE : begin
