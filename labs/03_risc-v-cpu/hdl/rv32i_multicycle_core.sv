@@ -76,9 +76,14 @@ logic memory_read_ena;
 logic [31:0] memory_value;
 register #(.N(32)) memory_store(.clk(clk), .ena(memory_read_ena), .rst(rst), .d(mem_rd_data), .q(memory_value));
 
+logic rs2_read_ena;
+logic [31:0] rs2_value;
+register #(.N(32)) rs2_store(.clk(clk), .ena(rs2_read_ena), .rst(rst), .d(reg_data2), .q(rs2_value));
+
 logic alu_src_store_ena;
 register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data1), .q(alu_src_a));
 register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(alu_src_b_mux), .q(alu_src_b));
+
 
 logic alu_result_store_ena;
 wire [31:0] alu_result;
@@ -109,8 +114,9 @@ i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_
 enum logic [4:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
-  L_START, L_READ_REGISTERS, L_ALU, L_WRITE_REGISTERS, L_DONE, 
-  S_START, B_START, U_START, J_START } cpu_controller;
+  L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_WRITE_REGISTERS, L_DONE, 
+  S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE, 
+  B_START, U_START, J_START } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -123,6 +129,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     rs2 <= 0;
     rd <= 0;
     instruction_store_ena <= 0;
+    rs2_read_ena <= 0;
     alu_src_store_ena <= 0;
     alu_result_store_ena <= 0;
     output_select <= 0;
@@ -143,6 +150,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           rs2 <= 0;
           rd <= 0;
           instruction_store_ena <= 0;
+          rs2_read_ena <= 0;
           alu_src_store_ena <= 0;
           alu_result_store_ena <= 0;
           output_select <= 0;
@@ -243,7 +251,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           rs1 <= instruction[`RS1_START:`RS1_END];
           rs2 <= instruction[`RS2_START:`RS2_END]; // optional
           immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END]; // same bit positions as I-type
-          imm_control <= 1; // L-type
+          imm_control <= 0; // L-type
           imm_select <= 1; // yes, use the immediate bits
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= L_ALU;
@@ -269,6 +277,40 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         L_DONE : begin
           reg_write <= 0;
+          cpu_controller <= IDLE;
+        end
+
+        //// S-TYPE FSM
+
+        S_START : begin
+          cpu_controller <= S_READ_REGISTERS;
+        end
+        S_READ_REGISTERS : begin
+          rs1 <= instruction[`RS1_START:`RS1_END];
+          rs2 <= instruction[`RS2_START:`RS2_END];
+          immediate <= {instruction[`S_TYPE_IMM_1_START:`S_TYPE_IMM_1_END], instruction[`S_TYPE_IMM_2_START:`S_TYPE_IMM_2_END]};
+          imm_control <= 2; // S-type
+          imm_select <= 1; // yes, use the immediate bits
+          rs2_read_ena <= 1; // store the value from the rs2 register
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= S_ALU;
+        end
+        S_ALU : begin
+          rs2_read_ena <= 0; // lock the value from the rs2 resister
+          alu_src_store_ena <= 0; // lock the value in the register
+          alu_result_store_ena <= 1;
+          alu_control <= ALU_ADD;
+          cpu_controller <= S_WRITE_MEMORY;
+        end
+        S_WRITE_MEMORY : begin
+          alu_result_store_ena <= 0; // lock the ALU result
+          mem_addr <= alu_result;
+          mem_wr_ena <= 1; // store the value
+          mem_wr_data <= rs2_value;
+          cpu_controller <= S_DONE;
+        end
+        S_DONE : begin
+          mem_wr_ena <= 0; // stop writing the value to memory
           cpu_controller <= IDLE;
         end
       endcase
