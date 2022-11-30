@@ -117,9 +117,11 @@ alu_control_t i_type_alu_operation;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
-enum logic [3:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
+enum logic [4:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
-  I_START, S_START, B_START, L_START, U_START, J_START } cpu_controller;
+  I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
+  L_START, L_READ_REGISTERS, L_ALU, L_WRITE_REGISTERS, L_DONE, 
+  S_START, B_START, U_START, J_START } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -180,32 +182,20 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
             J_TYPE : cpu_controller <= J_START;
           endcase
         end
-        I_START : begin
-          cpu_controller <= R_READ_REGISTERS; // I type shares with R type FSM with a few simple muxes
-        end
         R_START : begin // Just a filler state with a standard name.
           cpu_controller <= R_READ_REGISTERS;
         end
         R_READ_REGISTERS : begin
           rs1 <= instruction[`RS1_START:`RS1_END];
           rs2 <= instruction[`RS2_START:`RS2_END];
-          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
-          case(instruction_type)
-            R_TYPE : imm_select <= 0;
-            I_TYPE : imm_select <= 1;
-            default: imm_select <= 0;
-          endcase
+          imm_select <= 0;
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= R_ALU;
         end
         R_ALU : begin
           alu_src_store_ena <= 0; // lock the value in the register
           alu_result_store_ena <= 1;
-          case(instruction_type)
-            R_TYPE : alu_control <= r_type_alu_operation;
-            I_TYPE : alu_control <= i_type_alu_operation;
-            default: alu_control <= r_type_alu_operation;
-          endcase
+          alu_control <= r_type_alu_operation;
           cpu_controller <= R_WRITE_REGISTERS;
         end
         R_WRITE_REGISTERS : begin
@@ -216,6 +206,68 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= R_DONE;
         end
         R_DONE : begin
+          reg_write <= 0;
+          cpu_controller <= IDLE;
+        end
+
+        //// I-TYPE FSM
+
+        I_START : begin
+          cpu_controller <= I_READ_REGISTERS;
+        end
+        I_READ_REGISTERS : begin
+          rs1 <= instruction[`RS1_START:`RS1_END];
+          rs2 <= instruction[`RS2_START:`RS2_END];
+          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
+          imm_select <= 1;
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= I_ALU;
+        end
+        I_ALU : begin
+          alu_src_store_ena <= 0; // lock the value in the register
+          alu_result_store_ena <= 1;
+          alu_control <= i_type_alu_operation;
+          cpu_controller <= I_WRITE_REGISTERS;
+        end
+        I_WRITE_REGISTERS : begin
+          alu_result_store_ena <= 0; // lock the ALU result
+          reg_write <= 1;
+          rd <= instruction[`RD_START:`RD_END];
+          output_select <= 0; // from ALU
+          cpu_controller <= I_DONE;
+        end
+        I_DONE : begin
+          reg_write <= 0;
+          cpu_controller <= IDLE;
+        end
+
+        //// L-TYPE FSM
+
+        L_START : begin
+          cpu_controller <= L_READ_REGISTERS;
+        end
+        L_READ_REGISTERS : begin
+          rs1 <= instruction[`RS1_START:`RS1_END];
+          rs2 <= instruction[`RS2_START:`RS2_END];
+          immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
+          imm_select <= 1;
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= L_ALU;
+        end
+        L_ALU : begin
+          alu_src_store_ena <= 0; // lock the value in the register
+          alu_result_store_ena <= 1;
+          alu_control <= i_type_alu_operation;
+          cpu_controller <= L_WRITE_REGISTERS;
+        end
+        L_WRITE_REGISTERS : begin
+          alu_result_store_ena <= 0; // lock the ALU result
+          reg_write <= 1;
+          rd <= instruction[`RD_START:`RD_END];
+          output_select <= 0; // from ALU
+          cpu_controller <= L_DONE;
+        end
+        L_DONE : begin
           reg_write <= 0;
           cpu_controller <= IDLE;
         end
