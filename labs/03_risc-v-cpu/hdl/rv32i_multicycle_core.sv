@@ -111,12 +111,12 @@ alu_control_t i_type_alu_operation;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
-enum logic [4:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION,
+enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_WRITE_REGISTERS, L_DONE, 
-  S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE, 
-  B_START, U_START, J_START } cpu_controller;
+  S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE_WRITING_MEMORY, S_DONE, 
+  B_START, U_START, J_START, ERROR } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -181,6 +181,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
             B_TYPE : cpu_controller <= B_START;
             U_TYPE : cpu_controller <= U_START;
             J_TYPE : cpu_controller <= J_START;
+            default: cpu_controller <= IDLE; // move to the next PC
           endcase
         end
 
@@ -308,9 +309,13 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         S_WRITE_MEMORY : begin
           alu_result_store_ena <= 0; // lock the ALU result
-          mem_addr <= alu_result;
-          mem_wr_ena <= 1; // store the value
           mem_wr_data <= rs2_value;
+          cpu_controller <= S_DONE_WRITING_MEMORY;
+        end
+        S_DONE_WRITING_MEMORY : begin
+          mem_addr <= alu_result;
+          // mem_addr <= 32'hFFFZFF;
+          mem_wr_ena <= 1; // store the value
           cpu_controller <= S_DONE;
         end
         S_DONE : begin

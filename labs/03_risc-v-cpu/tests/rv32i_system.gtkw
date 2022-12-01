@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Thu Dec  1 04:22:39 2022
+[*] Thu Dec  1 05:22:36 2022
 [*]
 [dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/rv32i_system.fst"
-[dumpfile_mtime] "Thu Dec  1 04:18:58 2022"
-[dumpfile_size] 18436
+[dumpfile_mtime] "Thu Dec  1 05:21:39 2022"
+[dumpfile_size] 17224
 [savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/tests/rv32i_system.gtkw"
-[timestart] 0
+[timestart] 256300
 [size] 1846 1016
 [pos] -1 -1
-*-16.828230 54100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-16.828230 390000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_rv32i_system.
 [treeopen] test_rv32i_system.UUT.
 [treeopen] test_rv32i_system.UUT.CORE.
@@ -27,11 +27,25 @@ test_rv32i_system.UUT.CORE.PC_ena
 test_rv32i_system.UUT.CORE.PC[31:0]
 test_rv32i_system.UUT.CORE.instruction[31:0]
 @2024
-^1 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/instruction_types.txt
+^1 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/controller_fsm_filter.txt
+test_rv32i_system.UUT.CORE.cpu_controller[5:0]
+@22
+test_rv32i_system.UUT.CORE.alu_result[31:0]
+@28
+test_rv32i_system.UUT.CORE.mem_wr_ena
+@23
+test_rv32i_system.UUT.CORE.mem_addr[31:0]
+@22
+test_rv32i_system.UUT.CORE.mem_wr_data[31:0]
+test_rv32i_system.UUT.CORE.rs2_value[31:0]
+@28
+test_rv32i_system.UUT.CORE.rs2_read_ena
+@22
+test_rv32i_system.UUT.CORE.mem_addr[31:0]
+@2024
+^2 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/instruction_types.txt
 test_rv32i_system.UUT.CORE.instruction_type[2:0]
-^2 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/controller_fsm_filter.txt
-test_rv32i_system.UUT.CORE.cpu_controller[4:0]
-@29
+@28
 test_rv32i_system.UUT.CORE.reg_write
 @22
 test_rv32i_system.UUT.CORE.rfile_wr_data[31:0]

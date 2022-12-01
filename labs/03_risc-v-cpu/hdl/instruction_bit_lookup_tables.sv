@@ -14,7 +14,7 @@ typedef enum logic [2:0] {
   B_TYPE = 3'd4,
   U_TYPE = 3'd5,
   J_TYPE = 3'd6,
-  UNDEFINED = 3'd7
+  UNDEFINED = 3'bxxx
 } instruction_t;
 
 module op_code_lookup(instruction, instruction_type);
@@ -50,6 +50,7 @@ always_comb begin
         instruction_type = U_TYPE;
     else if (is_j_type)
         instruction_type = J_TYPE;
+    else instruction_type = UNDEFINED;
 end
 
 endmodule
