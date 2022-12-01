@@ -114,7 +114,7 @@ i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_
 enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
-  L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_WRITE_REGISTERS, L_DONE, 
+  L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_DONE_READING_MEMORY, L_WRITE_REGISTERS, L_DONE, 
   S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE_WRITING_MEMORY, S_DONE, 
   B_START, U_START, J_START, ERROR } cpu_controller;
 
@@ -265,19 +265,23 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           alu_src_store_ena <= 0; // lock the value in the register
           alu_result_store_ena <= 1;
           alu_control <= ALU_ADD;
-          cpu_controller <= L_WRITE_REGISTERS;
+          cpu_controller <= L_READ_MEMORY;
         end
         L_READ_MEMORY : begin
           alu_result_store_ena <= 0; // lock the ALU result
-          memory_read_ena <= 1; // store the value in the other memory register
-          mem_addr <= alu_result;
           mem_wr_ena <= 0; // just reading
+          cpu_controller <= L_DONE_READING_MEMORY;
+        end
+        L_DONE_READING_MEMORY : begin
+          mem_addr <= alu_result;
+          memory_read_ena <= 1; // store the value in the other memory register
+          cpu_controller <= L_WRITE_REGISTERS;
+          output_select <= 1; // from memory address
         end
         L_WRITE_REGISTERS : begin
           memory_read_ena <= 0; // lock the memory register
           reg_write <= 1;
           rd <= instruction[`RD_START:`RD_END];
-          output_select <= 1; // from memory address
           cpu_controller <= L_DONE;
         end
         L_DONE : begin
@@ -314,7 +318,6 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         S_DONE_WRITING_MEMORY : begin
           mem_addr <= alu_result;
-          // mem_addr <= 32'hFFFZFF;
           mem_wr_ena <= 1; // store the value
           cpu_controller <= S_DONE;
         end
