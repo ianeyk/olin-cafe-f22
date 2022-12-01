@@ -43,10 +43,10 @@ register #(.N(32)) PC_OLD_REGISTER(
   .clk(clk), .rst(rst), .ena(PC_ena), .d(PC), .q(PC_old)
 );
 
-// always_comb case(cpu_controller)
-//   IDLE : PC_ena = 1;
-//   default : PC_ena = 0;
-// endcase
+always_comb case(cpu_controller)
+  IDLE : PC_ena = 1;
+  default : PC_ena = 0;
+endcase
 
 // Register file
 logic reg_write;
@@ -59,6 +59,12 @@ register_file REGISTER_FILE(
   .rd_addr0(rs1), .rd_addr1(rs2),
   .rd_data0(reg_data1), .rd_data1(reg_data2)
 );
+
+always_comb begin
+  rs1 = instruction[`RS1_START:`RS1_END];
+  rs2 = instruction[`RS2_START:`RS2_END];
+  rd  = instruction[`RD_START:`RD_END];
+end
 
 // ALU and related control signals
 // Feel free to replace with your ALU from the homework.
@@ -77,6 +83,7 @@ logic instruction_store_ena;
 logic [31:0] instruction;
 register #(.N(32)) instruction_store(.clk(clk), .ena(instruction_store_ena), .rst(rst), .d(mem_rd_data), .q(instruction));
 
+logic zzz_firework;
 always_comb case(cpu_controller)
   LOAD_INSTRUCTION : instruction_store_ena = 1;
   DONE_LOADING_INSTRUCTION : instruction_store_ena = 1;
@@ -94,7 +101,6 @@ register #(.N(32)) rs2_store(.clk(clk), .ena(rs2_read_ena), .rst(rst), .d(reg_da
 logic alu_src_store_ena;
 register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data1), .q(alu_src_a));
 register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(alu_src_b_mux), .q(alu_src_b));
-
 
 logic alu_result_store_ena;
 wire [31:0] alu_result;
@@ -136,16 +142,16 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     imm_control <= 0;
     imm_select <= 0;
     immediate <= 20'b0;
-    rs1 <= 0;
-    rs2 <= 0;
-    rd <= 0;
+    // rs1 <= 0;
+    // rs2 <= 0;
+    // rd <= 0;
     // instruction_store_ena <= 0;
     rs2_read_ena <= 0;
     alu_src_store_ena <= 0;
     alu_result_store_ena <= 0;
     output_select <= 0;
     memory_read_ena <= 0;
-    PC_ena <= 0;
+    // PC_ena <= 0;
     mem_addr <= PC_START_ADDRESS; // we know there is nothing bad at this address; there might be bad stuff at 0.
     mem_wr_ena <= 0;
     mem_wr_data <= 0;
@@ -157,16 +163,16 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           imm_control <= 0;
           imm_select <= 0;
           immediate <= 20'b0;
-          rs1 <= 0;
-          rs2 <= 0;
-          rd <= 0;
+          // rs1 <= 0;
+          // rs2 <= 0;
+          // rd <= 0;
           // instruction_store_ena <= 0;
           rs2_read_ena <= 0;
           alu_src_store_ena <= 0;
           alu_result_store_ena <= 0;
           output_select <= 0;
           memory_read_ena <= 0;
-          PC_ena <= 1;
+          // PC_ena <= 1;
           mem_addr <= 0;
           mem_wr_ena <= 0;
           mem_wr_data <= 0;
@@ -175,7 +181,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         LOAD_INSTRUCTION : begin
           // instruction_store_ena <= 1;
           mem_addr <= PC;
-          PC_ena <= 0;
+          // PC_ena <= 0;
           cpu_controller <= DONE_LOADING_INSTRUCTION;
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
@@ -198,8 +204,8 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= R_READ_REGISTERS;
         end
         R_READ_REGISTERS : begin
-          rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END];
+          // rs1 <= instruction[`RS1_START:`RS1_END];
+          // rs2 <= instruction[`RS2_START:`RS2_END];
           imm_select <= 0;
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= R_ALU;
@@ -228,8 +234,8 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= I_READ_REGISTERS;
         end
         I_READ_REGISTERS : begin
-          rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END]; // optional
+          // rs1 <= instruction[`RS1_START:`RS1_END];
+          // rs2 <= instruction[`RS2_START:`RS2_END]; // optional
           immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
           imm_control <= 0; // I-type
           imm_select <= 1;
@@ -260,8 +266,8 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= L_READ_REGISTERS;
         end
         L_READ_REGISTERS : begin
-          rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END]; // optional
+          // rs1 <= instruction[`RS1_START:`RS1_END];
+          // rs2 <= instruction[`RS2_START:`RS2_END]; // optional
           immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END]; // same bit positions as I-type
           imm_control <= 0; // L-type
           imm_select <= 1; // yes, use the immediate bits
@@ -298,8 +304,8 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= S_READ_REGISTERS;
         end
         S_READ_REGISTERS : begin
-          rs1 <= instruction[`RS1_START:`RS1_END];
-          rs2 <= instruction[`RS2_START:`RS2_END];
+          // rs1 <= instruction[`RS1_START:`RS1_END];
+          // rs2 <= instruction[`RS2_START:`RS2_END];
           immediate <= {instruction[`S_TYPE_IMM_1_START:`S_TYPE_IMM_1_END], instruction[`S_TYPE_IMM_2_START:`S_TYPE_IMM_2_END]};
           imm_control <= 2; // S-type
           imm_select <= 1; // yes, use the immediate bits
