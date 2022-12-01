@@ -43,6 +43,11 @@ register #(.N(32)) PC_OLD_REGISTER(
   .clk(clk), .rst(rst), .ena(PC_ena), .d(PC), .q(PC_old)
 );
 
+// always_comb case(cpu_controller)
+//   IDLE : PC_ena = 1;
+//   default : PC_ena = 0;
+// endcase
+
 // Register file
 logic reg_write;
 logic [4:0] rd, rs1, rs2;
@@ -71,6 +76,12 @@ alu_behavioural ALU (
 logic instruction_store_ena;
 logic [31:0] instruction;
 register #(.N(32)) instruction_store(.clk(clk), .ena(instruction_store_ena), .rst(rst), .d(mem_rd_data), .q(instruction));
+
+always_comb case(cpu_controller)
+  LOAD_INSTRUCTION : instruction_store_ena = 1;
+  DONE_LOADING_INSTRUCTION : instruction_store_ena = 1;
+  default : instruction_store_ena = 0;
+endcase
 
 logic memory_read_ena;
 logic [31:0] memory_value;
@@ -111,12 +122,12 @@ alu_control_t i_type_alu_operation;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
-enum logic [4:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
+enum logic [5:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_WRITE_REGISTERS, L_DONE, 
   S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE, 
-  B_START, U_START, J_START } cpu_controller;
+  B_START, U_START, J_START, ERROR} cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -128,7 +139,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     rs1 <= 0;
     rs2 <= 0;
     rd <= 0;
-    instruction_store_ena <= 0;
+    // instruction_store_ena <= 0;
     rs2_read_ena <= 0;
     alu_src_store_ena <= 0;
     alu_result_store_ena <= 0;
@@ -149,7 +160,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           rs1 <= 0;
           rs2 <= 0;
           rd <= 0;
-          instruction_store_ena <= 0;
+          // instruction_store_ena <= 0;
           rs2_read_ena <= 0;
           alu_src_store_ena <= 0;
           alu_result_store_ena <= 0;
@@ -162,13 +173,13 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= LOAD_INSTRUCTION;
         end
         LOAD_INSTRUCTION : begin
-          instruction_store_ena <= 1;
+          // instruction_store_ena <= 1;
           mem_addr <= PC;
           PC_ena <= 0;
           cpu_controller <= DONE_LOADING_INSTRUCTION;
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
-          instruction_store_ena <= 0;
+          // instruction_store_ena <= 0;
           case(instruction_type)
             R_TYPE : cpu_controller <= R_START;
             I_TYPE : cpu_controller <= I_START;
@@ -177,6 +188,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
             B_TYPE : cpu_controller <= B_START;
             U_TYPE : cpu_controller <= U_START;
             J_TYPE : cpu_controller <= J_START;
+            default: cpu_controller <= ERROR;
           endcase
         end
 

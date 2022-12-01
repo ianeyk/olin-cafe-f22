@@ -50,6 +50,9 @@ always_comb begin
         instruction_type = U_TYPE;
     else if (is_j_type)
         instruction_type = J_TYPE;
+    else
+        instruction_type = UNDEFINED;
+
 end
 
 endmodule
