@@ -111,7 +111,7 @@ alu_control_t i_type_alu_operation;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
-enum logic [4:0] { IDLE, LOAD_INSTRUCTION, DONE_LOADING_INSTRUCTION,
+enum logic [4:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION,
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_WRITE_REGISTERS, L_DONE, 
@@ -162,9 +162,13 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= LOAD_INSTRUCTION;
         end
         LOAD_INSTRUCTION : begin
+          PC_ena <= 0;
           instruction_store_ena <= 1;
           mem_addr <= PC;
-          PC_ena <= 0;
+          cpu_controller <= LOADING_INSTRUCTION;
+        end
+        LOADING_INSTRUCTION : begin
+          instruction_store_ena <= 0;
           cpu_controller <= DONE_LOADING_INSTRUCTION;
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
