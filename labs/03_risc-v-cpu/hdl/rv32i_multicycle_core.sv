@@ -81,7 +81,7 @@ logic [31:0] rs2_value;
 register #(.N(32)) rs2_store(.clk(clk), .ena(rs2_read_ena), .rst(rst), .d(reg_data2), .q(rs2_value));
 
 logic alu_src_store_ena;
-register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(reg_data1), .q(alu_src_a));
+register #(.N(32)) alu_src_a_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(alu_src_a_mux), .q(alu_src_a));
 register #(.N(32)) alu_src_b_store(.clk(clk), .ena(alu_src_store_ena), .rst(rst), .d(alu_src_b_mux), .q(alu_src_b));
 
 
@@ -94,14 +94,22 @@ logic [19:0] immediate;
 logic [1:0] imm_control;
 immediate_extender imm_extender(.immediate(immediate), .control(imm_control), .out(immediate_extended));
 
-logic [1:0] output_select;
+logic PC_alu_select;
 logic imm_select;
+wire [31:0] alu_src_a_mux;
 wire [31:0] alu_src_b_mux;
+mux2_32 pc_alu_enabler(.a({PC, reg_data1}), .s(PC_alu_select), .y(alu_src_a_mux));
 mux2_32 imm_enabler(.a({immediate_extended, reg_data2}), .s(imm_select), .y(alu_src_b_mux));
+
+logic [1:0] output_select;
 mux3_32 output_switcher(.a({PC, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
 
 logic [1:0] trash_can;
+logic [32:0] PC_increment;
 adder32 PC_incrementer(.a(PC), .b(32'd4), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
+
+logic to_jump_or_not;
+mux2_32 to_jump_or_not_switch(.a({rfile_wr_data, 32'd4}), .s(to_jump_or_not), .y(PC_increment));
 
 instruction_t instruction_type;
 op_code_lookup op_code_lookup_table(.instruction(instruction), .instruction_type(instruction_type));
@@ -135,6 +143,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     output_select <= 0;
     memory_read_ena <= 0;
     PC_ena <= 0;
+    to_jump_or_not <= 0;
     mem_addr <= PC_START_ADDRESS; // we know there is nothing bad at this address; there might be bad stuff at 0.
     mem_wr_ena <= 0;
     mem_wr_data <= 0;
@@ -156,6 +165,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           output_select <= 0;
           memory_read_ena <= 0;
           PC_ena <= 1;
+          // to_jump_or_not <= 0; // don't uncomment. If this value was set in the last instruction, we need to know it here.
           mem_addr <= 0;
           mem_wr_ena <= 0;
           mem_wr_data <= 0;
@@ -163,6 +173,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         LOAD_INSTRUCTION : begin
           PC_ena <= 0;
+          to_jump_or_not <= 0; // if we're incrementing by something other than 4, then so be it
           instruction_store_ena <= 1;
           mem_addr <= PC;
           cpu_controller <= LOADING_INSTRUCTION;
