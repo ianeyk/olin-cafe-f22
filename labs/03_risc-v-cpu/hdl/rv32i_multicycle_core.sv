@@ -133,6 +133,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     imm_control <= 0;
     imm_select <= 0;
     immediate <= 20'b0;
+    PC_alu_select <= 0;
     rs1 <= 0;
     rs2 <= 0;
     rd <= 0;
@@ -155,6 +156,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           imm_control <= 0;
           imm_select <= 0;
           immediate <= 20'b0;
+          PC_alu_select <= 0;
           rs1 <= 0;
           rs2 <= 0;
           rd <= 0;
