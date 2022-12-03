@@ -6,3 +6,4 @@ label_a: addi x1, x1, 17
     addi x1, x1, 16
     addi x1, x1, 16
     beq x0, x0, label_a
+    addi x1, x1, 1

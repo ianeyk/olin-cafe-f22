@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sat Dec  3 03:48:57 2022
+[*] Sat Dec  3 04:38:41 2022
 [*]
 [dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/rv32i_system.fst"
-[dumpfile_mtime] "Sat Dec  3 03:48:24 2022"
-[dumpfile_size] 20684
+[dumpfile_mtime] "Sat Dec  3 04:37:30 2022"
+[dumpfile_size] 22001
 [savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/tests/rv32i_system.gtkw"
 [timestart] 0
 [size] 1846 1016
 [pos] -1 -1
-*-17.141562 205000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.141562 62800 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_rv32i_system.
 [treeopen] test_rv32i_system.UUT.
 [treeopen] test_rv32i_system.UUT.CORE.
@@ -52,7 +52,7 @@ test_rv32i_system.UUT.CORE.instruction_type[2:0]
 test_rv32i_system.UUT.CORE.cpu_controller[5:0]
 @28
 test_rv32i_system.UUT.CORE.imm_control[1:0]
-@22
+test_rv32i_system.UUT.CORE.immediate[19:0]
 test_rv32i_system.UUT.CORE.immediate_extended[31:0]
 @200
 -r_x01

@@ -41,9 +41,10 @@ $display("control  immediate    | out (correct out)");
             #1 change = 1;
         end
         1: begin
-            #1 immediate = 20'b1010_0000_0000_0000_1010;
+            #1 immediate = 20'b1010_0000_1010_0000_1010;
             #1 control = 1;
-            #1 correct_out = 32'b0000_0000_0000_0000_0000_0000_0001_0100;
+            #1 correct_out = 32'b1111_1111_1111_1111_1111_0010_0000_1010;
+            // #1 correct_out = 32'b0000_0000_0000_0000_0000_0000_0001_0100;
             #1 change = 2;
         end
         2: begin
@@ -85,6 +86,7 @@ $display("control  immediate    | out (correct out)");
     //       It's best practice to use these for checkers!
     always @(change) begin
         assert(out === correct_out) else begin
+            #1 print_io();
             $display("  ERROR\n=============\n----%b----\n---(%b)---\n=============", out, correct_out);
             errors = errors + 1;
         end
