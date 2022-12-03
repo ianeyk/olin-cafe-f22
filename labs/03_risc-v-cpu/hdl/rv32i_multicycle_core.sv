@@ -361,7 +361,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           alu_compare_store_ena <= 1;
           alu_control <= ALU_SUB;
           // alu_control <= B_type_alu_operation;
-          immediate <= {instruction[`B_TYPE_IMM_1_START:`B_TYPE_IMM_1_END], instruction[`B_TYPE_IMM_2_START:`B_TYPE_IMM_2_END]};
+          immediate <= {8'b0, instruction[`B_TYPE_IMM_1_START:`B_TYPE_IMM_1_END], instruction[`B_TYPE_IMM_2_START:`B_TYPE_IMM_2_END]};
           imm_control <= 1; // B-type
           imm_select <= 1; // use the immediate value this time
           cpu_controller <= B_ALU_GET_PC;

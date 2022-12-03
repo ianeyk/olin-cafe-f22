@@ -141,6 +141,8 @@ def main():
         help="increases verbosity of the script",
     )
     args = parser.parse_args()
+    print(args)
+
     if not path.exists(args.input):
         raise Exception(f"input file {args.input} does not exist.")
     ap = AssemblyProgram()
@@ -157,6 +159,27 @@ def main():
             ap.write_mem(args.output, hex_notbin=not "memb" in args.output)
         )
     sys.exit(0)
+
+    # input='/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/asm/btypes.S'
+    # output='/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/asm/btypes.memh'
+    # verbose=False
+
+    # if not path.exists(input):
+    #     raise Exception(f"input file {input} does not exist.")
+    # ap = AssemblyProgram()
+    # with open(input, "r") as f:
+    #     for line in f:
+    #         ap.parse_line(line)
+    # if verbose:
+    #     print(f"Parsed {len(ap.parsed_lines)} instructions. Label table:")
+    #     print(
+    #         "  " + ",\n  ".join([f"{k} -> {ap.labels[k]}" for k in ap.labels])
+    #     )
+    # if output:
+    #     sys.exit(
+    #         ap.write_mem(output, hex_notbin=not "memb" in output)
+    #     )
+    # sys.exit(0)
 
 
 if __name__ == "__main__":
