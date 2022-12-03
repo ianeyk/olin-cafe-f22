@@ -89,6 +89,10 @@ logic alu_result_store_ena;
 wire [31:0] alu_result;
 register #(.N(32)) alu_result_store(.clk(clk), .ena(alu_result_store_ena), .rst(rst), .d(alu_result_temp), .q(alu_result));
 
+logic alu_compare_store_ena; // used for storing the result of, e.g. a subtraction for branching purposes
+wire alu_compare_result;
+register #(.N(32)) alu_compare_store(.clk(clk), .ena(alu_compare_store_ena), .rst(rst), .d(zero), .q(alu_compare_result));
+
 wire [31:0] immediate_extended;
 logic [19:0] immediate;
 logic [1:0] imm_control;
@@ -106,7 +110,7 @@ mux3_32 output_switcher(.a({PC, memory_value, alu_result}), .s(output_select), .
 
 logic [1:0] trash_can;
 logic [32:0] PC_increment;
-adder32 PC_incrementer(.a(PC), .b(32'd4), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
+adder32 PC_incrementer(.a(PC), .b(PC_increment), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
 
 logic to_jump_or_not;
 mux2_32 to_jump_or_not_switch(.a({rfile_wr_data, 32'd4}), .s(to_jump_or_not), .y(PC_increment));
@@ -124,7 +128,8 @@ enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INS
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_DONE_READING_MEMORY, L_WRITE_REGISTERS, L_DONE, 
   S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE_WRITING_MEMORY, S_DONE, 
-  B_START, U_START, J_START, ERROR } cpu_controller;
+  B_START, B_READ_REGISTERS, B_ALU_COMPARE, B_ALU_GET_PC, B_WRITE_PC_REGISTER, B_DONE, 
+  U_START, J_START, ERROR } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -336,6 +341,48 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         S_DONE : begin
           mem_wr_ena <= 0; // stop writing the value to memory
+          cpu_controller <= IDLE;
+        end
+        
+        //// B-TYPE FSM
+
+        B_START : begin
+          cpu_controller <= B_READ_REGISTERS;
+        end
+        B_READ_REGISTERS : begin
+          rs1 <= instruction[`RS1_START:`RS1_END];
+          rs2 <= instruction[`RS2_START:`RS2_END];
+          imm_select <= 0; // ignore the immediate value; we only care about comparing the registers to determine the branch
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= B_ALU_COMPARE;
+        end
+        B_ALU_COMPARE : begin
+          alu_src_store_ena <= 1; // lock the value in the register // keep, because we're using the ALU again immediately
+          alu_compare_store_ena <= 1;
+          alu_control <= ALU_SUB;
+          // alu_control <= B_type_alu_operation;
+          immediate <= {instruction[`B_TYPE_IMM_1_START:`B_TYPE_IMM_1_END], instruction[`B_TYPE_IMM_2_START:`B_TYPE_IMM_2_END]};
+          imm_control <= 3; // I-type
+          imm_select <= 1; // use the immediate value this time
+          cpu_controller <= B_ALU_GET_PC;
+        end
+        B_ALU_GET_PC : begin
+          alu_src_store_ena <= 0; // store the value in the register
+          alu_compare_store_ena <= 0;
+          PC_alu_select <= 1;
+          alu_control <= ALU_ADD;
+          alu_result_store_ena <= 1;
+          cpu_controller <= B_WRITE_PC_REGISTER;
+        end
+        B_WRITE_PC_REGISTER : begin
+          // alu_src_store_ena <= 0; // lock the value in the register
+          alu_result_store_ena <= 0; // lock the ALU result
+          output_select <= 0; // from ALU
+          to_jump_or_not <= alu_compare_result;
+          cpu_controller <= B_DONE;
+        end
+        B_DONE : begin
+          // to_jump_or_not <= 0; // do not uncomment this line. The state needs to be preserved until the LOAD_INSTRUCTION phase.
           cpu_controller <= IDLE;
         end
       endcase
