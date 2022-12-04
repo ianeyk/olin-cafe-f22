@@ -123,7 +123,7 @@ alu_control_t i_type_alu_operation;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
 
-enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION,
+enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION, INTERPRET_INTSTRUCTION, 
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
   I_START, I_READ_REGISTERS, I_ALU, I_WRITE_REGISTERS, I_DONE, 
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_DONE_READING_MEMORY, L_WRITE_REGISTERS, L_DONE, 
@@ -133,12 +133,14 @@ enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INS
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
-    cpu_controller <= IDLE;
+    // cpu_controller <= IDLE; //TODO: try jumping from here to LOAD_INSTRCTION, so as to skip incrementing the PC
+    cpu_controller <= LOAD_INSTRUCTION;
     reg_write <= 0;
     imm_control <= 0;
     imm_select <= 0;
     immediate <= 20'b0;
     PC_alu_select <= 0;
+    alu_control <= 0;
     rs1 <= 0;
     rs2 <= 0;
     rd <= 0;
@@ -181,16 +183,19 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         LOAD_INSTRUCTION : begin
           PC_ena <= 0;
           to_jump_or_not <= 0; // if we're incrementing by something other than 4, then so be it
-          instruction_store_ena <= 1;
-          mem_addr <= PC;
           cpu_controller <= LOADING_INSTRUCTION;
         end
         LOADING_INSTRUCTION : begin
-          instruction_store_ena <= 0;
+          mem_addr <= PC;
+          instruction_store_ena <= 1;
           cpu_controller <= DONE_LOADING_INSTRUCTION;
         end
         DONE_LOADING_INSTRUCTION : begin // save instruction in register, so memory can be used for other things
           instruction_store_ena <= 0;
+          // instruction_store_ena <= 0;
+          cpu_controller <= INTERPRET_INTSTRUCTION;
+        end
+        INTERPRET_INTSTRUCTION : begin // save instruction in register, so memory can be used for other things
           case(instruction_type)
             R_TYPE : cpu_controller <= R_START;
             I_TYPE : cpu_controller <= I_START;
