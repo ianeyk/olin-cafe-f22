@@ -89,8 +89,11 @@ logic alu_result_store_ena;
 wire [31:0] alu_result;
 register #(.N(32)) alu_result_store(.clk(clk), .ena(alu_result_store_ena), .rst(rst), .d(alu_result_temp), .q(alu_result));
 
+
 logic alu_compare_store_ena; // used for storing the result of, e.g. a subtraction for branching purposes
 wire alu_compare_result;
+logic alu_compare;
+always_comb alu_compare = zero ^ to_branch_or_not;
 register #(.N(32)) alu_compare_store(.clk(clk), .ena(alu_compare_store_ena), .rst(rst), .d(zero), .q(alu_compare_result));
 
 wire [31:0] immediate_extended;
@@ -125,8 +128,11 @@ op_code_lookup op_code_lookup_table(.instruction(instruction), .instruction_type
 
 alu_control_t r_type_alu_operation;
 alu_control_t i_type_alu_operation;
+alu_control_t b_type_alu_operation;
+logic to_branch_or_not;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
+b_type_alu_op_lookup b_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(b_type_alu_operation), .to_branch_or_not(to_branch_or_not))
 
 enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION, INTERPRET_INTSTRUCTION, 
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 

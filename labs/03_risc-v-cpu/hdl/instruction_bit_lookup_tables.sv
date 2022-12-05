@@ -163,3 +163,42 @@ always_comb begin
 end
 
 endmodule
+
+module b_type_alu_op_lookup(instruction, alu_operation, to_branch_or_not);
+
+input wire [31:0] instruction;
+output alu_control_t alu_operation;
+output logic to_branch_or_not;
+
+logic [2:0] funct3;
+always_comb funct3 = instruction[`FUNCT3_START:`FUNCT3_END];
+
+logic is_add, is_sll, is_slt, is_sltu, is_xor, is_srl_sra, is_or, is_and, is_alternative, other_bits_zero;
+
+comparator_eq #(.N(3)) assert_if_beq( .a(funct3), .b(3'b000), .out(is_beq));
+comparator_eq #(.N(3)) assert_if_bne( .a(funct3), .b(3'b001), .out(is_bne));
+comparator_eq #(.N(3)) assert_if_blt( .a(funct3), .b(3'b100), .out(is_blt));
+comparator_eq #(.N(3)) assert_if_bge( .a(funct3), .b(3'b101), .out(is_bge));
+comparator_eq #(.N(3)) assert_if_bltu(.a(funct3), .b(3'b110), .out(is_bltu));
+comparator_eq #(.N(3)) assert_if_bgeu(.a(funct3), .b(3'b111), .out(is_bgeu));
+
+always_comb to_branch_or_not = is_bne | is_bge | is_bgeu;
+
+always_comb begin
+    if (is_beq)
+        alu_operation = ALU_SUB;
+    else if (bne)
+        alu_operation = ALU_SUB;
+    else if (is_blt)
+        alu_operation = ALU_SLT;
+    else if (bge)
+        alu_operation = ALU_SLT;
+    else if (is_bltu)
+        alu_operation = ALU_SLTU;
+    else if (is_bgeu)
+        alu_operation = ALU_SLTU;
+    else
+        alu_operation = ALU_INVALID;
+end
+
+endmodule
