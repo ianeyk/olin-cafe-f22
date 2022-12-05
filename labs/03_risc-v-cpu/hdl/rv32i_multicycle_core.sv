@@ -106,7 +106,7 @@ mux2_32 pc_alu_enabler(.a({PC, reg_data1}), .s(PC_alu_select), .y(alu_src_a_mux)
 mux2_32 imm_enabler(.a({immediate_extended, reg_data2}), .s(imm_select), .y(alu_src_b_mux));
 
 logic [1:0] output_select;
-mux3_32 output_switcher(.a({PC, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
+mux3_32 output_switcher(.a({PC_next, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
 
 logic [1:0] trash_can;
 logic [32:0] PC_increment;
@@ -129,7 +129,8 @@ enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INS
   L_START, L_READ_REGISTERS, L_ALU, L_READ_MEMORY, L_DONE_READING_MEMORY, L_WRITE_REGISTERS, L_DONE, 
   S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE_WRITING_MEMORY, S_DONE, 
   B_START, B_READ_REGISTERS, B_ALU_COMPARE, B_ALU_GET_PC, B_WRITE_PC_REGISTER, B_DONE, 
-  U_START, J_START, ERROR } cpu_controller;
+  J_START, J_READ_IMMEDIATE, J_WRITE_MEMORY, J_ALU_GET_PC, J_WRITE_PC_REGISTER, J_DONE, 
+  U_START, ERROR } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -387,6 +388,43 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= B_DONE;
         end
         B_DONE : begin
+          // to_jump_or_not <= 0; // do not uncomment this line. The state needs to be preserved until the LOAD_INSTRUCTION phase.
+          cpu_controller <= IDLE;
+        end
+
+        //// J-TYPE FSM
+
+        J_START : begin
+          cpu_controller <= J_READ_IMMEDIATE;
+        end
+        J_READ_IMMEDIATE : begin 
+          PC_alu_select <= 1;
+          rd <= instruction[`RD_START:`RD_END];
+          immediate <= instruction[`J_TYPE_IMM_START:`J_TYPE_IMM_END];
+          imm_select <= 1; // ignore the immediate value; we only care about comparing the registers to determine the branch
+          imm_control <= 3; // J-type
+          cpu_controller <= J_WRITE_MEMORY;
+        end
+        J_WRITE_MEMORY : begin // extra cycle may not be needed
+          output_select <= 2; // next PC to write to register
+          mem_wr_ena <= 1; // quickly, write the next_PC value to memory
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= J_ALU_GET_PC;
+        end
+        J_ALU_GET_PC : begin
+          mem_wr_ena <= 1'b0; // stop writing the next_PC value to memory
+          alu_src_store_ena <= 0; // store the value in the register
+          alu_control <= ALU_ADD;
+          alu_result_store_ena <= 1;
+          cpu_controller <= J_WRITE_PC_REGISTER;
+        end
+        J_WRITE_PC_REGISTER : begin
+          alu_result_store_ena <= 0; // lock the ALU result
+          output_select <= 0; // from ALU
+          to_jump_or_not <= 1'b1; // send the result out to the PC incrementer
+          cpu_controller <= J_DONE;
+        end
+        J_DONE : begin
           // to_jump_or_not <= 0; // do not uncomment this line. The state needs to be preserved until the LOAD_INSTRUCTION phase.
           cpu_controller <= IDLE;
         end

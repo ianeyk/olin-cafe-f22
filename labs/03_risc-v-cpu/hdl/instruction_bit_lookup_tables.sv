@@ -19,7 +19,7 @@ typedef enum logic [2:0] {
 
 module op_code_lookup(instruction, instruction_type);
 
-input wire [31:0] instruction;
+input wire [31:0] instruction;  
 output instruction_t instruction_type;
 
 logic [6:0] op_code;

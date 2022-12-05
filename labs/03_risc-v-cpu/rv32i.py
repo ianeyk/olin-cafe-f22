@@ -196,7 +196,11 @@ def line_to_bits(line, labels={}, address=0):
             raise LineException(
                 f"label '{label}' was not in the stored table.", )
         offset = int(labels[label]) - address
-        imm = BitArray(int=offset, length=20)
+        # imm = BitArray(int=offset, length=20)
+        # # imm[20|10:1|11|19:12] in normal bit order, this library makes us flip that
+        # bits = imm[0:1] + imm[10:20] + imm[9:10] + \
+        #     imm[1:9] + rd + op_codes[instruction]
+        imm = BitArray(int=offset, length=21)
         # imm[20|10:1|11|19:12] in normal bit order, this library makes us flip that
         bits = imm[0:1] + imm[10:20] + imm[9:10] + \
             imm[1:9] + rd + op_codes[instruction]
