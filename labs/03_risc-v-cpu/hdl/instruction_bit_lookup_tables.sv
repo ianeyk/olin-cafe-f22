@@ -17,15 +17,17 @@ typedef enum logic [2:0] {
   UNDEFINED = 3'bxxx
 } instruction_t;
 
-module op_code_lookup(instruction, instruction_type);
+module op_code_lookup(instruction, instruction_type, is_jalr);
 
 input wire [31:0] instruction;  
 output instruction_t instruction_type;
+output logic is_jalr;
 
 logic [6:0] op_code;
 always_comb op_code = instruction[6:0];
 
 logic is_r_type, is_i_type, is_l_type, is_s_type, is_b_type, is_u_type, is_j_type;
+logic is_jal_type;
 
 comparator_eq #(.N(7)) assert_if_r_type(.a(op_code), .b(7'd51),  .out(is_r_type));
 comparator_eq #(.N(7)) assert_if_i_type(.a(op_code), .b(7'd19),  .out(is_i_type));
@@ -33,7 +35,11 @@ comparator_eq #(.N(7)) assert_if_l_type(.a(op_code), .b(7'd3 ),  .out(is_l_type)
 comparator_eq #(.N(7)) assert_if_s_type(.a(op_code), .b(7'd35),  .out(is_s_type));
 comparator_eq #(.N(7)) assert_if_b_type(.a(op_code), .b(7'd99),  .out(is_b_type));
 comparator_eq #(.N(7)) assert_if_u_type(.a(op_code), .b(7'd55),  .out(is_u_type));
-comparator_eq #(.N(7)) assert_if_j_type(.a(op_code), .b(7'd111), .out(is_j_type));
+comparator_eq #(.N(7)) assert_if_j_type(.a(op_code), .b(7'd111), .out(is_jal_type));
+
+comparator_eq #(.N(7)) assert_if_jalr(.a(op_code), .b(7'd103), .out(is_jalr));
+
+always_comb is_j_type = is_jal_type | is_jalr;
 
 always_comb begin
     if (is_r_type)

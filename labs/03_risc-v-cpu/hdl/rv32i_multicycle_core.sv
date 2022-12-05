@@ -109,14 +109,19 @@ logic [1:0] output_select;
 mux3_32 output_switcher(.a({PC_next, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
 
 logic [1:0] trash_can;
+logic [32:0] PC_base;
 logic [32:0] PC_increment;
-adder32 PC_incrementer(.a(PC), .b(PC_increment), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
+adder32 PC_incrementer(.a(PC_base), .b(PC_increment), .cin(1'b0), .s(PC_next), .cout(trash_can[0]));
+
+logic PC_base_reset;
+mux2_32 PC_relative_indexer(.a({32'b0, PC}), .s(PC_base_reset), .y(PC_base));
 
 logic to_jump_or_not;
 mux2_32 to_jump_or_not_switch(.a({rfile_wr_data, 32'd4}), .s(to_jump_or_not), .y(PC_increment));
 
 instruction_t instruction_type;
-op_code_lookup op_code_lookup_table(.instruction(instruction), .instruction_type(instruction_type));
+logic is_jalr;
+op_code_lookup op_code_lookup_table(.instruction(instruction), .instruction_type(instruction_type), .is_jalr(is_jalr));
 
 alu_control_t r_type_alu_operation;
 alu_control_t i_type_alu_operation;
@@ -153,6 +158,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
     memory_read_ena <= 0;
     PC_ena <= 0;
     to_jump_or_not <= 0;
+    PC_base_reset <= 0;
     mem_addr <= PC_START_ADDRESS; // we know there is nothing bad at this address; there might be bad stuff at 0.
     mem_wr_ena <= 0;
     mem_wr_data <= 0;
@@ -183,7 +189,8 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         LOAD_INSTRUCTION : begin
           PC_ena <= 0;
-          to_jump_or_not <= 0; // if we're incrementing by something other than 4, then so be it
+          to_jump_or_not <= 0; // reset to default (PC + 4)
+          PC_base_reset <= 0; // reset to default (PC indexing)
           cpu_controller <= LOADING_INSTRUCTION;
         end
         LOADING_INSTRUCTION : begin
@@ -398,22 +405,30 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= J_READ_IMMEDIATE;
         end
         J_READ_IMMEDIATE : begin 
-          PC_alu_select <= 1;
+          // PC_alu_select <= 1;
           rd <= instruction[`RD_START:`RD_END];
-          immediate <= instruction[`J_TYPE_IMM_START:`J_TYPE_IMM_END];
-          imm_select <= 1; // ignore the immediate value; we only care about comparing the registers to determine the branch
+          rs1 <= instruction[`RS1_START:`RS1_END]; // jalr is actually an I-type instruction
+          if (is_jalr) begin
+            PC_alu_select <= 0; // select the rs1 register
+            immediate <= instruction[`I_TYPE_IMM_START:`I_TYPE_IMM_END];
+          imm_control <= 0; // I-type
+          PC_base_reset <= 1; // set PC, not increment ..// absolute zero based indexing
+          end else begin
+            PC_alu_select <= 1; // select the current PC counter
+            immediate <= instruction[`J_TYPE_IMM_START:`J_TYPE_IMM_END];
           imm_control <= 3; // J-type
+          PC_base_reset <= 0; // PC relative indexing
+          end
+          imm_select <= 1; // ignore the immediate value; we only care about comparing the registers to determine the branch
           cpu_controller <= J_WRITE_MEMORY;
         end
         J_WRITE_MEMORY : begin // extra cycle may not be needed
           output_select <= 2; // next PC to write to register
-          // mem_wr_ena <= 1; // quickly, write the next_PC value to memory
           reg_write <= 1; // quickly, write the next_PC value to memory
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= J_ALU_GET_PC;
         end
         J_ALU_GET_PC : begin
-          // mem_wr_ena <= 1'b0; // stop writing the next_PC value to memory
           reg_write <= 1'b0; // stop writing the next_PC value to memory
           alu_src_store_ena <= 0; // store the value in the register
           alu_control <= ALU_ADD;
