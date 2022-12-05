@@ -9,6 +9,12 @@ label_a: addi x1, x1, 17
     addi x1, x1, 16
     addi x1, x1, 16
     addi x1, x1, 16
-    jalr x4, x2, 0
-    beq x0, x0, label_a
-    addi x1, x1, 1
+    # jalr x4, x2, 0
+    bne x0, x0, label_a
+    blt x1, x0, label_a
+    bltu x1, x0, label_a
+    addi x4, x1, 1
+    bge x0, x1, label_a
+    bgeu x0, x1, label_a
+    addi x4, x1, 1
+    bgeu x1, x0, label_a

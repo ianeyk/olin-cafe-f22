@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Mon Dec  5 02:54:00 2022
+[*] Mon Dec  5 04:25:06 2022
 [*]
 [dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/rv32i_system.fst"
-[dumpfile_mtime] "Mon Dec  5 02:52:08 2022"
-[dumpfile_size] 27078
+[dumpfile_mtime] "Mon Dec  5 04:23:32 2022"
+[dumpfile_size] 27433
 [savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/tests/rv32i_system.gtkw"
-[timestart] 330000
+[timestart] 330600
 [size] 1846 1016
 [pos] -1 -1
-*-17.141562 776000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.141562 645000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_rv32i_system.
 [treeopen] test_rv32i_system.UUT.
 [treeopen] test_rv32i_system.UUT.CORE.
@@ -31,6 +31,7 @@ test_rv32i_system.UUT.CORE.PC[31:0]
 test_rv32i_system.UUT.CORE.mem_addr[31:0]
 @28
 test_rv32i_system.UUT.CORE.to_jump_or_not
+test_rv32i_system.UUT.CORE.zero
 @22
 test_rv32i_system.UUT.CORE.PC_increment[32:0]
 test_rv32i_system.UUT.CORE.rfile_wr_data[31:0]
@@ -54,11 +55,13 @@ test_rv32i_system.UUT.CORE.instruction[31:0]
 @2024
 ^1 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/instruction_types.txt
 test_rv32i_system.UUT.CORE.instruction_type[2:0]
-^3 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/controller_fsm_filter.txt
+^2 /home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/gtkwave_filters/controller_fsm_filter.txt
 test_rv32i_system.UUT.CORE.cpu_controller[5:0]
 @28
 test_rv32i_system.UUT.CORE.immediate[19:0]
 test_rv32i_system.UUT.CORE.immediate_extended[31:0]
+@22
+test_rv32i_system.UUT.CORE.rs1[4:0]
 @200
 -r_x01
 @22

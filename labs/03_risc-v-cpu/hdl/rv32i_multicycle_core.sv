@@ -94,7 +94,7 @@ logic alu_compare_store_ena; // used for storing the result of, e.g. a subtracti
 wire alu_compare_result;
 logic alu_compare;
 always_comb alu_compare = zero ^ to_branch_or_not;
-register #(.N(32)) alu_compare_store(.clk(clk), .ena(alu_compare_store_ena), .rst(rst), .d(zero), .q(alu_compare_result));
+register #(.N(32)) alu_compare_store(.clk(clk), .ena(alu_compare_store_ena), .rst(rst), .d(alu_compare), .q(alu_compare_result));
 
 wire [31:0] immediate_extended;
 logic [19:0] immediate;
@@ -132,7 +132,7 @@ alu_control_t b_type_alu_operation;
 logic to_branch_or_not;
 r_type_alu_op_lookup r_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(r_type_alu_operation));
 i_type_alu_op_lookup i_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(i_type_alu_operation));
-b_type_alu_op_lookup b_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(b_type_alu_operation), .to_branch_or_not(to_branch_or_not))
+b_type_alu_op_lookup b_type_alu_op_lookup_table(.instruction(instruction), .alu_operation(b_type_alu_operation), .to_branch_or_not(to_branch_or_not));
 
 enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INSTRUCTION, INTERPRET_INTSTRUCTION, 
   R_START, R_READ_REGISTERS, R_ALU, R_WRITE_REGISTERS, R_DONE, 
@@ -185,7 +185,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           rs2_read_ena <= 0;
           alu_src_store_ena <= 0;
           alu_result_store_ena <= 0;
-          output_select <= 0;
+          // output_select <= 0;
           memory_read_ena <= 0;
           PC_ena <= 1;
           // to_jump_or_not <= 0; // don't uncomment. If this value was set in the last instruction, we need to know it here.
@@ -196,6 +196,7 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         LOAD_INSTRUCTION : begin
           PC_ena <= 0;
+          output_select <= 0;
           to_jump_or_not <= 0; // reset to default (PC + 4)
           PC_base_reset <= 0; // reset to default (PC indexing)
           cpu_controller <= LOADING_INSTRUCTION;
@@ -399,13 +400,15 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           rs1 <= instruction[`RS1_START:`RS1_END];
           rs2 <= instruction[`RS2_START:`RS2_END];
           imm_select <= 0; // ignore the immediate value; we only care about comparing the registers to determine the branch
+          PC_alu_select <= 0;
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= B_ALU_COMPARE;
         end
         B_ALU_COMPARE : begin
           alu_src_store_ena <= 1; // lock the value in the register // keep, because we're using the ALU again immediately
+          PC_alu_select <= 1;
           alu_compare_store_ena <= 1;
-          alu_control <= ALU_SUB;
+          alu_control <= b_type_alu_operation;
           // alu_control <= B_type_alu_operation;
           immediate <= {8'b0, instruction[`B_TYPE_IMM_1_START:`B_TYPE_IMM_1_END], instruction[`B_TYPE_IMM_2_START:`B_TYPE_IMM_2_END]};
           imm_control <= 1; // B-type
@@ -415,15 +418,14 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         B_ALU_GET_PC : begin
           alu_src_store_ena <= 0; // store the value in the register
           alu_compare_store_ena <= 0;
-          PC_alu_select <= 1;
-          alu_control <= ALU_ADD;
-          alu_result_store_ena <= 1;
+          // alu_control <= ALU_ADD;
+          // alu_result_store_ena <= 1;
           cpu_controller <= B_WRITE_PC_REGISTER;
         end
         B_WRITE_PC_REGISTER : begin
           // alu_src_store_ena <= 0; // lock the value in the register
-          alu_result_store_ena <= 0; // lock the ALU result
-          output_select <= 0; // from ALU
+          // alu_result_store_ena <= 0; // lock the ALU result
+          output_select <= 3; // from ALU
           to_jump_or_not <= alu_compare_result;
           cpu_controller <= B_DONE;
         end
