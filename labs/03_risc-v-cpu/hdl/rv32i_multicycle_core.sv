@@ -407,12 +407,14 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
         end
         J_WRITE_MEMORY : begin // extra cycle may not be needed
           output_select <= 2; // next PC to write to register
-          mem_wr_ena <= 1; // quickly, write the next_PC value to memory
+          // mem_wr_ena <= 1; // quickly, write the next_PC value to memory
+          reg_write <= 1; // quickly, write the next_PC value to memory
           alu_src_store_ena <= 1; // store the value in the register
           cpu_controller <= J_ALU_GET_PC;
         end
         J_ALU_GET_PC : begin
-          mem_wr_ena <= 1'b0; // stop writing the next_PC value to memory
+          // mem_wr_ena <= 1'b0; // stop writing the next_PC value to memory
+          reg_write <= 1'b0; // stop writing the next_PC value to memory
           alu_src_store_ena <= 0; // store the value in the register
           alu_control <= ALU_ADD;
           alu_result_store_ena <= 1;

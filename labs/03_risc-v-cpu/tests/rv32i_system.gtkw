@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Mon Dec  5 00:37:20 2022
+[*] Mon Dec  5 01:00:01 2022
 [*]
 [dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/rv32i_system.fst"
-[dumpfile_mtime] "Mon Dec  5 00:36:58 2022"
-[dumpfile_size] 22132
+[dumpfile_mtime] "Mon Dec  5 00:52:53 2022"
+[dumpfile_size] 22281
 [savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/tests/rv32i_system.gtkw"
-[timestart] 600
+[timestart] 0
 [size] 1846 1016
 [pos] -1 -1
-*-17.141562 185000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.141562 190000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_rv32i_system.
 [treeopen] test_rv32i_system.UUT.
 [treeopen] test_rv32i_system.UUT.CORE.
@@ -34,6 +34,10 @@ test_rv32i_system.UUT.CORE.to_jump_or_not
 @22
 test_rv32i_system.UUT.CORE.PC_increment[32:0]
 test_rv32i_system.UUT.CORE.rfile_wr_data[31:0]
+@28
+test_rv32i_system.UUT.CORE.mem_wr_ena
+@22
+test_rv32i_system.UUT.CORE.mem_addr[31:0]
 test_rv32i_system.UUT.CORE.alu_result[31:0]
 test_rv32i_system.UUT.CORE.alu_result_temp[31:0]
 test_rv32i_system.UUT.CORE.alu_src_a[31:0]
