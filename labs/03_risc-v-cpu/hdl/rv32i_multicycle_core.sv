@@ -95,7 +95,7 @@ register #(.N(32)) alu_compare_store(.clk(clk), .ena(alu_compare_store_ena), .rs
 
 wire [31:0] immediate_extended;
 logic [19:0] immediate;
-logic [1:0] imm_control;
+logic [2:0] imm_control;
 immediate_extender imm_extender(.immediate(immediate), .control(imm_control), .out(immediate_extended));
 
 logic PC_alu_select;
@@ -106,7 +106,7 @@ mux2_32 pc_alu_enabler(.a({PC, reg_data1}), .s(PC_alu_select), .y(alu_src_a_mux)
 mux2_32 imm_enabler(.a({immediate_extended, reg_data2}), .s(imm_select), .y(alu_src_b_mux));
 
 logic [1:0] output_select;
-mux3_32 output_switcher(.a({PC_next, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
+mux4_32 output_switcher(.a({alu_src_b, PC_next, memory_value, alu_result}), .s(output_select), .y(rfile_wr_data)); // 3, 2, 1 [2:0];
 
 logic [1:0] trash_can;
 logic [32:0] PC_base;
@@ -135,7 +135,8 @@ enum logic [5:0] { IDLE, LOAD_INSTRUCTION, LOADING_INSTRUCTION, DONE_LOADING_INS
   S_START, S_READ_REGISTERS, S_ALU, S_WRITE_MEMORY, S_DONE_WRITING_MEMORY, S_DONE, 
   B_START, B_READ_REGISTERS, B_ALU_COMPARE, B_ALU_GET_PC, B_WRITE_PC_REGISTER, B_DONE, 
   J_START, J_READ_IMMEDIATE, J_WRITE_MEMORY, J_ALU_GET_PC, J_WRITE_PC_REGISTER, J_DONE, 
-  U_START, ERROR } cpu_controller;
+  U_START, U_READ_REGISTERS, U_WRITE_REGISTERS, U_DONE, 
+  ERROR } cpu_controller;
 
 always_ff @(posedge clk) begin : cpu_controller_fsm
   if(rst) begin
@@ -274,6 +275,32 @@ always_ff @(posedge clk) begin : cpu_controller_fsm
           cpu_controller <= I_DONE;
         end
         I_DONE : begin
+          reg_write <= 0;
+          cpu_controller <= IDLE;
+        end
+
+        //// U-TYPE FSM
+
+        U_START : begin
+          cpu_controller <= U_READ_REGISTERS;
+        end
+        U_READ_REGISTERS : begin
+          // rs1 <= instruction[`RS1_START:`RS1_END];
+          // rs2 <= instruction[`RS2_START:`RS2_END]; // optional
+          immediate <= instruction[`U_TYPE_IMM_START:`U_TYPE_IMM_END];
+          imm_control <= 4; // U-type
+          imm_select <= 1;
+          alu_src_store_ena <= 1; // store the value in the register
+          cpu_controller <= U_WRITE_REGISTERS;
+        end
+        U_WRITE_REGISTERS : begin
+          alu_src_store_ena <= 0; // lock the value in the register
+          reg_write <= 1;
+          rd <= instruction[`RD_START:`RD_END];
+          output_select <= 3; // from alu_src_b
+          cpu_controller <= U_DONE;
+        end
+        U_DONE : begin
           reg_write <= 0;
           cpu_controller <= IDLE;
         end
