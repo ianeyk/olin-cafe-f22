@@ -1,6 +1,6 @@
 # Load a bunch of values into memory locations 120 to 132
-lui x1, 16
 addi x1, x0, 17
+lui x1, 16
 sw x1, 120(x0)
 addi x1, x1, 17
 sw x1, 124(x0)
