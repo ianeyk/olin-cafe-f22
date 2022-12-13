@@ -1,23 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Mon Dec  5 04:25:06 2022
+[*] Tue Dec 13 04:47:38 2022
 [*]
 [dumpfile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/rv32i_system.fst"
-[dumpfile_mtime] "Mon Dec  5 04:23:32 2022"
-[dumpfile_size] 27433
+[dumpfile_mtime] "Tue Dec 13 04:46:31 2022"
+[dumpfile_size] 34385
 [savefile] "/home/ieykamp/Olin/CompArch/olin-cafe-f22/labs/03_risc-v-cpu/tests/rv32i_system.gtkw"
-[timestart] 330600
+[timestart] 0
 [size] 1846 1016
-[pos] -1 -1
-*-17.141562 645000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] 74 0
+*-17.141562 5000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] test_rv32i_system.
 [treeopen] test_rv32i_system.UUT.
 [treeopen] test_rv32i_system.UUT.CORE.
-[treeopen] test_rv32i_system.UUT.CORE.PC_incrementer.
 [treeopen] test_rv32i_system.UUT.CORE.REGISTER_FILE.
 [treeopen] test_rv32i_system.UUT.MMU.
-[sst_width] 459
-[signals_width] 496
+[sst_width] 233
+[signals_width] 367
 [sst_expanded] 1
 [sst_vpaned_height] 355
 @28
@@ -99,16 +98,92 @@ test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x08.q[31:0]
 @22
 test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x09.q[31:0]
 @200
--r_x18 = s2
+-r_x10 (a0)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x10.q[31:0]
+@200
+-r_x11 (a1)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x11.q[31:0]
+@200
+-r_x12 (a2)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x12.q[31:0]
+@200
+-r_x13 (a3)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x13.q[31:0]
+@200
+-r_x14 (a4)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x14.q[31:0]
+@200
+-r_x15 (a5)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x15.q[31:0]
+@200
+-r_x16 (a6)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x16.q[31:0]
+@200
+-r_x17 (a7)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x17.q[31:0]
+@200
+-r_x18 (s2)
 @22
 test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x18.q[31:0]
 @200
--r_x24
+-r_x19 (s3)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x19.q[31:0]
+@200
+-r_x20 (s4)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x20.q[31:0]
+@200
+-r_x21 (s5)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x21.q[31:0]
+@200
+-r_x22 (s6)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x22.q[31:0]
+@200
+-r_x23 (s7)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x23.q[31:0]
+@200
+-r_x24 (s8)
 @22
 test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x24.q[31:0]
 @200
--r_x28
+-r_x25 (s9)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x25.q[31:0]
+@200
+-r_x26 (s10)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x26.q[31:0]
+@200
+-r_x27 (s11)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x27.q[31:0]
+@200
+-r_x28 (t3)
 @22
 test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x28.q[31:0]
+@200
+-r_x29 (t4)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x29.q[31:0]
+@200
+-r_x30 (t5)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x30.q[31:0]
+@200
+-r_x31 (t6)
+@22
+test_rv32i_system.UUT.CORE.REGISTER_FILE.r_x31.q[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

@@ -1,8 +1,8 @@
-lb x1, 0(x0)
-lh x2, 14(x1)
-lw x3, 8(x1)
-lbu x4, 16(x1)
-lhu x5, -32(x1)
+# lb x1, 0(x0)
+# lh x2, 14(x1)
+# lw x3, 8(x1)
+# lbu x4, 16(x1)
+# lhu x5, -32(x1)
 addi x1, x0, 17
 slli x2, x1, 4
 slti x3, x2, 1000
@@ -12,10 +12,10 @@ srli x6, x2, 3
 srai x7, x2, 10
 ori x8, x2, 2044 # comment check
 andi x9, x8, 100
-label_a: auipc x31, 0
+label_a: add x0, x0, x0 # auipc x31, 0
 # full line comment check
-sb x1, 0(x9)
-sh x2, 2(x9)
+# sb x1, 0(x9)
+# sh x2, 2(x9)
 sw x3, 4(x9)
 add a5, a6, a7
 sub s2, s3, s4
